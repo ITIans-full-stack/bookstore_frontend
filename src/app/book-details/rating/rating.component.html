@@ -1,0 +1,5 @@
+@for (star of stars; track star.id) {
+<button class="btn" (click)="selectStar(star)">
+    <fa-icon [class.selected]="star.selected" [icon]="star.icon"></fa-icon>
+</button>
+}
