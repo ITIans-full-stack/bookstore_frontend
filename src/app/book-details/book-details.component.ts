@@ -6,6 +6,8 @@ import { CurrencyPipe } from '@angular/common';
 import { DescriptionComponent } from "./description/description.component";
 import { TableDescriptionComponent } from "./table-description/table-description.component";
 import { CustomerReviewComponent } from "./customer-review/customer-review.component";
+import { WishlistBtnComponent } from "./wishlist-btn/wishlist-btn.component";
+import { CartBtnComponent } from "./cart-btn/cart-btn.component";
 
 
 
@@ -14,7 +16,7 @@ import { CustomerReviewComponent } from "./customer-review/customer-review.compo
 @Component({
   selector: 'app-book-details',
   standalone: true,
-  imports: [RatingComponent, CurrencyPipe, DescriptionComponent, TableDescriptionComponent, CustomerReviewComponent],
+  imports: [RatingComponent, CurrencyPipe, DescriptionComponent, TableDescriptionComponent, CustomerReviewComponent, WishlistBtnComponent, CartBtnComponent],
   templateUrl: './book-details.component.html',
   styleUrl: './book-details.component.css'
 })
