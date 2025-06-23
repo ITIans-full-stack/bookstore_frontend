@@ -1,16 +1,5 @@
 @if (bookDetails) {
 <div class="min-vh-100 bg-light">
-    <!-- Navbar placeholder -->
-    <nav class="navbar navbar-light bg-white shadow-sm">
-        <div class="container">
-            <a class="navbar-brand" href="#">BookStore</a>
-            <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Search books" aria-label="Search">
-                <button class="btn btn-outline-primary" type="submit">Search</button>
-            </form>
-        </div>
-    </nav>
-
     <div class="container py-5">
         <nav aria-label="breadcrumb" class="mb-4">
             <ol class="breadcrumb">
@@ -54,7 +43,7 @@
                     </div>
 
 
-                    <div class="d-grid gap-2 d-md-flex mb-4">
+                    <div class="d-flex gap-2 d-md-flex mb-4">
                         <app-cart-btn></app-cart-btn>
                         <app-wishlist-btn></app-wishlist-btn>
                     </div>
