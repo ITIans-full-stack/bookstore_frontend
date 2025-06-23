@@ -78,14 +78,16 @@
                                 <div class="mb-4 border-bottom">
                                     <ul class="nav nav-tabs">
                                         <li class="nav-item">
-                                            <button class="nav-link active btn"
+                                            <button class="nav-link btn" [class.active]="tabIndex == 1"
                                                 (click)="onTabClick(1)">Description</button>
                                         </li>
                                         <li class="nav-item">
-                                            <button class="nav-link btn" (click)="onTabClick(2)">Book Details</button>
+                                            <button class="nav-link btn" [class.active]="tabIndex == 2"
+                                                (click)="onTabClick(2)">Book Details</button>
                                         </li>
                                         <li class="nav-item">
-                                            <button class="nav-link btn" (click)="onTabClick(3)">Customer
+                                            <button class="nav-link btn" [class.active]="tabIndex == 3"
+                                                (click)="onTabClick(3)">Customer
                                                 Reviews</button>
                                         </li>
                                     </ul>
