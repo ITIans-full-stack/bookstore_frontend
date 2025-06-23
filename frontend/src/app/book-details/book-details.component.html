@@ -13,7 +13,7 @@
             <!-- Book Image -->
             <div class="col-lg-5 mb-4">
                 <div class="card border-0 shadow-sm">
-                    <img src="assets/book-covers/book-1.webp" class="card-img-top" alt="Book Title"
+                    <img src="assets/book-covers/book-1.webp" class="card-img-top rounded-3" alt="Book Title"
                         style="height: 600px; object-fit: cover;">
                 </div>
             </div>
@@ -21,7 +21,6 @@
             <!-- Book Info -->
             <div class="col-lg-7">
                 <div class="ps-lg-4">
-                    <span class="badge bg-primary mb-2">Category</span>
                     <h1 class="display-5 fw-bold mb-2">{{bookDetails.title}}</h1>
                     <p class="lead text-muted mb-3">by {{bookDetails.author}}</p>
 
@@ -98,4 +97,5 @@
         </div>
     </div>
 </div>
+<app-related-books></app-related-books>
 }
