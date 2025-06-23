@@ -1,8 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faStar as faStarRegular, IconDefinition } from '@fortawesome/free-regular-svg-icons';
-import { Star } from '../models/star';
+import { faStarHalf, faStar as faStarRegular } from '@fortawesome/free-regular-svg-icons';
+
 import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { Star } from '../models/star';
+
+
 
 @Component({
   selector: 'app-rating',
@@ -11,7 +14,9 @@ import { faStar } from '@fortawesome/free-solid-svg-icons';
   templateUrl: './rating.component.html',
   styleUrl: './rating.component.css'
 })
-export class RatingComponent {
+export class RatingComponent implements OnInit {
+  @Input() avgRating!: number
+  @Input() reviewCount!: number
 
   stars: Star[] = [
     { id: 1, selected: false, icon: faStarRegular },
@@ -21,16 +26,30 @@ export class RatingComponent {
     { id: 5, selected: false, icon: faStarRegular },
   ]
 
-  selectStar(selectedStar: Star) {
+  ngOnInit(): void {
     this.stars.forEach(star => {
-      if (star.id <= selectedStar.id) {
+      if (star.id <= this.avgRating) {
         star.selected = true;
         star.icon = faStar;
       } else {
         star.selected = false;
         star.icon = faStarRegular;
       }
-    });
+    })
+  }
+
+
+  selectStar(selectedStar: Star) {
+
   }
 
 }
+// this.stars.forEach(star => {
+//   if (star.id <= selectedStar.id) {
+//     star.selected = true;
+//     star.icon = faStar;
+//   } else {
+//     star.selected = false;
+//     star.icon = faStarRegular;
+//   }
+// });
