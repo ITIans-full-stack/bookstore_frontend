@@ -1,57 +1,101 @@
-<div class="container2">
-<div class="checkout-container container py-4">
-  <h2 class="text-center text-gold-dark mb-4"><i class="fas fa-credit-card me-2"></i> Checkout</h2>
-
+<!-- checkout.component.html -->
+<div class="checkout-page container py-5">
   <div class="row">
-    <!-- Form -->
-    <div class="col-lg-6">
-      <div class="form-group mb-3">
-        <label class="text-light">Full Name</label>
-        <input [(ngModel)]="fullName" class="form-control bg-dark text-light border-gold" />
-      </div>
-
-      <div class="form-group mb-3">
-        <label class="text-light">Email</label>
-        <input [(ngModel)]="email" type="email" class="form-control bg-dark text-light border-gold" />
-      </div>
-
-      <div class="form-group mb-3">
-        <label class="text-light">Address</label>
-        <textarea [(ngModel)]="address" class="form-control bg-dark text-light border-gold"></textarea>
-      </div>
-
-      <div class="form-group mb-3">
-        <label class="text-light d-block mb-2">Payment Method</label>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" [(ngModel)]="paymentMethod" value="cash" checked />
-          <label class="form-check-label text-light">Cash</label>
+    <!-- Billing Details -->
+    <div class="col-lg-7 mb-4">
+      <h3 class="section-title mb-4">Billing Details</h3>
+      <form [formGroup]="checkoutForm" (ngSubmit)="submitOrder()">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <input type="text" class="form-control" placeholder="First Name" formControlName="firstName">
+          </div>
+          <div class="col-md-6">
+            <input type="text" class="form-control" placeholder="Company Name (optional)" formControlName="company">
+          </div>
+          <div class="col-12">
+            <input type="text" class="form-control" placeholder="Street Address" formControlName="address">
+          </div>
+          <div class="col-12">
+            <input type="text" class="form-control" placeholder="Apartment, floor, etc. (optional)" formControlName="apt">
+          </div>
+          <div class="col-md-6">
+            <input type="text" class="form-control" placeholder="Town/City" formControlName="city">
+          </div>
+          <div class="col-md-6">
+            <input type="text" class="form-control" placeholder="Phone Number" formControlName="phone">
+          </div>
+          <div class="col-12">
+            <input type="email" class="form-control" placeholder="Email Address" formControlName="email">
+          </div>
+          <div class="col-12">
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input" id="saveInfo">
+              <label class="form-check-label" for="saveInfo">
+                Save this information for next time
+              </label>
+            </div>
+          </div>
         </div>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" [(ngModel)]="paymentMethod" value="card" />
-          <label class="form-check-label text-light">Card</label>
+
+        <!-- Payment Methods -->
+        <h5 class="mt-4">Payment Method</h5>
+        <div class="payment-options mb-3">
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="paymentMethod" value="card" [(ngModel)]="paymentMethod" checked>
+            <label class="form-check-label">
+              <i class="fab fa-cc-visa me-2"></i>Visa / Mastercard / AMEX
+            </label>
+          </div>
+          <div *ngIf="paymentMethod === 'card'" class="card-box p-3 mt-2">
+            <!-- Stripe Card Element placeholder -->
+            <div id="card-element" class="form-control"></div>
+            <div id="card-errors" class="text-danger mt-2" role="alert"></div>
+          </div>
+
+          <div class="form-check mt-2">
+            <input class="form-check-input" type="radio" name="paymentMethod" value="cash" [(ngModel)]="paymentMethod">
+            <label class="form-check-label">
+              <i class="fas fa-money-bill me-2"></i>Cash on Delivery
+            </label>
+          </div>
         </div>
-      </div>
+
+        <!-- Coupon -->
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="Coupon Code">
+          <button class="btn btn-outline-danger" type="button">Apply Coupon</button>
+        </div>
+
+        <button type="submit" class="btn btn-danger w-100 mt-3">Place Order</button>
+      </form>
     </div>
 
-    <!-- Summary -->
-    <div class="col-lg-6">
-      <div class="card bg-dark text-light border-gold p-3">
-        <h5 class="text-gold mb-3">Order Summary</h5>
-        <ul class="list-group mb-3">
-          <li *ngFor="let item of cartItems" class="list-group-item bg-transparent text-light d-flex justify-content-between">
-            {{ item.title }} (x{{ item.quantity }})
-            <span>{{ item.price * item.quantity }} EGP</span>
-          </li>
-        </ul>
-        <h5 class="text-success">Total: {{ getTotalPrice() }} EGP</h5>
+    <!-- Order Summary -->
+    <div class="col-lg-5">
+      <div class="summary-box p-4 bg-white shadow-sm rounded">
+        <h5 class="fw-bold mb-4">Order Summary</h5>
+        <div class="d-flex justify-content-between align-items-center mb-2" *ngFor="let item of cartItems">
+          <div class="d-flex align-items-center">
+            <img [src]="item.image" alt="Product" class="img-thumbnail me-2" width="60">
+            <div>{{ item.title }}</div>
+          </div>
+          <div>{{ item.price | currency:'USD' }}</div>
+        </div>
+        <hr>
+        <div class="d-flex justify-content-between">
+          <span>Subtotal</span>
+          <span>{{ getSubtotal() | currency:'USD' }}</span>
+        </div>
+        <div class="d-flex justify-content-between">
+          <span>Shipping</span>
+          <span>Free</span>
+        </div>
+        <hr>
+        <div class="d-flex justify-content-between fw-bold">
+          <span>Total</span>
+          <span>{{ getSubtotal() | currency:'USD' }}</span>
+        </div>
       </div>
-
-      <button class="btn btn-gold mt-4 w-100" (click)="confirmOrder()">Confirm Order</button>
     </div>
   </div>
 </div>
-<div style="height: 200px;"></div>
-
-<div class="checkout-footer-img">
-    <img src="../../assets/cart-checkout/payment-removebg-preview.png" alt="checkout-image">
-  </div></div>
