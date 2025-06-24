@@ -3,10 +3,5 @@
 }
 
 button:hover {
-  color: #ffdf00;
-}
-.vertical-divider {
-  border-left: 1px solid rgba(0, 0, 0, 0.5);
-  height: 20px;
-  width: 1px;
+  color: #ffdf00;;
 }

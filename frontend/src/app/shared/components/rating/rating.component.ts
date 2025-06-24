@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faStar as faStarRegular } from '@fortawesome/free-regular-svg-icons';
+import { faStarHalf, faStar as faStarRegular } from '@fortawesome/free-regular-svg-icons';
+
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { Star } from '../../../book-details/models/star';
 
@@ -15,8 +16,6 @@ import { Star } from '../../../book-details/models/star';
   styleUrl: './rating.component.css'
 })
 export class RatingComponent implements OnInit {
-  // not work because no relation  parent and child now
-  //fixed later
   @Input() avgRating!: number
   @Input() reviewCount!: number
 
