@@ -1,0 +1,37 @@
+<!-- <div class="d-flex align-content-center">
+    <div>
+        @for (star of stars; track star.id) {
+        <button class="btn p-1  border-0 bg-transparent" (click)="selectStar(star)">
+            <fa-icon [class.selected]="star.selected" [icon]="star.icon"></fa-icon>
+        </button>
+        }
+    </div>
+    <div>
+        <small class="text-muted opacity-50">(150 Reviews)</small>
+        <div class="mx-3 border-start" style="height: 20px;"></div>
+        <small class="text-success opacity-60">In Stock</small>
+    </div>
+</div> -->
+
+<div class="d-flex align-items-center gap-4">
+    <!-- Star + Review Section -->
+    <div class="d-flex align-items-center gap-3">
+        <!-- Stars -->
+        <div class="d-flex">
+            @for (star of stars; track star.id) {
+            <button class="btn p-1  border-0 bg-transparent" (click)="selectStar(star)">
+                <fa-icon [class.selected]="star.selected" [icon]="star.icon"></fa-icon>
+            </button>
+            }
+        </div>
+
+        <!-- Review Text -->
+        <small class="text-muted opacity-50">{{reviewCount}}</small>
+    </div>
+
+    <!-- Divider + Stock -->
+    <div class="d-flex align-items-center gap-2">
+        <div class="border-start" style="height: 20px; width: 1px; opacity: 0.5;"></div>
+        <small class="text-success opacity-75">In Stock</small>
+    </div>
+</div>

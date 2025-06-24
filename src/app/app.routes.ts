@@ -1,9 +1,15 @@
 import { Routes } from '@angular/router';
-import { CartComponent } from '../../frontend/src/app/cart/cart.component';
-import { BookDetailsComponent } from '../../frontend/src/app/book-details/book-details.component';
-import { CheckoutComponent } from '../../frontend/src/app/checkout/checkout.component';
+
+import { WishlistComponent } from './wishlist/wishlist.component';
+import { HomeComponent } from './home/home.component';
+import { BookDetailsComponent } from './book-details/book-details.component';
+import { CartComponent } from './cart/cart.component';
+import { CheckoutComponent } from './checkout/checkout.component';
+
 export const routes: Routes = [
-{path : 'cart', component: CartComponent},
-{path : 'checkout', component: CheckoutComponent},
-{path : 'book-details', component: BookDetailsComponent}
+    { path: '', component: HomeComponent },
+    { path: 'bookDetails', component: BookDetailsComponent },
+    { path: "wishlist", component: WishlistComponent },
+    { path: 'cart', component: CartComponent },
+    { path: 'checkout', component: CheckoutComponent },
 ];
