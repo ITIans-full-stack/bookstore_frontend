@@ -1,101 +1,69 @@
 @if (bookDetails) {
-<div class="min-vh-100 bg-light">
-    <div class="container py-5">
-        <nav aria-label="breadcrumb" class="mb-4">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/" class="text-decoration-none">Home</a></li>
-                <li class="breadcrumb-item"><span class="text-muted">Category</span></li>
-                <li class="breadcrumb-item active" aria-current="page">Book Title</li>
-            </ol>
-        </nav>
+<div class="container my-5">
+    <div class="row">
+        <!-- Product Image -->
+        <div class="col-md-6">
+            <div class="product-image-container">
+                <img src="assets/book-covers/book-1.webp" alt="Havic HV G-92 Gamepad" class="img-fluid product-image" />
+            </div>
+        </div>
 
-        <div class="row">
-            <!-- Book Image -->
-            <div class="col-lg-5 mb-4">
-                <div class="card border-0 shadow-sm">
-                    <img src="assets/book-covers/book-1.webp" class="card-img-top rounded-3" alt="Book Title"
-                        style="height: 600px; object-fit: cover;">
+        <!-- Product Details -->
+        <div class="col-md-6">
+            <h2 class="fw-semibold mb-2">Havic HV G-92 Gamepad</h2>
+
+            <!-- Ratings -->
+            <div class="d-flex align-items-center mb-3">
+                <div class="d-flex me-3">
+                    <app-rating></app-rating>
                 </div>
             </div>
 
-            <!-- Book Info -->
-            <div class="col-lg-7">
-                <div class="ps-lg-4">
-                    <h1 class="display-5 fw-bold mb-2">{{bookDetails.title}}</h1>
-                    <p class="lead text-muted mb-3">by {{bookDetails.author}}</p>
+            <!-- Price -->
+            <h4 class="fw-normal mb-3">
+                {{ bookDetails.price.amount | currency: bookDetails.price.currency }}
+            </h4>
+            <!-- Description -->
+            <app-description [description]="bookDetails.description"></app-description>
+            <!-- Quantity & Buttons -->
+            <div class="d-flex align-items-center mb-4">
+                <div class="d-flex border rounded me-3">
+                    <button class="btn btn-outline-dark border-0">-</button>
+                    <div class="px-3 py-2">2</div>
+                    <button class="btn btn-outline-dark border-0">+</button>
+                </div>
+                <app-cart-btn></app-cart-btn>
+                <app-wishlist-btn></app-wishlist-btn>
+            </div>
 
-                    <div class="d-flex align-items-center mb-3">
-                        <app-rating [avgRating]="bookDetails.averageRating"
-                            [reviewCount]="bookDetails.reviewCount"></app-rating>
+            <!-- Delivery & Return Info -->
+            <div class="border rounded p-3">
+                <div class="d-flex mb-3">
+                    <div class="me-3">
+                        <i class="bi bi-truck icon-large"></i>
                     </div>
-
-                    <div class="d-flex align-items-center mb-4">
-                        <span class="h2 text-primary fw-bold me-3">{{bookDetails.price.amount | currency:"EGP" }}</span>
-                        <span class="badge bg-success">In Stock</span>
-                    </div>
-
-                    <div class="row mb-4">
-                        <div class="col-sm-6 mb-3">
-                            <label for="quantity" class="form-label">Quantity</label>
-                            <input type="number" class="form-control" id="quantity" min="1" max="5" value="1">
+                    <div>
+                        <div class="fw-medium">Free Delivery</div>
+                        <div class="text-decoration-underline small">
+                            Enter your postal code for Delivery Availability
                         </div>
                     </div>
-
-
-                    <div class="d-flex gap-2 d-md-flex mb-4">
-                        <app-cart-btn></app-cart-btn>
-                        <app-wishlist-btn></app-wishlist-btn>
+                </div>
+                <hr />
+                <div class="d-flex">
+                    <div class="me-3">
+                        <i class="bi bi-arrow-counterclockwise icon-large"></i>
                     </div>
-
-                    <div class="card border-0 shadow-sm">
-                        <div class="card border-0 shadow-sm">
-                            <div class="card-body">
-
-                                <!-- Tab Header -->
-                                <div class="mb-4 border-bottom">
-                                    <ul class="nav nav-tabs">
-                                        <li class="nav-item">
-                                            <button class="nav-link btn" [class.active]="tabIndex == 1"
-                                                (click)="onTabClick(1)">Description</button>
-                                        </li>
-                                        <li class="nav-item">
-                                            <button class="nav-link btn" [class.active]="tabIndex == 2"
-                                                (click)="onTabClick(2)">Book Details</button>
-                                        </li>
-                                        <li class="nav-item">
-                                            <button class="nav-link btn" [class.active]="tabIndex == 3"
-                                                (click)="onTabClick(3)">Customer
-                                                Reviews</button>
-                                        </li>
-                                    </ul>
-                                </div>
-
-                                <!-- Description -->
-                                @if (tabIndex === 1) {
-                                <app-description [description]="bookDetails.description"></app-description>
-                                }
-
-                                <!-- Book Details -->
-                                @if (tabIndex === 2) {
-                                <app-table-description [author]="bookDetails.author"
-                                    [avgRating]="bookDetails.averageRating">
-                                </app-table-description>
-                                }
-
-                                <!-- Reviews -->
-                                @if (tabIndex === 3) {
-                                <app-customer-review></app-customer-review>
-                                }
-
-                            </div>
+                    <div>
+                        <div class="fw-medium">Return Delivery</div>
+                        <div class="small">
+                            Free 30 Days Delivery Returns. Details
                         </div>
-
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
+    <app-related-books></app-related-books>
 </div>
-<app-related-books></app-related-books>
 }

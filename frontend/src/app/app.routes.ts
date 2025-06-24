@@ -9,6 +9,6 @@ export const routes: Routes = [
     { path: '', component: HomeComponent },
     { path: 'bookDetails', component: BookDetailsComponent },
     { path: "wishlist", component: WishlistComponent },
-{path : 'cart', component: CartComponent},
-{path : 'checkout', component: CheckoutComponent},
+    { path: 'cart', component: CartComponent },
+    { path: 'checkout', component: CheckoutComponent },
 ];
