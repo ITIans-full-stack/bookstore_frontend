@@ -8,6 +8,7 @@ import { TableDescriptionComponent } from "./table-description/table-description
 import { CustomerReviewComponent } from "./customer-review/customer-review.component";
 import { WishlistBtnComponent } from "./wishlist-btn/wishlist-btn.component";
 import { CartBtnComponent } from "./cart-btn/cart-btn.component";
+import { RelatedBooksComponent } from "./related-books/related-books.component";
 
 
 
@@ -16,7 +17,7 @@ import { CartBtnComponent } from "./cart-btn/cart-btn.component";
 @Component({
   selector: 'app-book-details',
   standalone: true,
-  imports: [RatingComponent, CurrencyPipe, DescriptionComponent, TableDescriptionComponent, CustomerReviewComponent, WishlistBtnComponent, CartBtnComponent],
+  imports: [RatingComponent, CurrencyPipe, DescriptionComponent, TableDescriptionComponent, CustomerReviewComponent, WishlistBtnComponent, CartBtnComponent, RelatedBooksComponent],
   templateUrl: './book-details.component.html',
   styleUrl: './book-details.component.css'
 })
