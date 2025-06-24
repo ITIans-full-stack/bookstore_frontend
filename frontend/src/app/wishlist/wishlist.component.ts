@@ -1,13 +1,11 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { RatingComponent } from '../shared/components/rating/rating.component';
-import { CartBtnComponent } from '../shared/components/cart-btn/cart-btn.component';
+import { BookCardComponent } from '../shared/components/book-card/book-card.component';
 
 
 @Component({
   selector: 'app-wishlist',
   standalone: true,
-  imports: [RatingComponent, CartBtnComponent,RouterLink],
+  imports: [ BookCardComponent],
   templateUrl: './wishlist.component.html',
   styleUrl: './wishlist.component.css'
 })
