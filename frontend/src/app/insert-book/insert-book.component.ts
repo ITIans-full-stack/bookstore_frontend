@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { BookService } from '../book.service';
 import { CommonModule } from '@angular/common';
+import { BookDetailsService } from '../book-details/services/book-details.service';
 
 @Component({
   selector: 'app-insert-book',
@@ -13,7 +13,7 @@ export class InsertBookComponent {
   selectedFileName: string = 'No file chosen';
   uploadedImageName: string = '';
 
-  constructor(private bookService: BookService) {}
+  constructor(private bookService: BookDetailsService) {}
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
