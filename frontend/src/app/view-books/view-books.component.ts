@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BookService, Book } from '../book.service'; // adjust the path if needed
+import { BookDetailsService } from '../book-details/services/book-details.service';
+
 
 @Component({
   selector: 'app-view-books',
@@ -12,7 +13,7 @@ import { BookService, Book } from '../book.service'; // adjust the path if neede
 export class ViewBooksComponent implements OnInit {
   books: Book[] = [];
 
-  constructor(private bookService: BookService) {}
+  constructor(private bookService: BookDetailsService) {}
 
   ngOnInit(): void {
     this.bookService.books$.subscribe(books => {

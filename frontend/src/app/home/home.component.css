@@ -1,0 +1,67 @@
+
+aside {
+position: sticky;
+  top: 0px; 
+  background: #f9f9f9;
+  border-right: 2px solid #ddd;
+  min-height: 100vh;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+  padding: 1rem;
+  z-index: 1;
+  height: fit-content;
+}
+
+aside h3 {
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #343a40;
+  border-bottom: 2px solid #dee2e6;
+  padding-bottom: 0.5rem;
+}
+
+aside h4 {
+  font-size: 1.1rem;
+  margin-top: 1.5rem;
+  color: #495057;
+  margin-bottom: 0.5rem;
+}
+
+.form-check {
+  margin-bottom: 0.5rem;
+}
+
+.form-check-input {
+  cursor: pointer;
+  
+}
+
+.form-check-label {
+  cursor: pointer;
+  font-size: 0.95rem;
+  color: #212529;
+}
+
+
+.badge {
+  font-size: 0.75rem;
+  padding: 0.4em 0.6em;
+  background-color: #6c757d;
+  color: white;
+}
+
+.form-check-input[type="checkbox"]:checked {
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+
+@media (max-width: 768px) {
+  aside {
+    min-height: auto;
+    border-right: none;
+    box-shadow: none;
+  }
+}
+
+

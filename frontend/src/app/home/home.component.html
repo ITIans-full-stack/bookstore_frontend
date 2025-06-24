@@ -1,1 +1,70 @@
-<p>home works!</p>
+<div class="container-fluid">
+  <div class="row">
+    <aside class="col-md-2 bg-light p-3">
+      <h3>Filters</h3>
+
+      <div class="mb-3">
+        <h4>Sort by Price</h4>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            id="lowToHigh"
+            [checked]="sortBy === 'lowToHigh'"
+            (change)="onSortChange('lowToHigh')"
+          />
+          <label class="form-check-label" for="lowToHigh">Low to High</label>
+        </div>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            id="highToLow"
+            [checked]="sortBy === 'highToLow'"
+            (change)="onSortChange('highToLow')"
+          />
+          <label class="form-check-label" for="highToLow">High to Low</label>
+        </div>
+      </div>
+
+      <div>
+        <h4>Category</h4>
+        <div class="form-check" *ngFor="let category of availableCategories">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            [id]="category"
+            [checked]="isCategorySelected(category)"
+            (change)="onCategoryChange(category, $event)"
+          />
+          <label class="form-check-label" [for]="category">{{ category }}</label>
+        </div>
+
+        <div *ngIf="selectedCategories.size > 0" class="mt-2">
+          <small>Selected Categories:</small>
+          <div class="badge bg-secondary me-1" *ngFor="let cat of selectedCategories">{{ cat }}</div>
+        </div>
+      </div>
+    </aside>
+
+    <section class="col-md-10 p-3">
+      <h2 class="mb-4">Today's Book Deals</h2>
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+  <app-book-card
+    *ngFor="let book of (showAllBooks ? filteredBooks : filteredBooks.slice(0, 10))"
+    [book]="book"
+  ></app-book-card>
+</div>
+
+<!-- Show button only if not showing all books -->
+<button
+  class="btn btn-danger mt-3"
+  *ngIf="!showAllBooks && filteredBooks.length > 10"
+  (click)="onViewAllClick()"
+>
+  View All Books
+</button>
+
+    </section>
+  </div>
+</div>
