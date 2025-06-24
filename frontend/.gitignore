@@ -1,0 +1,9 @@
+# Ignore folders outside current dir
+../node_modules/
+../.angular/
+../.vscode/
+# General
+node_modules/
+.angular/
+.vscode/
+dist/
