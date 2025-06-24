@@ -1,0 +1,4 @@
+.btn-success, .btn-primary ,.bs-btn-active-bg{
+    border-color: black;
+    background-color: crimson;
+}
