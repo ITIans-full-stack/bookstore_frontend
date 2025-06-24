@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { RatingComponent } from "../rating/rating.component";
-import { BookCardComponent } from "./book-card/book-card.component";
+import { BookCardComponent } from '../../shared/components/book-card/book-card.component';
 
 @Component({
   selector: 'app-related-books',

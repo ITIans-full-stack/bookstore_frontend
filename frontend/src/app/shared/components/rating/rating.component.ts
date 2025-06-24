@@ -3,7 +3,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faStarHalf, faStar as faStarRegular } from '@fortawesome/free-regular-svg-icons';
 
 import { faStar } from '@fortawesome/free-solid-svg-icons';
-import { Star } from '../models/star';
+import { Star } from '../../../book-details/models/star';
+
 
 
 

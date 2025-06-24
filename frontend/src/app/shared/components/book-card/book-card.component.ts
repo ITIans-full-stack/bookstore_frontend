@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { RatingComponent } from "../../rating/rating.component";
-import { WishlistBtnComponent } from "../../wishlist-btn/wishlist-btn.component";
+import { RatingComponent } from '../rating/rating.component';
+import { WishlistBtnComponent } from '../wishlist-btn/wishlist-btn.component';
+
 
 @Component({
   selector: 'app-book-card',

@@ -4,13 +4,13 @@
         <!-- Product Image -->
         <div class="col-md-6">
             <div class="product-image-container">
-                <img src="assets/book-covers/book-1.webp" alt="Havic HV G-92 Gamepad" class="img-fluid product-image" />
+                <img src="assets/book-covers/book-1.webp" [alt]="bookDetails.title" class="img-fluid product-image" />
             </div>
         </div>
 
         <!-- Product Details -->
         <div class="col-md-6">
-            <h2 class="fw-semibold mb-2">Havic HV G-92 Gamepad</h2>
+            <h2 class="fw-semibold mb-2">{{bookDetails.title}}</h2>
 
             <!-- Ratings -->
             <div class="d-flex align-items-center mb-3">

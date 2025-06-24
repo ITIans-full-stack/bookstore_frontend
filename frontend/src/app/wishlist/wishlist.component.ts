@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { RatingComponent } from "../book-details/rating/rating.component";
-import { CartBtnComponent } from "../book-details/cart-btn/cart-btn.component";
 import { RouterLink } from '@angular/router';
+import { RatingComponent } from '../shared/components/rating/rating.component';
+import { CartBtnComponent } from '../shared/components/cart-btn/cart-btn.component';
 
 
 @Component({
