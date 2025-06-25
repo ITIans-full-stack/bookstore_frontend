@@ -5,11 +5,11 @@
     </h2>
 
     <div class="row gx-5">
-   <!-- Cart Items -->
+   <!-- cart items -->
 <div class="col-lg-8">
   <ng-container *ngIf="cartItems.length > 0; else emptyCart">
 
- <!-- Headers -->
+ 
 
 <div class="cart-header-row text-muted fw-semibold px-2 py-2 mb-2 d-none d-md-block">
   <div class="row g-0 text-center">
@@ -85,13 +85,13 @@
 
 
 
-    <!-- Action Buttons -->
+   
     <div class="d-flex justify-content-between mt-4">
       <button class="btn btn-outline-secondary">Return To Shop</button>
     </div>
   </ng-container>
 
-  <!-- Empty Cart Template -->
+  <!-- empty cart -->
   <ng-template #emptyCart>
     <div class="text-center py-5 empty-cart">
       <i class="fas fa-box-open fa-3x text-secondary mb-3"></i>
@@ -101,7 +101,7 @@
 </div>
 
 
-      <!-- Cart Summary -->
+      <!-- cart summary -->
       <div class="col-lg-4">
         <div class="cart-summary">
           <h5>Cart Total</h5>

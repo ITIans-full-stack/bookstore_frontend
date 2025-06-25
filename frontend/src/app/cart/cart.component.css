@@ -24,7 +24,7 @@
   position: absolute;
   width: 60px;
   height: 4px;
-  background: #e74c3c;
+  background: #dc3545;
   bottom: -4px;
   left: 50%;
   transform: translateX(-50%);
@@ -70,7 +70,7 @@
 }
 
 .quantity-control:hover {
-  border-color: #e74c3c;
+  border-color: #dc3545;
 }
 
 .quantity-control button {
@@ -83,7 +83,7 @@
 }
 
 .quantity-control button:hover {
-  color: #e74c3c;
+  color: #dc3545;
 }
 
 .quantity-control span {
@@ -95,7 +95,7 @@
 }
 
 .btn-remove-icon {
-  background: #e74c3c;
+  background:#dc3545;
   border: none;
   border-radius: 50%;
   width: 40px;
@@ -108,7 +108,7 @@
 }
 
 .btn-remove-icon:hover {
-  background: #c0392b;
+  background: #dc3545;
   transform: rotate(360deg);
 }
 
@@ -132,7 +132,7 @@
 }
 
 .btn-danger {
-  background: #e74c3c;
+  background:#dc3545;
   border: none;
   border-radius: 25px;
   padding: 0.75rem;
@@ -141,7 +141,7 @@
 }
 
 .btn-danger:hover {
-  background: #c0392b;
+  background: #dc3545;
   transform: scale(1.05);
 }
 
