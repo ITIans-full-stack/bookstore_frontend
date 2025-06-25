@@ -71,9 +71,7 @@ label {
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
-.checkout-toast { /* as before */ }
 
-@keyframes fadein { /* same */ }
 
 .animate-fadein { animation: fadein 0.6s ease-in-out; }
 
