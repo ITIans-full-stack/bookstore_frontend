@@ -1,1 +1,66 @@
-<p>register works!</p>
+
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+  <div class="card p-4 shadow-lg rounded-4 animate__animated animate__fadeIn" style="width: 100%; max-width: 500px;">
+    <h3 class="text-center mb-4 fw-bold">Create Account</h3>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <div class="mb-3">
+        <label class="form-label">Full Name</label>
+        <input type="text" formControlName="name" class="form-control form-control-lg" placeholder="John Doe" />
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Email address</label>
+        <input type="email" formControlName="email" class="form-control form-control-lg" placeholder="you@example.com" />
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Password</label>
+        <input type="password" formControlName="password" class="form-control form-control-lg" placeholder="••••••••" />
+      </div>
+
+<div class="mb-3">
+  <label class="form-label">Confirm Password</label>
+  <input
+    type="password"
+    formControlName="confirmPassword"
+    class="form-control form-control-lg"
+    placeholder="••••••••"
+  />
+  <div *ngIf="f['confirmPassword'].touched && f['confirmPassword'].errors?.['mismatch']" class="text-danger mt-1">
+    Passwords do not match
+  </div>
+</div>
+
+
+      <button class="btn btn-primary w-100 py-2 mt-2" type="submit" [disabled]="registerForm.invalid">Register</button>
+    </form>
+
+    <p class="text-center mt-3">Already have an account? <a routerLink="/login" class="text-decoration-none">Login</a></p>
+  </div>
+</div>
+
+
+
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1055">
+  <div
+    class="toast align-items-center text-white border-0"
+    [ngClass]="toastType === 'success' ? 'bg-success' : 'bg-danger'"
+    [class.show]="showToast"
+    [class.hide]="!showToast"
+    role="alert"
+    aria-live="assertive"
+    aria-atomic="true"
+  >
+    <div class="d-flex">
+      <div class="toast-body">
+        {{ toastMessage }}
+      </div>
+      <button
+        type="button"
+        class="btn-close btn-close-white me-2 m-auto"
+        (click)="hideToast()"
+      ></button>
+    </div>
+  </div>
+</div>
