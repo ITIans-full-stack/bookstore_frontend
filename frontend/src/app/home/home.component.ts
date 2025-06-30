@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { BookInterface } from '../core/interfaces/book-interface';
 import { BookCardComponent } from '../shared/book-card/book-card.component';
 import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { SearchService } from '../core/services/search.service';
+import { BookDataService } from '../core/services/book-data.service';
 
 @Component({
   selector: 'app-home',
@@ -14,50 +15,62 @@ import { SearchService } from '../core/services/search.service';
   styleUrl: './home.component.css'
 })
 export class HomeComponent implements OnInit, OnDestroy {
+ @ViewChild('scrollContainer', { static: false }) scrollContainer!: ElementRef;
 
+  scrollLeft() {
+    this.scrollContainer.nativeElement.scrollBy({ left: -300, behavior: 'smooth' });
+  }
+
+  scrollRight() {
+    this.scrollContainer.nativeElement.scrollBy({ left: 300, behavior: 'smooth' });
+  }
 
 searchTerm = '';
   private searchSub!: Subscription;
 
-  constructor(private searchService: SearchService) {}
+  constructor(private searchService: SearchService , private booksService:BookDataService) {}
 
   ngOnInit() {
-    this.searchSub = this.searchService.searchTerm$.subscribe(term => {
-      this.searchTerm = term.toLowerCase();
+  this.booksService.getBooks().subscribe({
+  next: (res: any) => {
+    if (Array.isArray(res.data)) {
+      this.books = res.data;
+      this.filteredBooks = [...this.books];
       this.applyFilters();
-    });
+      this.setTopSalesBooks();
+    } else {
+      console.error('Data is not an array:', res);
+    }
+  },
+  error: (err) => {
+    console.error('Error fetching books:', err);
   }
+});
+  this.searchSub = this.searchService.searchTerm$.subscribe(term => {
+    this.searchTerm = term.toLowerCase();
+    this.applyFilters();
+  });
+}
 
   ngOnDestroy() {
     this.searchSub.unsubscribe();
   }
 
-  books: BookInterface[] = [
-  { name: 'The Great Gatsby', image: '../../assets/book-covers/book-1.webp', price: 10, originalPrice: 15, discount: 33, rating: 95, category: 'Fiction' },
-  { name: 'Sapiens', image: '../../assets/book-covers/book-1.webp', price: 20, originalPrice: 25, discount: 20, rating: 98, category: 'Non-Fiction' },
-  { name: 'Dune', image: '../../assets/book-covers/book-1.webp', price: 15, originalPrice: 20, discount: 25, rating: 97, category: 'Sci-Fi' },
-  { name: '1984', image: '../../assets/book-covers/book-1.webp', price: 12, originalPrice: 18, discount: 33, rating: 96, category: 'Fiction' },
-  { name: 'Educated', image: '../../assets/book-covers/book-1.webp', price: 18, originalPrice: 24, discount: 25, rating: 94, category: 'Non-Fiction' },
-  { name: 'Brave New World', image: '../../assets/book-covers/book-1.webp', price: 14, originalPrice: 20, discount: 30, rating: 93, category: 'Fiction' },
-  { name: 'Foundation', image: '../../assets/book-covers/book-1.webp', price: 16, originalPrice: 22, discount: 27, rating: 95, category: 'Sci-Fi' },
-  { name: 'Atomic Habits', image: '../../assets/book-covers/book-1.webp', price: 22, originalPrice: 28, discount: 21, rating: 97, category: 'Non-Fiction' },
-  { name: 'To Kill a Mockingbird', image: '../../assets/book-covers/book-1.webp', price: 13, originalPrice: 17, discount: 24, rating: 98, category: 'Fiction' },
-  { name: 'The Martian', image: '../../assets/book-covers/book-1.webp', price: 17, originalPrice: 23, discount: 26, rating: 96, category: 'Sci-Fi' },
-  { name: 'Becoming', image: '../../assets/book-covers/book-1.webp', price: 21, originalPrice: 30, discount: 30, rating: 92, category: 'Non-Fiction' },
-  { name: 'Fahrenheit 451', image: '../../assets/book-covers/book-1.webp', price: 11, originalPrice: 16, discount: 31, rating: 94, category: 'Fiction' },
-  { name: 'Hyperion', image: '../../assets/book-covers/book-1.webp', price: 19, originalPrice: 25, discount: 24, rating: 95, category: 'Sci-Fi' },
-  { name: 'Man’s Search for Meaning', image: '../../assets/book-covers/book-1.webp', price: 18, originalPrice: 22, discount: 18, rating: 99, category: 'Non-Fiction' },
-  { name: 'The Catcher in the Rye', image: '../../assets/book-covers/book-1.webp', price: 14, originalPrice: 20, discount: 30, rating: 91, category: 'Fiction' },
-  { name: 'Neuromancer', image: '../../assets/book-covers/book-1.webp', price: 16, originalPrice: 21, discount: 24, rating: 93, category: 'Sci-Fi' }
-];
 
-
-  filteredBooks: BookInterface[] = [...this.books];
+books: BookInterface[] = [];
+filteredBooks: BookInterface[] = [];
+topSalesBooks: any[] = [];
   // searchTerm = '';
   sortBy: 'lowToHigh' | 'highToLow' | '' = '';
   selectedCategories: Set<string> = new Set();
   showAllBooks = false;
   availableCategories = ['Fiction', 'Non-Fiction', 'Sci-Fi'];
+
+setTopSalesBooks() {
+  this.topSalesBooks = [...this.books]
+    .sort((a, b) => b.discount - a.discount)
+    .slice(0, 7);
+}
 
   onSearch(event: Event) {
     const target = event.target as HTMLInputElement;
@@ -90,16 +103,18 @@ searchTerm = '';
     // Search
     if (this.searchTerm) {
       filtered = filtered.filter(book =>
-        book.name.toLowerCase().includes(this.searchTerm)
+        book.title.toLowerCase().includes(this.searchTerm)
       );
     }
 
     // Category filter
     if (this.selectedCategories.size > 0) {
-      filtered = filtered.filter(book =>
-        this.selectedCategories.has(book.category)
-      );
-    }
+  filtered = filtered.filter(book =>
+    Array.from(this.selectedCategories).some(
+      cat => cat.toLowerCase() === book.category.toLowerCase()
+    )
+  );
+}
 
     // Sorting
     if (this.sortBy === 'lowToHigh') {
@@ -120,6 +135,6 @@ searchTerm = '';
   }
 
   addToCart(book: BookInterface) {
-    console.log(`${book.name} added to cart`);
+    console.log(`${book.title} added to cart`);
   }
 }

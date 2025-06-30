@@ -47,16 +47,30 @@
       </div>
     </aside>
 
-    <section class="col-md-10 p-3">
-      <h2 class="mb-4">Today's Book Deals</h2>
+   <main class="col-md-10 p-3">
+      <section class="flash-sales-section mb-3">
+  <h2 class="section-title">Top Sales</h2>
+  <div class="scroll-wrapper position-relative">
+    <button class="scroll-btn left" (click)="scrollLeft()">
+      <i class="fas fa-chevron-left"></i>
+    </button>
+    <div class="book-card-container" #scrollContainer>
+      <app-book-card *ngFor="let book of topSalesBooks" [book]="book"></app-book-card>
+    </div>
+    <button class="scroll-btn right" (click)="scrollRight()">
+      <i class="fas fa-chevron-right"></i>
+    </button>
+  </div>
+</section>
+
+    <section class="container-fluid px-4 py-3">
+      <h2 class="mb-4 section-title">Today's Book Deals</h2>
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
   <app-book-card
     *ngFor="let book of (showAllBooks ? filteredBooks : filteredBooks.slice(0, 10))"
     [book]="book"
   ></app-book-card>
 </div>
-
-<!-- Show button only if not showing all books -->
 <button
   class="btn btn-danger mt-3"
   *ngIf="!showAllBooks && filteredBooks.length > 10"
@@ -66,5 +80,6 @@
 </button>
 
     </section>
+    </main>
   </div>
 </div>
