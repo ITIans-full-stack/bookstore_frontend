@@ -1,0 +1,15 @@
+<div class="container mt-4">
+  <h2 class="mb-3">Inserted Books</h2>
+  <div *ngIf="books.length === 0">No books inserted yet.</div>
+  <div *ngFor="let book of books" class="card mb-3 shadow-sm">
+    <div class="card-body">
+      <h5 class="card-title">{{ book.title }}</h5>
+      <p class="card-text">Author: {{ book.author }}</p>
+      <p class="card-text">Category: {{ book.category }}</p>
+      <p class="card-text">Price: EGP {{ book.price }}</p>
+      <p class="card-text">Stock: {{ book.stock }}</p>
+      <p class="card-text">{{ book.description }}</p>
+      <small class="text-muted">Image file: {{ book.imageName }}</small>
+    </div>
+  </div>
+</div>

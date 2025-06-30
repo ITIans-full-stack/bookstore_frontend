@@ -1,0 +1,21 @@
+.product-image-container {
+  background-color: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-image {
+  max-height: 400px;
+}
+
+.product-description {
+  max-width: 373px;
+}
+
+.icon-large {
+  font-size: 1.5rem;
+}
