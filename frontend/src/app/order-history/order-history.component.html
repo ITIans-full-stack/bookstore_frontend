@@ -1,0 +1,49 @@
+<div class="container mt-5">
+  <h2 class="mb-4 text-center">🧾 Order History</h2>
+
+  <!-- Search & Filter -->
+  <div class="row mb-4">
+    <div class="col-md-6">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="🔍 Search by book title"
+        [(ngModel)]="searchText"
+        (input)="applyFilters()" />
+    </div>
+
+    <div class="col-md-6">
+      <select class="form-select" [(ngModel)]="filterDuration" (change)="applyFilters()">
+        <option value="all">All Orders</option>
+        <option value="3months">Last 3 Months</option>
+        <option value="6months">Last 6 Months</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- No orders -->
+  <div *ngIf="filteredOrders.length === 0" class="alert alert-info">No matching orders found.</div>
+
+  <!-- Orders -->
+  <div *ngFor="let order of filteredOrders" class="card mb-4 border-0 order-card animate-card">
+    <div class="card-header bg-gradient text-dark d-flex justify-content-between align-items-center">
+      <div>
+        <i class="bi bi-receipt me-2"></i>
+        <strong>Order #{{ order._id }}</strong>
+      </div>
+      <span class="badge  text-dark">{{ order.status }}</span>
+    </div>
+
+    <div class="card-body bg-light">
+      <p><i class="bi bi-cash-coin me-2 text-success"></i><strong>Total:</strong> ${{ order.totalPrice }}</p>
+      <p><i class="bi bi-clock-history me-2 text-info"></i><strong>Date:</strong> {{ order.createdAt | date: 'mediumDate' }}</p>
+
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item bg-white" *ngFor="let book of order.books">
+          <i class="bi bi-book me-2 text-primary"></i>
+          {{ book.title }} × {{ book.quantity }}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

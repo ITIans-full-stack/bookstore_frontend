@@ -1,0 +1,34 @@
+.sidebar-menu .list-group-item {
+  border: none;
+  border-radius: 0;
+  padding: 12px 20px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.sidebar-menu .list-group-item:hover {
+  background-color: #f8f9fa;
+}
+
+.sidebar-menu .active {
+  color: #dc3545;
+  font-weight: bold;
+  background-color: transparent;
+  border-left: 4px solid #dc3545;
+}
+
+.card {
+  border: none;
+  border-radius: 12px;
+}
+
+input.form-control {
+  border-radius: 6px;
+}
+.text-danger {
+  font-size: 0.875rem;
+  margin-top: 5px;
+  color: #B00020;
+  animation: shake 0.3s ease;
+}
