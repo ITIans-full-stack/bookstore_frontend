@@ -7,6 +7,8 @@ import { CartBtnComponent } from "../shared/components/cart-btn/cart-btn.compone
 import { RelatedBooksComponent } from "./related-books/related-books.component";
 import { Component, OnInit } from "@angular/core";
 import { BookDetails } from "./models/book-details";
+import { Subscription } from 'rxjs';
+import { SocketService } from '../shared/services/socket.service';
 
 @Component({
   selector: 'app-book-details',
@@ -18,7 +20,8 @@ import { BookDetails } from "./models/book-details";
 export class BookDetailsComponent implements OnInit {
   tabIndex = 1;
   bookDetails?: BookDetails
-  constructor(private BookDetailsService: BookDetailsService) { }
+  private sub!: Subscription;
+  constructor(private BookDetailsService: BookDetailsService, private socketService: SocketService) { }
 
   ngOnInit(): void {
     this.BookDetailsService.getBookDetails.subscribe({
@@ -29,6 +32,10 @@ export class BookDetailsComponent implements OnInit {
         console.log(err);
       }
     })
+    this.sub = this.socketService.onOrderCreated().subscribe(order => {
+      console.log('New Order:', order);
+      alert(`new order created ${order.orderId}`)
+    });
   }
 
   onTabClick(tabIdx: number) {
