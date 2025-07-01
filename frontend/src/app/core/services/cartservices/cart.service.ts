@@ -1,11 +1,14 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable ,inject} from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class CartService {
+
+  constructor() { }
+
+  
   private http = inject(HttpClient);
   private apiUrl = 'http://localhost:5000/api/cart';
 

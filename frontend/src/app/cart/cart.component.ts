@@ -2,7 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { Router, RouterModule } from '@angular/router';
-import { CartService } from '../core/services/cartService/cart.service';
+import { CartService } from '../core/services/cartservices/cart.service';
 
 @Component({
   selector: 'app-cart',
