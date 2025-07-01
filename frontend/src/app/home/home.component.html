@@ -67,13 +67,13 @@
       <h2 class="mb-4 section-title">Today's Book Deals</h2>
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
   <app-book-card
-    *ngFor="let book of (showAllBooks ? filteredBooks : filteredBooks.slice(0, 10))"
+    *ngFor="let book of (showAllBooks ? filteredBooks : filteredBooks.slice(0, 8))"
     [book]="book"
   ></app-book-card>
 </div>
 <button
   class="btn btn-danger mt-3"
-  *ngIf="!showAllBooks && filteredBooks.length > 10"
+  *ngIf="!showAllBooks && filteredBooks.length > 8"
   (click)="onViewAllClick()"
 >
   View All Books
