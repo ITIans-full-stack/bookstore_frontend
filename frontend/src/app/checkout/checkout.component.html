@@ -1,57 +1,110 @@
-<div class="container2">
-<div class="checkout-container container py-4">
-  <h2 class="text-center text-gold-dark mb-4"><i class="fas fa-credit-card me-2"></i> Checkout</h2>
+<div class="checkout-container container">
+  <h2 class="checkout-title">Checkout <span class="cart-icon"></span></h2>
 
   <div class="row">
-    <!-- Form -->
-    <div class="col-lg-6">
-      <div class="form-group mb-3">
-        <label class="text-light">Full Name</label>
-        <input [(ngModel)]="fullName" class="form-control bg-dark text-light border-gold" />
-      </div>
-
-      <div class="form-group mb-3">
-        <label class="text-light">Email</label>
-        <input [(ngModel)]="email" type="email" class="form-control bg-dark text-light border-gold" />
-      </div>
-
-      <div class="form-group mb-3">
-        <label class="text-light">Address</label>
-        <textarea [(ngModel)]="address" class="form-control bg-dark text-light border-gold"></textarea>
-      </div>
-
-      <div class="form-group mb-3">
-        <label class="text-light d-block mb-2">Payment Method</label>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" [(ngModel)]="paymentMethod" value="cash" checked />
-          <label class="form-check-label text-light">Cash</label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" [(ngModel)]="paymentMethod" value="card" />
-          <label class="form-check-label text-light">Card</label>
+    <!--  details -->
+    <div class="col-md-8 mb-4">
+      <div class="card shadow-lg">
+        <div class="card-body">
+          <h5 class="mb-4">Billing Details <span class="edit-icon"></span></h5>
+          <form [formGroup]="checkoutForm" (ngSubmit)="submitOrder()">
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="firstName" class="form-label">Full Name <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="firstName" formControlName="firstName" placeholder="firstName">
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="email" class="form-label">Email Address <span class="text-danger">*</span></label>
+                <input type="email" class="form-control" id="email" formControlName="email" placeholder="name@example.com">
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="address" class="form-label">Street Address <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="address" formControlName="address" placeholder="123 Main St">
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="city" class="form-label">Town / City <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="city" formControlName="city" placeholder="Cairo">
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="phone" class="form-label">Phone Number <span class="text-danger">*</span></label>
+                <input type="tel" class="form-control" id="phone" formControlName="phone" placeholder="+20 123 456 7890">
+              </div>
+            </div>
+            <small class="text-muted">Save this information for faster checkout next time.</small>
+          </form>
         </div>
       </div>
     </div>
 
-    <!-- Summary -->
-    <div class="col-lg-6">
-      <div class="card bg-dark text-light border-gold p-3">
-        <h5 class="text-gold mb-3">Order Summary</h5>
-        <ul class="list-group mb-3">
-          <li *ngFor="let item of cartItems" class="list-group-item bg-transparent text-light d-flex justify-content-between">
-            {{ item.title }} (x{{ item.quantity }})
-            <span>{{ item.price * item.quantity }} EGP</span>
-          </li>
-        </ul>
-        <h5 class="text-success">Total: {{ getTotalPrice() }} EGP</h5>
-      </div>
+    <!-- order summary -->
+    <div class="col-md-4 mb-4">
+      <div class="cart-summary">
+        <h5 class="mb-4">Your Order <span class="receipt-icon"></span></h5>
+        <div class="order-items mb-3" *ngFor="let item of cartItems">
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="fw-medium">{{ item.title }} <small class="text-muted">(x1)</small></span>
+            <span class="text-primary fw-bold">{{ item.price }} EGP</span>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between mb-3">
+          <span>Subtotal <span class="calc-icon"></span></span>
+          <span class="text-success">{{ getSubtotal() }} EGP</span>
+        </div>
+        <div class="d-flex justify-content-between mb-3">
+          <span>Shipping <span class="truck-icon"></span></span>
+          <span class="text-success">Free</span>
+        </div>
+        <hr class="bg-secondary">
+        <div class="d-flex justify-content-between fw-bold mb-4">
+          <span>Total <span class="money-icon"></span></span>
+          <span class="text-danger">{{ getSubtotal() }} EGP</span>
+        </div>
 
-      <button class="btn btn-gold mt-4 w-100" (click)="confirmOrder()">Confirm Order</button>
+        <!-- payment -->
+        <h5 class="mb-3">Payment Method <span class="card-icon"></span></h5>
+        <div class="form-check mb-2">
+          <input class="form-check-input" type="radio" name="paymentMethod" id="cardPayment" value="card" (change)="setPaymentMethod('card')" checked>
+          <label class="form-check-label" for="cardPayment">
+            Pay with Card (Stripe)
+          </label>
+        </div>
+        <div class="form-check mb-3">
+          <input class="form-check-input" type="radio" name="paymentMethod" id="cashOnDelivery" value="cod" (change)="setPaymentMethod('cod')">
+          <label class="form-check-label" for="cashOnDelivery">
+            Cash on Delivery
+          </label>
+        </div>
+
+        <!-- stripe card  -->
+        <div id="card-element" class="mb-3 p-3 border rounded" *ngIf="paymentMethod === 'card'"></div>
+        <div id="card-errors" class="text-danger mb-3"></div>
+        <div class="alert alert-info mb-3" *ngIf="paymentMethod === 'cod'">
+          You will pay {{ getSubtotal() }} EGP upon delivery.
+        </div>
+
+        Coupon Code
+        <div class="mb-3">
+          <div class="input-group">
+            <input type="text" class="form-control" id="couponCode" placeholder="Coupon Code">
+            <button class="btn btn-outline-primary" type="button">Apply Coupon</button>
+          </div>
+        </div>
+
+        <!-- submit button -->
+        <button type="submit" class="btn btn-danger w-100" [disabled]="checkoutForm.invalid || loading" (click)="submitOrder()">
+          <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+          {{ paymentMethod === 'card' ? 'Proceed to Pay' : 'Place Order' }}
+        </button>
+      </div>
     </div>
   </div>
-</div>
-<div style="height: 200px;"></div>
 
-<div class="checkout-footer-img">
-    <img src="../../assets/cart-checkout/payment-removebg-preview.png" alt="checkout-image">
-  </div></div>
+  <!-- back to cart -->
+  <div class="text-center mt-4">
+    <a routerLink="/cart" class="btn btn-outline-primary">
+      <span class="back-icon"></span> Back to Cart
+    </a>
+  </div>
+</div>

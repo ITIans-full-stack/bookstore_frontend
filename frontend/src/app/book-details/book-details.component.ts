@@ -1,33 +1,27 @@
 import { BookDetailsService } from './services/book-details.service';
-import { Component, OnInit } from '@angular/core';
-import { RatingComponent } from "./rating/rating.component";
-import { BookDetails } from './models/book-details';
-import { CurrencyPipe } from '@angular/common';
+import { CurrencyPipe } from "@angular/common";
+import { RatingComponent } from "../shared/components/rating/rating.component";
 import { DescriptionComponent } from "./description/description.component";
-import { TableDescriptionComponent } from "./table-description/table-description.component";
-import { CustomerReviewComponent } from "./customer-review/customer-review.component";
-import { WishlistBtnComponent } from "./wishlist-btn/wishlist-btn.component";
-import { CartBtnComponent } from "./cart-btn/cart-btn.component";
+import { WishlistBtnComponent } from "../shared/components/wishlist-btn/wishlist-btn.component";
+import { CartBtnComponent } from "../shared/components/cart-btn/cart-btn.component";
 import { RelatedBooksComponent } from "./related-books/related-books.component";
-
-
-
-
+import { Component, OnInit } from "@angular/core";
+import { BookDetails } from "./models/book-details";
 
 @Component({
   selector: 'app-book-details',
   standalone: true,
-  imports: [RatingComponent, CurrencyPipe, DescriptionComponent, TableDescriptionComponent, CustomerReviewComponent, WishlistBtnComponent, CartBtnComponent, RelatedBooksComponent],
+  imports: [RatingComponent, CurrencyPipe, DescriptionComponent, WishlistBtnComponent, CartBtnComponent, RelatedBooksComponent],
   templateUrl: './book-details.component.html',
   styleUrl: './book-details.component.css'
 })
 export class BookDetailsComponent implements OnInit {
   tabIndex = 1;
   bookDetails?: BookDetails
-  constructor(private bookDetailsService: BookDetailsService) { }
+  constructor(private BookDetailsService: BookDetailsService) { }
 
   ngOnInit(): void {
-    this.bookDetailsService.getBookDetails.subscribe({
+    this.BookDetailsService.getBookDetails.subscribe({
       next: (data) => {
         this.bookDetails = data
       },
