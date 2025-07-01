@@ -41,6 +41,13 @@ aside h4 {
   color: #212529;
 }
 
+button{
+  justify-self: center;
+  align-self: center;
+  display: flex;
+  margin-top: 5px;
+}
+
 .badge {
   font-size: 0.75rem;
   padding: 0.4em 0.6em;
