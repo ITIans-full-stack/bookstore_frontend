@@ -1,9 +1,14 @@
 export interface BookInterface {
-    name: string;
-  image: string;
+   _id: string;
+  title: string;
+  author: string;
   price: number;
-  originalPrice: number;
   discount: number;
-  rating: number;
-  category:string
+  category: string;
+  description: string;
+  stock: number;
+  image: string;
+  reviews: any[];
+  createdAt: string;
+  updatedAt: string;
 }
