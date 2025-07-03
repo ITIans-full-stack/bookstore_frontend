@@ -101,10 +101,6 @@ input:hover {
   padding: 2rem;
 }
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 802f651 (Add socket.io v4.6.1 and remove unnecessary files outside the frontend folder)
 .form-label {
   font-weight: 600;
   color: #2c3e50;
@@ -115,10 +111,6 @@ input:hover {
   border: 2px solid #ecf0f1;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
-<<<<<<< HEAD
-
-=======
->>>>>>> 802f651 (Add socket.io v4.6.1 and remove unnecessary files outside the frontend folder)
 
 .form-control:focus {
   border-color: #3498db;
