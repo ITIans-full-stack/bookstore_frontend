@@ -9,22 +9,21 @@
                 <!-- <div class="icon-btn"><i class="bi bi-eye"></i></div> -->
             </div>
 
-            <div class="d-flex justify-content-center align-items-center h-100">
+<div class="product-image-inner d-flex justify-content-center align-items-center h-100">
                  <img
       [src]="book.image"
       class=" img-fluid product-img"
       [alt]="book.title" />
             </div>
 
-            <button class="btn add-to-cart">Add To Cart</button>
+            <button class="btn add-to-cart w-70">Add To Cart</button>
         </div>
 
-        <div class="card-body px-0 pt-3">
+        <div class="card-body text-start px-0 pt-3">
             <h6 class="fw-medium mb-2">{{ book.title}}</h6>
             <div class="d-flex align-items-center gap-2 mb-2">
-                <span class="text-danger fw-medium">{{
-          (book.price / (1 - book.discount / 100) | currency: 'EGP')}}</span>
-                <span class="text-muted text-decoration-line-through">{{ book.price | currency: 'EGP' }}</span>
+                <span class="text-danger fw-medium">{{ book.price | currency: 'EGP' }} </span>
+                <span class="text-muted text-decoration-line-through">{{(book.price / (1 - book.discount / 100) | currency: 'EGP')}}</span>
             </div>
             <div class="d-flex align-items-center gap-2">
                 <app-rating  [reviewCount]="book.reviews.length"> </app-rating>

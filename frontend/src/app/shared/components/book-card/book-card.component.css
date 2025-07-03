@@ -5,7 +5,7 @@
 }
 
 .product-img {
-  max-height: 180px;
+  max-height: 200px;
   width: auto;
   max-width: 100%;
   object-fit: contain;
@@ -59,6 +59,15 @@
   border-bottom-right-radius: 4px;
   transition: background-color 0.3s;
 }
+.product-image-inner {
+  height: 100%;
+  padding-bottom: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
 
 .add-to-cart:hover {
   background-color: #db4444;
@@ -71,6 +80,9 @@
 @media (max-width: 768px) {
   .product-image-wrapper {
     height: 200px;
+  }
+   .product-image-inner {
+    padding-bottom: 30px;
   }
 
   .product-img {
@@ -99,5 +111,8 @@
 
   .card-body h6 {
     font-size: 0.9rem;
+  }
+  .product-image-inner {
+    padding-bottom: 25px;
   }
 }
