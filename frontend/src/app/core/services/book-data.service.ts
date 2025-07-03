@@ -9,13 +9,13 @@ import { environment } from '../../../environments/environment';
 })
 export class BookDataService {
 
- private apiUrl = `${environment.apiUrl}`; 
+ private apiUrl = `${environment.apiUrl}/books`; 
 
   constructor(private http: HttpClient) {}
 
   // Get all books
-  getBooks(): Observable<BookInterface[]> {
-    return this.http.get<BookInterface[]>(this.apiUrl);
+  getBooks(page: number): Observable<BookInterface[]> {
+    return this.http.get<BookInterface[]>(`${this.apiUrl}?page=${page}`);
   }
 
   // Get book by ID

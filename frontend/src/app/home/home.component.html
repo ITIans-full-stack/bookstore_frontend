@@ -47,7 +47,7 @@
       </div>
     </aside>
 
-   <main class="col-md-10 p-3">
+   <main class="col-md-10 p-3 ">
       <section class="flash-sales-section mb-3">
   <h2 class="section-title">Top Sales</h2>
   <div class="scroll-wrapper position-relative">
@@ -63,23 +63,39 @@
   </div>
 </section>
 
-    <section class="container-fluid px-4 py-3">
+    <section class="container-fluid px-4 py-3 col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
       <h2 class="mb-4 section-title">Today's Book Deals</h2>
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
   <app-book-card
-    *ngFor="let book of (showAllBooks ? filteredBooks : filteredBooks.slice(0, 8))"
+    *ngFor="let book of  filteredBooks "
     [book]="book"
   ></app-book-card>
 </div>
-<button
-  class="btn btn-danger mt-3"
-  *ngIf="!showAllBooks && filteredBooks.length > 8"
-  (click)="onViewAllClick()"
->
-  View All Books
-</button>
-
     </section>
     </main>
+   <nav *ngIf="totalPages > 1" aria-label="Page navigation">
+  <ul class="custom-pagination">
+    <li
+      class="page-number"
+      *ngFor="let page of [].constructor(totalPages); let i = index"
+      [class.active]="currentPage === i + 1"
+    >
+      <button
+        (click)="loadBooks(i + 1)"
+        [disabled]="currentPage === i + 1"
+      >
+        {{ i + 1 }}
+      </button>
+    </li>
+  </ul>
+</nav>
+
+
+    
+
   </div>
+
+
+
+  
 </div>
