@@ -13,6 +13,10 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./home/home.component').then((m) => m.HomeComponent),
   },
+   path: 'books',
+    loadComponent: () =>
+      import('./books-page/books-page.component').then((m) => m.BooksPageComponent),
+  },
   {
     path: 'bookDetails',
     loadComponent: () =>
@@ -94,11 +98,11 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./not-found-page/not-found-page.component').then((m) => m.NotFoundPageComponent),
   },
+    
   {
     path: '**',
     redirectTo: 'notfound',
   },
-
 
 
 
