@@ -1,3 +1,4 @@
+import { SocketService } from './../shared/services/socket.service';
 import { BookDetailsService } from './services/book-details.service';
 import { CurrencyPipe } from "@angular/common";
 import { RatingComponent } from "../shared/components/rating/rating.component";
@@ -18,7 +19,7 @@ import { BookDetails } from "./models/book-details";
 export class BookDetailsComponent implements OnInit {
   tabIndex = 1;
   bookDetails?: BookDetails
-  constructor(private BookDetailsService: BookDetailsService) { }
+  constructor(private BookDetailsService: BookDetailsService, private socketService: SocketService) { }
 
   ngOnInit(): void {
     this.BookDetailsService.getBookDetails.subscribe({
@@ -29,7 +30,14 @@ export class BookDetailsComponent implements OnInit {
         console.log(err);
       }
     })
+    //for test now and when admin work correctly will be injected this service
+    this.socketService.onOrderCreated().subscribe((orderData) => {
+      console.log(orderData);
+      alert(`${orderData.orderId}`);
+    });
   }
+
+
 
   onTabClick(tabIdx: number) {
     this.tabIndex = tabIdx;
