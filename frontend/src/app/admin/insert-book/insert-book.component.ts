@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BookDetailsService } from '../book-details/services/book-details.service';
+import { BookDetailsService } from '../../book-details/services/book-details.service';
 
 @Component({
   selector: 'app-insert-book',
@@ -34,15 +34,15 @@ export class InsertBookComponent {
     const stock = +(document.getElementById('stock') as HTMLInputElement).value;
     const description = (document.getElementById('description') as HTMLTextAreaElement).value;
 
-    this.bookService.addBook({
-      title,
-      author,
-      category,
-      price,
-      stock,
-      description,
-      imageName: this.uploadedImageName
-    });
+    // this.bookService.addBook({
+    //   title,
+    //   author,
+    //   category,
+    //   price,
+    //   stock,
+    //   description,
+    //   imageName: this.uploadedImageName
+    // });
 
     alert('Book inserted successfully!');
   }
