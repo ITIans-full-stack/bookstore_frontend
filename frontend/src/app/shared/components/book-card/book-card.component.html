@@ -23,7 +23,7 @@
             <h6 class="fw-medium mb-2">{{ book.title}}</h6>
             <div class="d-flex align-items-center gap-2 mb-2">
                 <span class="text-danger fw-medium">{{ book.price | currency: 'EGP' }} </span>
-                <span class="text-muted text-decoration-line-through">{{(book.price / (1 - book.discount / 100) | currency: 'EGP')}}</span>
+                <span *ngIf="book.discount" class="text-muted text-decoration-line-through">{{(book.price / (1 - book.discount / 100) | currency: 'EGP')}}</span>
             </div>
             <div class="d-flex align-items-center gap-2">
                 <app-rating  [reviewCount]="book.reviews.length"> </app-rating>

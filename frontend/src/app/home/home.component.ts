@@ -31,7 +31,7 @@ sortBy: 'lowToHigh' | 'highToLow' | '' = '';
 selectedCategories: Set<string> = new Set();
 showAllBooks = false;
 availableCategories: string[] = [];
-
+newestBooks: BookInterface[] = [];
 
   constructor(private searchService: SearchService , private booksService:BookDataService , private route: ActivatedRoute,
   private router: Router) {}
@@ -66,6 +66,7 @@ loadBooks(page: number = 1) {
         this.currentPage = res.page;
         this.setTopSalesBooks();
         this.setAvailableCategories(); 
+        this.setNewestBooks();
        
       }
     },
@@ -107,6 +108,13 @@ setTopSalesBooks() {
   this.topSalesBooks = [...this.books]
     .sort((a, b) => b.discount - a.discount)
     .slice(0, 7);
+}
+
+
+setNewestBooks() {
+  this.newestBooks = [...this.books]
+    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+    .slice(0, 5);
 }
   onViewAllClick() {
    this.router.navigate(['/books']);
