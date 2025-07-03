@@ -1,3 +1,4 @@
+
 <div class="container-fluid">
   <div class="row">
     <aside class="col-md-2 bg-light p-3">
@@ -51,7 +52,7 @@
       <section class="flash-sales-section mb-3">
   <h2 class="section-title">Top Sales</h2>
   <div class="scroll-wrapper position-relative">
-    <button class="scroll-btn left" (click)="scrollLeft()">
+    <button class="scroll-btn left ce" (click)="scrollLeft()">
       <i class="fas fa-chevron-left"></i>
     </button>
     <div class="book-card-container" #scrollContainer>
@@ -72,7 +73,7 @@
   ></app-book-card>
 </div>
 <button
-  class="btn btn-danger mt-3"
+  class="viewBooks btn btn-danger mt-3"
   *ngIf="!showAllBooks && filteredBooks.length > 8"
   (click)="onViewAllClick()"
 >
