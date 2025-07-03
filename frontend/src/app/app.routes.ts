@@ -42,6 +42,7 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./user-profile/user-profile.component').then((m) => m.UserProfileComponent),
   },
+
   {
     path: 'admin',
     loadComponent: () =>
@@ -63,6 +64,36 @@ export const routes: Routes = [
           import('./admin/view-orders/view-orders.component').then((m) => m.ViewOrdersComponent),
       },
     ],
+  },
+
+  {
+    path: 'login',
+    loadComponent: () =>
+      import('./login/login.component').then((m) => m.LoginComponent),
+  },
+  {
+    path: 'register',
+    loadComponent: () =>
+      import('./register/register.component').then((m) => m.RegisterComponent),
+  },
+  {
+    path: 'reset-password/:token',
+    loadComponent: () =>
+      import('./reset-password/reset-password.component').then((m) => m.ResetPasswordComponent),
+  },
+  {
+    path: 'oauth-success',
+    loadComponent: () =>
+      import('./oauth-success/oauth-success.component').then((m) => m.OAuthSuccessComponent),
+  },
+  {
+    path: 'notfound',
+    loadComponent: () =>
+      import('./not-found-page/not-found-page.component').then((m) => m.NotFoundPageComponent),
+  },
+  {
+    path: '**',
+    redirectTo: 'notfound',
   },
 
 
