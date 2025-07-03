@@ -7,6 +7,7 @@ import { CartComponent } from './cart/cart.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import {OrderHistoryComponent} from './order-history/order-history.component'
 import {UserProfileComponent} from './user-profile/user-profile.component'
+import { BooksPageComponent } from './books-page/books-page.component';
 // import { AdminComponent } from './admin/admin.component';
 // import { InsertBookComponent } from './insert-book/insert-book.component';
 // import { ViewBooksComponent } from './view-books/view-books.component';
@@ -21,7 +22,8 @@ export const routes: Routes = [
     { path: 'cart', component: CartComponent },
     { path: 'checkout', component: CheckoutComponent },
     {path:'order', component:OrderHistoryComponent},
-    {path:'profile', component:UserProfileComponent}
+    {path:'profile', component:UserProfileComponent},
+    {path:'books', component:BooksPageComponent}
     // {
     //     path: 'admin',
     //     component: AdminComponent,
