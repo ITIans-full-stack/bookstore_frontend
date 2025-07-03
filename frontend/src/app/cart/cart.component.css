@@ -157,6 +157,104 @@
   background: #ecf0f1;
 }
 
+.toast-container {
+  min-width: 300px;
+}
+
+.toast {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.toast.show {
+  opacity: 1;
+}
+
+.cart-thumb {
+  max-width: 80px;
+  height: auto;
+}
+
+.quantity-control {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.quantity-control button {
+  width: 30px;
+  height: 30px;
+  line-height: 1;
+}
+
+.btn-remove-icon {
+  padding: 5px;
+}
+
+.cart-summary {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+}
+.toast-container {
+  min-width: 300px;
+}
+
+.toast {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.toast.show {
+  opacity: 1;
+}
+
+.cart-thumb {
+  max-width: 80px;
+  height: auto;
+}
+
+.quantity-control {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.quantity-control .btn {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+}
+
+.quantity-display {
+  width: 40px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.btn-remove-icon {
+  padding: 5px;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.btn-remove-icon:hover i {
+  color: red;
+  transform: rotate(360deg);
+}
+
+.btn-remove-icon i {
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.cart-summary {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+}
 @media (max-width: 768px) {
   .cart-thumb {
     width: 60px;

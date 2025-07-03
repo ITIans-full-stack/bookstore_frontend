@@ -18,12 +18,17 @@ export class OrderHistoryComponent implements OnInit{
 
 
   constructor(private orderservice: OrderService){}
-  ngOnInit() {
-    this.orderservice.getOrders().subscribe((res) => {
-      this.orders = res;
-      this.applyFilters();
+ ngOnInit() {
+    this.orderservice.getMyOrders().subscribe({
+      next: (res: any) => {
+        this.orders = res.orders || [];
+        this.applyFilters();
+      },
+      error: (err) => {
+        console.error('Error fetching orders:', err);
+      }
     });
-  };
+  }
 
   applyFilters() {
     const now = new Date();
