@@ -1,51 +1,123 @@
-import { Component } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { Router, RouterModule } from '@angular/router';
+import { CartService } from '../core/services/cartservices/cart.service';
 
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, HttpClientModule, RouterModule],
   templateUrl: './cart.component.html',
-  styleUrls: ['./cart.component.css']
 })
 export class CartComponent {
-  cartItems = [
-    {
-      title: 'Angular book',
-      price: 150,
-      quantity: 2,
-      imageUrl: 'https://m.media-amazon.com/images/I/71g2ednj0JL.jpg'
-    },
-    {
-      title: 'book name',
-      price: 200,
-      quantity: 1,
-      imageUrl: 'https://m.media-amazon.com/images/I/81eB+7+CkUL.jpg'
-    },
-    {
-      title: 'book 55',
-      price: 200,
-      quantity: 1,
-      imageUrl: 'https://m.media-amazon.com/images/I/81eB+7+CkUL.jpg'
-    }
-  ];
+  private cartService = inject(CartService);
+  private router = inject(Router);
+  cartItems = signal<any[]>([]);
+  isLoading = signal<boolean>(false);
+  errorMessage = signal<string | null>(null);
 
-  getTotalPrice(): number {
-    return this.cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+  constructor() {
+    // this.fetchCart();
+  //  مؤقت
+  localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NjI4ODk5ZjdhYjg1ODdjYzVlODgzMiIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzUxMzk1MjY1LCJleHAiOjE3NTE0ODE2NjV9.8aF4O4GhETZodaEOkUAcDNhQ-W1WcodRHPgr_GfBVCM'); 
+  this.fetchCart();
+
   }
 
-  removeItem(itemToRemove: any) {
-    this.cartItems = this.cartItems.filter(item => item !== itemToRemove);
+  fetchCart() {
+    this.isLoading.set(true);
+    this.errorMessage.set(null);
+    this.cartService.getCart().subscribe({
+      next: (res) => {
+        this.cartItems.set(res.items || []);
+        this.isLoading.set(false);
+      },
+      error: (err) => {
+        console.error('Error fetching cart:', err);
+        this.errorMessage.set('Failed to load cart. Please try again.');
+        this.isLoading.set(false);
+      },
+    });
+  }
+
+  removeItem(item: any) {
+    if (confirm('Are you sure you want to remove this item?')) {
+      this.isLoading.set(true);
+      this.cartService.removeFromCart(item.book._id).subscribe({
+        next: () => {
+          this.fetchCart();
+        },
+        error: (err) => {
+          console.error('Error removing item:', err);
+          this.errorMessage.set('Failed to remove item. Please try again.');
+          this.isLoading.set(false);
+        },
+      });
+    }
   }
 
   increaseQty(item: any) {
-    item.quantity++;
+    this.isLoading.set(true);
+    this.cartService.addToCart(item.book._id, 1).subscribe({
+      next: () => {
+        this.fetchCart();
+      },
+      error: (err) => {
+        console.error('Error increasing quantity:', err);
+        this.errorMessage.set('Failed to update quantity. Please try again.');
+        this.isLoading.set(false);
+      },
+    });
   }
 
   decreaseQty(item: any) {
-    if (item.quantity > 1) {
-      item.quantity--;
+    this.isLoading.set(true);
+    if (item.quantity <= 1) {
+      this.removeItem(item);
+    } else {
+      this.cartService.addToCart(item.book._id, -1).subscribe({
+        next: () => {
+          this.fetchCart();
+        },
+        error: (err) => {
+          console.error('Error decreasing quantity:', err);
+          this.errorMessage.set('Failed to update quantity. Please try again.');
+          this.isLoading.set(false);
+        },
+      });
     }
+  }
+
+  clearCart() {
+    if (confirm('Are you sure you want to clear the cart?')) {
+      this.isLoading.set(true);
+      this.cartService.clearCart().subscribe({
+        next: () => {
+          this.cartItems.set([]);
+          this.isLoading.set(false);
+        },
+        error: (err) => {
+          console.error('Error clearing cart:', err);
+          this.errorMessage.set('Failed to clear cart. Please try again.');
+          this.isLoading.set(false);
+        },
+      });
+    }
+  }
+
+  getTotalPrice(): number {
+    return this.cartItems().reduce(
+      (total, item) => total + item.book.price * item.quantity,
+      0
+    );
+  }
+
+  returnToShop() {
+    this.router.navigate(['/home']);
+  }
+
+  proceedToCheckout() {
+    this.router.navigate(['/checkout']);
   }
 }

@@ -7,7 +7,8 @@ import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
 const socketIoConfig: SocketIoConfig = {
   url: 'http://localhost:5000',
   options: {
-    transports: ['websocket']
+    transports: ['websocket'],
+    withCredentials: true
   }
 };
 
