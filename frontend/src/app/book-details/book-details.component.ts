@@ -8,6 +8,7 @@ import { CartBtnComponent } from "../shared/components/cart-btn/cart-btn.compone
 import { RelatedBooksComponent } from "./related-books/related-books.component";
 import { Component, OnInit } from "@angular/core";
 import { BookDetails } from "./models/book-details";
+import { ReviewService } from '../core/services/reviewservices/review.service';
 
 @Component({
   selector: 'app-book-details',
@@ -19,7 +20,7 @@ import { BookDetails } from "./models/book-details";
 export class BookDetailsComponent implements OnInit {
   tabIndex = 1;
   bookDetails?: BookDetails
-  constructor(private BookDetailsService: BookDetailsService, private socketService: SocketService) { }
+  constructor(private BookDetailsService: BookDetailsService, private socketService: SocketService, private reviewService: ReviewService) { }
 
   ngOnInit(): void {
     this.BookDetailsService.getBookDetails.subscribe({
