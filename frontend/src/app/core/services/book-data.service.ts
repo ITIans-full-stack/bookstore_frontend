@@ -18,6 +18,9 @@ export class BookDataService {
   getBooks(page: number): Observable<BookInterface[]> {
     return this.http.get<BookInterface[]>(`${this.apiUrl}?page=${page}`);
   }
+  getAllBooks(): Observable<BookInterface[]> {
+    return this.http.get<BookInterface[]>(`${this.apiUrl}`);
+  }
 
   // Get book by ID
   getBookById(id: string): Observable<BookInterface> {

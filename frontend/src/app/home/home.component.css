@@ -12,6 +12,11 @@
   position: relative;
   padding-left: 15px;
 }
+main {
+  padding: 1rem;
+  width: 100%;
+  max-width: 100%;
+}
 
 /* .section-title::before  {
   content: '';
@@ -147,6 +152,13 @@
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
 }
 
+.carousel img {
+  height: 70vh;
+  object-fit: cover;
+}
+
+
+
 
 @media (max-width: 992px) {
   .book-card-container app-book-card {
@@ -172,6 +184,18 @@
     width: 32px;
     height: 32px;
   }
+ .carousel img {
+    height: 50vh;
+  }
+
+  .carousel-caption h1 {
+    font-size: 1.5rem;
+  }
+
+  .carousel-caption p {
+    font-size: 0.9rem;
+  }
+
 }
 
 @media (max-width: 576px) {
@@ -179,4 +203,17 @@
     flex: 0 0 85%;
     max-width: 85%;
   }
+  .book-card-container {
+    gap: 10px;
+    padding: 1rem;
+  }
+
+  .scroll-btn {
+    width: 28px;
+    height: 28px;
+  }
+   button.btn {
+    width: 100%;
+  }
+  
 }

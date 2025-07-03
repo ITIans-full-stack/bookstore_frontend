@@ -50,7 +50,7 @@
   <h2 class="section-title mb-4">Categories</h2>
   <div class="container">
     <div class="row justify-content-center">
-      <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-4"
+      <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-4 text-wrap text-break"
            *ngFor="let category of availableCategories">
         <div class="category-card p-3 rounded shadow-sm bg-white h-100 d-flex flex-column justify-content-center align-items-center">
           <div class="category-icon mb-2">
@@ -82,7 +82,7 @@
     <!-- View All Button -->
     <section class="text-center my-4">
       <button
-        class="btn btn-danger"
+        class="btn btn-danger "
         *ngIf="!showAllBooks && filteredBooks.length > 8"
         (click)="onViewAllClick()"
       >
