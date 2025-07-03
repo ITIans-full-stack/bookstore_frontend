@@ -2,3 +2,88 @@
     border-color: black;
     background-color: crimson;
 }
+
+h1.display-6 {
+ 
+  font-weight: 600;
+  color: #212529;
+  border-bottom: 2px solid #dee2e6;
+  padding-bottom: 0.5rem;
+}
+
+.form-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #6c757d;
+}
+
+.form-control,
+.form-select {
+  font-size: 1rem;
+  border: 1px solid #ced4da;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #a0002d;
+  box-shadow: 0 0 0 0.25rem rgba(112, 26, 9, 0.25);
+  outline: none;
+}
+
+.is-invalid {
+  border-color: #dc3545 !important;
+}
+
+.invalid-feedback {
+  font-size: 0.875rem;
+}
+
+#bookImage + label {
+  background-color: red;
+  color: white;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#bookImage + label:hover {
+  background-color: #a0002d;
+}
+
+.btn-primary,
+.btn-success,
+.bs-btn-active-bg {
+  background-color: red;
+  border-color: black;
+  color: white;
+  font-weight: 600;
+  padding: 0.5rem 1.25rem;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover,
+.btn-success:hover {
+  background-color: #a0002d;
+  transform: scale(1.05);
+}
+
+.submit-button {
+  padding-left: 2rem;
+  padding-right: 2rem;
+  letter-spacing: 0.5px;
+}
+
+.shadow-lg {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+@media (max-width: 768px) {
+  .max-width-form {
+    padding: 2rem 1rem;
+  }
+
+  .submit-button {
+    width: 100%;
+  }
+}

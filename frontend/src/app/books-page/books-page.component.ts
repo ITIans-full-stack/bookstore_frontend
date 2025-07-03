@@ -34,7 +34,7 @@ availableCategories: string[] = [];
   private router: Router) {}
 
   ngOnInit() {
-  this.loadBooks(this.currentPage);
+  this.loadBooks(this.currentPage , this.pageSize);
   this.searchSub = this.searchService.searchTerm$.subscribe(term => {
     this.searchTerm = term.toLowerCase();
     this.applyFilters();
@@ -44,23 +44,14 @@ availableCategories: string[] = [];
     this.searchSub.unsubscribe();
   }
 
-@ViewChild('scrollContainer', { static: false }) scrollContainer!: ElementRef;
-  scrollLeft() {
-    this.scrollContainer.nativeElement.scrollBy({ left: -300, behavior: 'smooth' });
-  }
-  scrollRight() {
-    this.scrollContainer.nativeElement.scrollBy({ left: 300, behavior: 'smooth' });
-  }
-
-loadBooks(page: number = 1) {
-  this.booksService.getBooks(page).subscribe({
+loadBooks(page: number = 1, limit : number =8) {
+  this.booksService.getBooks(page,limit).subscribe({
     next: (res: any) => {
       if (Array.isArray(res.data)) {
         this.books = res.data;
         this.filteredBooks = [...this.books];
         this.totalPages = res.totalPages;
         this.currentPage = res.page;
-        this.setTopSalesBooks();
         this.setAvailableCategories(); 
         this.applyFilters(); 
       }
@@ -99,11 +90,7 @@ private formatCategoryName(category: string): string {
 
 //=========================================================================
 
-setTopSalesBooks() {
-  this.topSalesBooks = [...this.books]
-    .sort((a, b) => b.discount - a.discount)
-    .slice(0, 7);
-}
+
 
   onSearch(event: Event) {
     const target = event.target as HTMLInputElement;

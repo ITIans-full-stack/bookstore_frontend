@@ -1,59 +1,127 @@
 <h1 class="display-6 font-serif text-dark mb-4 pb-2 border-bottom border-secondary">Insert Book</h1>
 
 <div class="bg-white p-5 rounded-3 shadow-lg max-width-form mx-auto border border-light">
-  <form (submit)="onSubmit($event)">
+
+  
+  <form [formGroup]="bookForm" (ngSubmit)="onSubmit($event)">
+    
+    <!-- Title -->
     <div class="mb-4">
-      <label for="title" class="form-label text-muted small fw-semibold">Title</label>
-      <input type="text" class="form-control shadow-sm rounded" id="title" placeholder="Enter book title" required>
+      <label class="form-label text-muted small fw-semibold">Title</label>
+      <input type="text" class="form-control shadow-sm rounded"
+             formControlName="title"
+             [class.is-invalid]="bookForm.get('title')?.invalid && bookForm.get('title')?.touched"
+             placeholder="Enter book title" />
+      <div class="invalid-feedback" *ngIf="bookForm.get('title')?.hasError('required')">Title is required.</div>
     </div>
 
+    <!-- Author -->
     <div class="mb-4">
-      <label for="bookImage" class="form-label text-muted small fw-semibold">Book Image</label>
+      <label class="form-label text-muted small fw-semibold">Author</label>
+      <input type="text" class="form-control shadow-sm rounded"
+             formControlName="author"
+             [class.is-invalid]="bookForm.get('author')?.invalid && bookForm.get('author')?.touched"
+             placeholder="Enter author name" />
+      <div class="invalid-feedback" *ngIf="bookForm.get('author')?.hasError('required')">Author is required.</div>
+    </div>
+
+    <!-- Description -->
+    <div class="mb-4">
+      <label class="form-label text-muted small fw-semibold">Description</label>
+      <textarea class="form-control shadow-sm rounded"
+                formControlName="description"
+                [class.is-invalid]="bookForm.get('description')?.invalid && bookForm.get('description')?.touched"
+                rows="5" placeholder="Enter book description"></textarea>
+      <div class="invalid-feedback" *ngIf="bookForm.get('description')?.hasError('required')">Description is required.</div>
+    </div>
+
+    <!-- Book Image -->
+    <div class="mb-4">
+      <label class="form-label text-muted small fw-semibold">Book Image</label>
       <div class="d-flex align-items-center">
-        <input type="file" class="d-none" id="bookImage" accept="image/*" (change)="onFileSelected($event)" >
-        <label for="bookImage" class="btn btn-success custom-file-upload shadow-sm rounded">
-          Choose File
-        </label>
-        <span class="ms-3 text-muted" id="fileName" >{{ selectedFileName }}</span>
+        <input type="file" class="d-none" id="bookImage" (change)="onFileSelected($event)" />
+        <label for="bookImage" class="btn btn-success shadow-sm rounded">Choose File</label>
+        <span class="ms-3 text-muted">{{ selectedFileName }}</span>
       </div>
+      <div class="text-danger small" *ngIf="bookForm.get('image')?.invalid && bookForm.get('image')?.touched">Image is required.</div>
     </div>
 
+    <!-- Category -->
     <div class="mb-4">
-      <label for="author" class="form-label text-muted small fw-semibold">Author</label>
-      <input type="text" class="form-control shadow-sm rounded" id="author" placeholder="Enter author name" required>
-    </div>
-
-    <div class="mb-4">
-      <label for="category" class="form-label text-muted small fw-semibold">Category</label>
-      <select class="form-select shadow-sm rounded" id="category" required>
-        <option value="">-- Select a category --</option>
+      <label class="form-label text-muted small fw-semibold">Category</label>
+      <select class="form-select shadow-sm rounded"
+              formControlName="category"
+              [class.is-invalid]="bookForm.get('category')?.invalid && bookForm.get('category')?.touched">
+        <option value="" disabled>-- Select a category --</option>
         <option value="fiction">Fiction</option>
         <option value="non-fiction">Non-Fiction</option>
         <option value="science">Science</option>
         <option value="history">History</option>
         <option value="fantasy">Fantasy</option>
+        <option value="fantasy">Literatul</option>
       </select>
+      <div class="invalid-feedback" *ngIf="bookForm.get('category')?.hasError('required')">Category is required.</div>
     </div>
 
+    <!-- Price -->
     <div class="mb-4">
-      <label for="price" class="form-label text-muted small fw-semibold">Price (EGP)</label>
-      <input type="number" class="form-control shadow-sm rounded" id="price" placeholder="0" required>
+      <label class="form-label text-muted small fw-semibold">Price (EGP)</label>
+      <input type="number" class="form-control shadow-sm rounded"
+             formControlName="price"
+             [class.is-invalid]="bookForm.get('price')?.invalid && bookForm.get('price')?.touched"
+             placeholder="0" />
+      <div class="invalid-feedback" *ngIf="bookForm.get('price')?.hasError('required')">Price is required.</div>
+      <div class="invalid-feedback" *ngIf="bookForm.get('price')?.hasError('min')">Price must be at least 0.</div>
     </div>
 
+    <!-- Discount -->
     <div class="mb-4">
-      <label for="stock" class="form-label text-muted small fw-semibold">Stock</label>
-      <input type="number" class="form-control shadow-sm rounded" id="stock" placeholder="0" required>
+      <label class="form-label text-muted small fw-semibold">Discount (%)</label>
+      <input type="number" class="form-control shadow-sm rounded"
+             formControlName="discount"
+             [class.is-invalid]="bookForm.get('discount')?.invalid && bookForm.get('discount')?.touched"
+             placeholder="0" />
+      <div class="invalid-feedback" *ngIf="bookForm.get('discount')?.hasError('min')">Discount must be ≥ 0.</div>
+      <div class="invalid-feedback" *ngIf="bookForm.get('discount')?.hasError('max')">Discount can't exceed 70%.</div>
     </div>
 
-    <div class="mb-5">
-      <label for="description" class="form-label text-muted small fw-semibold">Description</label>
-      <textarea class="form-control shadow-sm rounded" id="description" rows="5" placeholder="Enter book description" required></textarea>
+    <!-- Stock -->
+    <div class="mb-4">
+      <label class="form-label text-muted small fw-semibold">Stock</label>
+      <input type="number" class="form-control shadow-sm rounded"
+             formControlName="stock"
+             [class.is-invalid]="bookForm.get('stock')?.invalid && bookForm.get('stock')?.touched"
+             placeholder="0" />
+      <div class="invalid-feedback" *ngIf="bookForm.get('stock')?.hasError('required')">Stock is required.</div>
+      <div class="invalid-feedback" *ngIf="bookForm.get('stock')?.hasError('min')">Stock must be ≥ 0.</div>
     </div>
 
+    <!-- Submit -->
     <div class="d-flex justify-content-end">
-      <button type="submit"  class="btn btn-primary btn-lg shadow rounded submit-button">
-        Submit
-      </button>
+      <button type="submit" class="btn btn-primary btn-lg shadow rounded submit-button">Submit</button>
     </div>
+
   </form>
+
+<!-- Toast -->
+<div
+  class="toast position-fixed bottom-0 end-0 m-4 text-white shadow rounded"
+  [ngClass]="{
+    'bg-success': toastType === 'success',
+    'bg-danger': toastType === 'error'
+  }"
+  role="alert"
+  [class.show]="showToast"
+  [class.hide]="!showToast"
+  style="z-index: 1050; transition: opacity 0.5s ease-in-out;"
+>
+  <div class="d-flex">
+    <div class="toast-body">
+      {{ toastMessage }}
+    </div>
+    <button type="button" class="btn-close btn-close-white me-2 m-auto" (click)="hideToast()" aria-label="Close"></button>
+  </div>
+</div>
+
+
 </div>

@@ -37,7 +37,7 @@ newestBooks: BookInterface[] = [];
   private router: Router) {}
 
   ngOnInit() {
-  this.loadBooks(this.currentPage);
+  this.loadBooks();
   this.searchSub = this.searchService.searchTerm$.subscribe(term => {
     this.searchTerm = term.toLowerCase();
   });
@@ -56,8 +56,8 @@ newestBooks: BookInterface[] = [];
   }
 
 
-loadBooks(page: number = 1) {
-  this.booksService.getBooks(page).subscribe({
+loadBooks() {
+  this.booksService.getAllBooks().subscribe({
     next: (res: any) => {
       if (Array.isArray(res.data)) {
         this.books = res.data;
