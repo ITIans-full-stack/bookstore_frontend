@@ -1,55 +1,70 @@
-// // 
 // import { Injectable } from '@angular/core';
-// import { HttpClient } from '@angular/common/http';
+// import { HttpClient , HttpHeaders} from '@angular/common/http';
 // import { Observable } from 'rxjs';
 
 // @Injectable({
 //   providedIn: 'root',
 // })
 // export class OrderService {
+//   private apiUrl = 'http://localhost:5000/api/orders';
 //   constructor(private http: HttpClient) {}
-
+// private getAuthHeaders(): HttpHeaders {
+//     const token = localStorage.getItem('token');
+//     return new HttpHeaders().set('Authorization', `Bearer ${token}`);
+//   }
 //   createOrderFromCart(): Observable<any> {
-//     return this.http.post('/api/orders/from-cart', {}); // المسار حسب API عندك
+//     return this.http.post(`${this.apiUrl}/from-cart`, {}, { headers: this.getAuthHeaders() });
 //   }
 
 //   getMyOrders(): Observable<any> {
-//     return this.http.get('/api/orders/my-orders');
+//     return this.http.get(`${this.apiUrl}/my-orders`, { headers: this.getAuthHeaders() });
 //   }
 
 //   payOrder(orderId: string): Observable<any> {
-//     return this.http.put(`/api/orders/pay/${orderId}`, {});
+//     return this.http.put(`${this.apiUrl}/pay/${orderId}`, {}, { headers: this.getAuthHeaders() });
+//   }
+//   cancelOrder(orderId: string): Observable<any> {
+//     return this.http.delete(`${this.apiUrl}/${orderId}`, { headers: this.getAuthHeaders() });
 //   }
 // }
-// #########################
 
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OrderService {
-  private http = inject(HttpClient);
-  private apiUrl = '/api/orders';
+  private apiUrl = 'http://localhost:5000/api/orders';
+  private ordersSubject = new BehaviorSubject<any[]>([]); // Store orders for reuse
+  orders$ = this.ordersSubject.asObservable(); // Observable for other components
 
-  private getHeaders() {
+  constructor(private http: HttpClient) {}
+
+  private getAuthHeaders(): HttpHeaders {
     const token = localStorage.getItem('token');
-    return token
-      ? { headers: new HttpHeaders().set('Authorization', `Bearer ${token}`) }
-      : {};
+    return new HttpHeaders().set('Authorization', `Bearer ${token}`);
   }
 
   createOrderFromCart(): Observable<any> {
-    return this.http.post(`${this.apiUrl}/from-cart`, {}, this.getHeaders());
+    return this.http.post(`${this.apiUrl}/from-cart`, {}, { headers: this.getAuthHeaders() });
   }
 
-  getMyOrders(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/my-orders`, this.getHeaders());
+  getMyOrders(page: number = 1, limit: number = 10): Observable<any> {
+    return this.http.get(`${this.apiUrl}/my-orders?page=${page}&limit=${limit}`, { headers: this.getAuthHeaders() });
+  }
+
+  // Store orders for reuse in other components
+  storeOrders(orders: any[]): void {
+    this.ordersSubject.next(orders);
   }
 
   payOrder(orderId: string): Observable<any> {
-    return this.http.put(`${this.apiUrl}/pay/${orderId}`, {}, this.getHeaders());
+    return this.http.put(`${this.apiUrl}/pay/${orderId}`, {}, { headers: this.getAuthHeaders() });
+  }
+
+  cancelOrder(orderId: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${orderId}`, { headers: this.getAuthHeaders() });
   }
 }
