@@ -1,0 +1,33 @@
+.card-title {
+  font-size: 1.3rem;
+}
+
+.card-body {
+  background-color: #fafafa;
+}
+
+.badge {
+  font-size: 0.75rem;
+}
+.btn {
+  transition: all 0.2s ease-in-out;
+  font-weight: 500;
+  border-radius: 8px;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn i {
+  font-size: 1rem;
+}
+input:focus , textarea:focus , select:focus {
+  border: 1px solid #26130e;
+  box-shadow: 0 0 5px rgba(77, 15, 15, 0.6);
+  outline: none;
+}

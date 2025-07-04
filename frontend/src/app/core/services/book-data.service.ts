@@ -31,4 +31,15 @@ export class BookDataService {
    addBook(bookData: FormData) {
   return this.http.post(`${this.apiUrl}`, bookData);
 }
+
+ updateBookById(id: string, formData: FormData): Observable<any> {
+  return this.http.put(`${this.apiUrl}/${id}`, formData);
+}
+
+  
+
+  deleteBookById(id: string): Observable<BookInterface> {
+    return this.http.delete<BookInterface>(`${this.apiUrl}/${id}`);
+  }
+
 }

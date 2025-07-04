@@ -1,15 +1,264 @@
-<div class="container mt-4">
-  <h2 class="mb-3">Inserted Books</h2>
-  <div *ngIf="books.length === 0">No books inserted yet.</div>
-  <div *ngFor="let book of books" class="card mb-3 shadow-sm">
-    <div class="card-body">
-      <h5 class="card-title">{{ book.title }}</h5>
-      <p class="card-text">Author: {{ book.author }}</p>
-      <p class="card-text">Category: {{ book.category }}</p>
-      <p class="card-text">Price: EGP {{ book.price }}</p>
-      <p class="card-text">Stock: {{ book.stock }}</p>
-      <p class="card-text">{{ book.description }}</p>
-      <small class="text-muted">Image file: {{ book.image }}</small>
+<div class="container mt-5">
+  <h2 class="mb-4 display-6 fw-bold text-danger border-bottom pb-2">
+    <i class="bi bi-journal-bookmark-fill me-2 text-danger"></i> Manage Books
+  </h2>
+
+  <!-- No Books Message -->
+  <div *ngIf="books.length === 0" class="alert alert-info shadow-sm rounded-3">
+    No books inserted yet.
+  </div>
+
+  <!-- Books List -->
+  <div *ngFor="let book of books" class="card mb-4 shadow-sm border-0 rounded-4 overflow-hidden">
+    <div class="row g-0">
+
+      <!-- Book Image Section -->
+      <div class="col-md-3 bg-light d-flex align-items-center justify-content-center p-3">
+        <img [src]="book.image" [alt]="book.title" class="img-fluid rounded-3 shadow-sm" style="max-height: 200px; object-fit: contain;" />
+      </div>
+
+      <!-- Book Details -->
+      <div class="col-md-9">
+        <div class="card-body p-4">
+
+          <!-- Title and Action Buttons -->
+          <div class="d-flex justify-content-between flex-wrap align-items-start mb-2">
+            <div>
+              <h4 class="card-title fw-bold text-dark">{{ book.title }}</h4>
+              <p class="text-muted mb-1">
+                <i class="bi bi-person-fill me-1"></i>
+                <strong>{{ book.author }}</strong>
+              </p>
+              <span class="badge bg-dark rounded-pill text-capitalize">
+                <i class="bi bi-tags-fill me-1"></i>{{ book.category }}
+              </span>
+            </div>
+
+            <!-- Buttons -->
+            <div class="btn-group mt-2 mt-md-0">
+               <button class="btn btn-sm btn-primary d-flex align-items-center gap-1 px-3 shadow-sm"
+                (click)="onEdit(book)">
+    <i class="bi bi-pencil-fill"></i>
+    <span>Edit</span>
+  </button>
+<button class="btn btn-sm btn-danger d-flex align-items-center gap-1 px-3 shadow-sm"
+        (click)="confirmDelete(book)">
+  <i class="bi bi-trash-fill"></i>
+  <span>Delete</span>
+</button>
+
+            </div>
+          </div>
+
+          <!-- Price, Discount, Stock -->
+          <div class="d-flex flex-wrap gap-3 mb-2">
+            <div>
+              <strong>Price: </strong>
+              <span class="text-success fw-semibold">EGP {{ book.price }}</span>
+              <span *ngIf="book.discount > 0" class="badge bg-danger ms-2">-{{ book.discount }}%</span>
+            </div>
+            <div>
+              <strong>Stock: </strong>
+              <span class="badge"
+                [ngClass]="{
+                  'bg-success': book.stock > 10,
+                  'bg-warning text-dark': book.stock <= 10 && book.stock > 0,
+                  'bg-danger': book.stock === 0
+                }">
+                {{ book.stock }} items
+              </span>
+            </div>
+          </div>
+
+          <!-- Description -->
+          <div class="text-muted small" style="max-height: 4.5em; overflow: hidden; text-overflow: ellipsis;">
+            {{ book.description || 'No description provided.' }}
+          </div>
+
+        </div>
+      </div>
     </div>
   </div>
+<!-- delete -->
+  <div class="modal fade show d-block" *ngIf="selectedBookToDelete" tabindex="-1" style="background-color: rgba(0, 0, 0, 0.5);">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content rounded-4 shadow">
+      <div class="modal-header bg-danger text-white rounded-top-4">
+        <h5 class="modal-title">
+          <i class="bi bi-exclamation-triangle-fill me-2"></i>
+          Confirm Delete
+        </h5>
+        <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="cancelDelete()"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete <strong>{{ selectedBookToDelete.title }}</strong>?
+        This action cannot be undone.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="cancelDelete()">Cancel</button>
+        <button type="button" class="btn btn-danger" (click)="deleteBook()">
+          <i class="bi bi-trash-fill me-1"></i> Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+ <!-- edit -->
+<div class="modal fade show d-block" tabindex="-1" role="dialog" *ngIf="selectedBook" style="background-color: rgba(0, 0, 0, 0.5);">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content rounded-4 shadow-lg">
+      <div class="modal-header bg-danger text-white rounded-top-4">
+        <h5 class="modal-title">
+          <i class="bi bi-pencil-square me-2"></i> Edit Book: <strong>{{ selectedBook.title }}</strong>
+        </h5>
+        <button type="button" class="btn-close btn-close-white" (click)="cancelEdit()" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+  <form [formGroup]="editForm" (ngSubmit)="submitEdit()"  novalidate>
+    <div class="row g-3">
+      
+      <!-- Title -->
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Title</label>
+        <input type="text" class="form-control" formControlName="title" />
+        <div *ngIf="editForm.get('title')?.touched && editForm.get('title')?.invalid" class="text-danger small mt-1">
+          <small *ngIf="editForm.get('title')?.errors?.['required']">Title is required.</small>
+          <small *ngIf="editForm.get('title')?.errors?.['minlength']">Minimum 4 characters.</small>
+          <small *ngIf="editForm.get('title')?.errors?.['maxlength']">Maximum 50 characters.</small>
+        </div>
+      </div>
+
+      <!-- Author -->
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Author</label>
+        <input type="text" class="form-control" formControlName="author" />
+        <div *ngIf="editForm.get('author')?.touched && editForm.get('author')?.invalid" class="text-danger small mt-1">
+          <small *ngIf="editForm.get('author')?.errors?.['required']">Author is required.</small>
+          <small *ngIf="editForm.get('author')?.errors?.['minlength']">Minimum 4 characters.</small>
+          <small *ngIf="editForm.get('author')?.errors?.['maxlength']">Maximum 20 characters.</small>
+        </div>
+      </div>
+
+      <!-- Category -->
+      <div class="mb-4">
+  <label class="form-label text-muted small fw-semibold">Category</label>
+  <select
+    class="form-select shadow-sm rounded"
+    formControlName="category"
+    [class.is-invalid]="editForm.get('category')?.invalid && editForm.get('category')?.touched"
+  >
+    <option value="" disabled>-- Select a category --</option>
+    <option value="fiction">Fiction</option>
+<option value="non-fiction">Non-Fiction</option>
+<option value="science">Science</option>
+<option value="history">History</option>
+<option value="fantasy">Fantasy</option>
+<option value="literature">Literature</option>
+  </select>
+  <div class="invalid-feedback" *ngIf="editForm.get('category')?.hasError('required')">
+    Category is required.
+  </div>
+</div>
+
+
+      <!-- Price -->
+      <div class="col-md-3">
+        <label class="form-label fw-semibold">Price (EGP)</label>
+        <input type="number" class="form-control" formControlName="price" />
+        <div *ngIf="editForm.get('price')?.touched && editForm.get('price')?.invalid" class="text-danger small mt-1">
+          <small *ngIf="editForm.get('price')?.errors?.['required']">Price is required.</small>
+          <small *ngIf="editForm.get('price')?.errors?.['min']">Must be positive.</small>
+        </div>
+      </div>
+
+      <!-- Discount -->
+      <div class="col-md-3">
+        <label class="form-label fw-semibold">Discount (%)</label>
+        <input type="number" class="form-control" formControlName="discount" />
+        <div *ngIf="editForm.get('discount')?.touched && editForm.get('discount')?.invalid" class="text-danger small mt-1">
+          <small *ngIf="editForm.get('discount')?.errors?.['min']">Minimum 0%.</small>
+          <small *ngIf="editForm.get('discount')?.errors?.['max']">Maximum 70%.</small>
+        </div>
+      </div>
+
+      <!-- Stock -->
+      <div class="col-md-3">
+        <label class="form-label fw-semibold">Stock</label>
+        <input type="number" class="form-control" formControlName="stock" />
+        <div *ngIf="editForm.get('stock')?.touched && editForm.get('stock')?.invalid" class="text-danger small mt-1">
+          <small *ngIf="editForm.get('stock')?.errors?.['required']">Stock is required.</small>
+          <small *ngIf="editForm.get('stock')?.errors?.['min']">Cannot be negative.</small>
+        </div>
+      </div>
+
+      <!-- Image -->
+      <div class="mb-3">
+        <label class="form-label">Change Image</label>
+        <div class="d-flex align-items-center">
+          <input type="file" id="editImageInput" class="d-none" (change)="onEditFileSelected($event)" />
+          <label for="editImageInput" class="btn btn-outline-success btn-sm">Choose File</label>
+          <span class="ms-2 small text-muted">{{ editSelectedFileName }}</span>
+        </div>
+
+        <!-- Show new image preview -->
+        <div *ngIf="editImagePreviewUrl" class="mt-3">
+          <label class="form-label small">Preview:</label><br />
+          <img [src]="editImagePreviewUrl" class="img-thumbnail" style="max-height: 150px;" />
+        </div>
+
+        <!-- Show current image if no new one selected -->
+        <div *ngIf="!editImagePreviewUrl && selectedBook?.image" class="mt-3">
+          <label class="form-label small">Current Image:</label><br />
+          <img [src]="selectedBook.image" class="img-thumbnail" style="max-height: 150px;" />
+        </div>
+      </div>
+
+      <!-- Description -->
+      <div class="col-12">
+        <label class="form-label fw-semibold">Description</label>
+        <textarea class="form-control" rows="3" formControlName="description"></textarea>
+        <div *ngIf="editForm.get('description')?.touched && editForm.get('description')?.invalid" class="text-danger small mt-1">
+          <small *ngIf="editForm.get('description')?.errors?.['required']">Description is required.</small>
+          <small *ngIf="editForm.get('description')?.errors?.['minlength']">Minimum 5 characters.</small>
+          <small *ngIf="editForm.get('description')?.errors?.['maxlength']">Maximum 1000 characters.</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="mt-4 d-flex gap-2 ">
+      <button type="submit" class="btn btn-success px-4" [disabled]="editForm.invalid">
+        <i class="bi bi-check-circle-fill me-1"></i> Save
+      </button>
+      <button type="button" class="btn btn-outline-secondary px-4" (click)="cancelEdit()">
+        <i class="bi bi-x-circle-fill me-1"></i> Cancel
+      </button>
+    </div>
+  </form>
+</div>
+    </div>
+  </div>
+</div>
+<div
+  class="toast position-fixed bottom-0 end-0 m-4 text-white shadow rounded"
+  [ngClass]="{
+    'bg-success': toastType === 'success',
+    'bg-danger': toastType === 'error'
+  }"
+  role="alert"
+  [class.show]="showToast"
+  [class.hide]="!showToast"
+  style="z-index: 1050; transition: opacity 0.5s ease-in-out;"
+>
+  <div class="d-flex">
+    <div class="toast-body">
+      {{ toastMessage }}
+    </div>
+    <button type="button" class="btn-close btn-close-white me-2 m-auto" (click)="showToast = false" aria-label="Close"></button>
+  </div>
+</div>
+
+
+
 </div>

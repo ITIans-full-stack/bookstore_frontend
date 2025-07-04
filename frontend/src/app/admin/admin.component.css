@@ -5,12 +5,12 @@
 }
 .sticky-sidebar {
   position: relative; 
- 
+ width: 260px;
   overflow-y: auto;
   min-height: 100%; 
 }
 main {
- 
+  width: 260px;
   padding: 1.5rem;
   height: 100vh;
   overflow-y: auto;
@@ -23,6 +23,7 @@ main {
   font-weight: 600;
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
   background-color: rgba(255, 255, 255, 0.1);
+  
 }
 
 aside {
@@ -31,12 +32,6 @@ aside {
   border-bottom-right-radius: 0.75rem;
 }
 
-
-
-.sidebar-link-active {
-  font-weight: 600;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-}
 
 .sidebar-link-hover,
 .sidebar-link-active,
@@ -82,6 +77,9 @@ button[type="submit"] {
 button[type="submit"]:hover {
   background-color: #070707; 
   transform: scale(1.05); 
+}
+.sidebar-link {
+  transition: background-color 0.3s ease, font-weight 0.2s ease;
 }
 
 .bg-orange-500 {

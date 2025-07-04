@@ -29,7 +29,7 @@ export class InsertBookComponent implements OnInit{
     this.bookForm = this.fb.group({
       title: ['', Validators.required , Validators.min(4),Validators.max(50)],
       author: ['', Validators.required , Validators.min(4),Validators.max(20)],
-      description: ['', Validators.required, Validators.min(5),Validators.max(200)],
+      description: ['', Validators.required, Validators.min(5),Validators.max(1000)],
       image: ['', Validators.required],
       category: ['', Validators.required],
       price: [ [Validators.required, Validators.min(0)]],
