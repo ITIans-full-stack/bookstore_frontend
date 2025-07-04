@@ -13,7 +13,7 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  private hasToken(): boolean {
+   hasToken(): boolean {
     return !!localStorage.getItem('token');
   }
 
@@ -47,4 +47,9 @@ export class AuthService {
   verifyEmail(token: string) {
     return this.http.get(`${this.API}/verify-email/${token}`);
   }
+
+
+
+
+
 }

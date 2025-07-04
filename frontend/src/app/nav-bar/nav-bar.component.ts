@@ -25,24 +25,37 @@ import { RouterModule } from '@angular/router';
 import { AuthService } from '../shared/services/auth.service';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
-
+import { Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
 @Component({
   selector: 'app-nav-bar',
   standalone: true,
-  imports: [RouterModule, CommonModule],
+  imports: [RouterModule, CommonModule,RouterModule],
   templateUrl: './nav-bar.component.html',
   styleUrl: './nav-bar.component.css'
 })
 export class NavBarComponent implements OnInit {
   isLoggedIn$!: Observable<boolean>;
 
+
+//
+showMinimalNav = false;
+
   constructor(
     private searchService: SearchService,
-    public authService: AuthService // needed for logout()
+    public authService: AuthService ,// needed for logout()
+    private router:Router,
   ) {}
 
   ngOnInit() {
     this.isLoggedIn$ = this.authService.isLoggedIn$;
+
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event: any) => {
+      const path = event.urlAfterRedirects;
+      this.showMinimalNav = path.includes('/login') || path.includes('/register');
+    });
   }
 
   onSearch(event: Event) {
@@ -51,6 +64,7 @@ export class NavBarComponent implements OnInit {
   }
 
   logout() {
-    this.authService.logout();
-  }
+  this.authService.logout();
+  this.router.navigateByUrl('/login', { replaceUrl: true }); // 👈 force redirect
+}
 }

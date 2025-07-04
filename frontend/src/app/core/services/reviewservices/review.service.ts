@@ -17,8 +17,7 @@ export class ReviewService {
 
   addReview(bookId: string, review: any, token: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/${bookId}`, review, {
-      headers: { Authorization: `Bearer ${token}` }
-    });
+      headers: { Authorization: `Bearer ${token}` }});
   }
 
   updateReview(reviewId: string, review: any, token: string): Observable<any> {

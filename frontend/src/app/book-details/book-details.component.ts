@@ -82,13 +82,18 @@ export class BookDetailsComponent implements OnInit {
   loadBook() {
     this.bookService.getBookById(this.bookId).subscribe((res) => {
       this.book = res;
+      if (this.reviews.length > 0) {
+      this.calculateAverageRatingAndDistribution();
+    }
     });
   }
 
   loadReviews() {
     this.reviewService.getReviews(this.bookId).subscribe((res) => {
       this.reviews = res;
+      if (this.book) {
       this.calculateAverageRatingAndDistribution();
+    }
     });
   }
 getFloor(value: number): number {
