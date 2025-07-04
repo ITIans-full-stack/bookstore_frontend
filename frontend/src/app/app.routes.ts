@@ -13,7 +13,7 @@ export const routes: Routes = [
       import('./home/home.component').then((m) => m.HomeComponent),
   },
   {
-    path: 'bookDetails',
+    path: 'books/:id',
     loadComponent: () =>
       import('./book-details/book-details.component').then((m) => m.BookDetailsComponent),
   },

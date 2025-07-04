@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { SearchService } from '../core/services/search.service';
 import { BookDataService } from '../core/services/book-data.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -28,8 +29,9 @@ export class HomeComponent implements OnInit, OnDestroy {
 searchTerm = '';
   private searchSub!: Subscription;
 
-  constructor(private searchService: SearchService , private booksService:BookDataService) {}
+  constructor(private searchService: SearchService , private booksService:BookDataService, private router: Router) {}
 
+  
   ngOnInit() {
   this.booksService.getBooks().subscribe({
   next: (res: any) => {
