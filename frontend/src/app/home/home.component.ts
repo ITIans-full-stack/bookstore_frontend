@@ -54,8 +54,6 @@ newestBooks: BookInterface[] = [];
   scrollRight() {
     this.scrollContainer.nativeElement.scrollBy({ left: 300, behavior: 'smooth' });
   }
-
-
 loadBooks(page: number = 1) {
   this.booksService.getBooks(page).subscribe({
     next: (res: any) => {
@@ -75,8 +73,7 @@ loadBooks(page: number = 1) {
     }
   });
 }
-
-setAvailableCategories() {
+  setAvailableCategories() {
   const categoryMap = new Map<string, string>();
 
   this.books.forEach(book => {
@@ -100,10 +97,6 @@ private formatCategoryName(category: string): string {
     .map(part => part.charAt(0).toUpperCase() + part.slice(1))
     .join('-');
 }
-
-
-//=========================================================================
-
 setTopSalesBooks() {
   this.topSalesBooks = [...this.books]
     .sort((a, b) => b.discount - a.discount)
