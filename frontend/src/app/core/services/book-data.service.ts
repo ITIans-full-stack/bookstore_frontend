@@ -36,7 +36,9 @@ export class BookDataService {
   return this.http.put(`${this.apiUrl}/${id}`, formData);
 }
 
-  
+  getRelatedBooks(bookId: string) {
+  return this.http.get<BookInterface[]>(`${this.apiUrl}/${bookId}/related`);
+}
 
   deleteBookById(id: string): Observable<BookInterface> {
     return this.http.delete<BookInterface>(`${this.apiUrl}/${id}`);

@@ -53,10 +53,14 @@ import {ReviewComponent} from '../review/review.component'
 import { ReviewService } from '../core/services/reviewservices/review.service';
 import { Review } from '../core/interfaces/review';
 import { CommonModule } from '@angular/common';
+import { WishlistBtnComponent } from '../shared/components/wishlist-btn/wishlist-btn.component';
+import { faStar as faStarSolid, faStarHalfAlt } from '@fortawesome/free-solid-svg-icons';
+import { faStar as faStarRegular } from '@fortawesome/free-regular-svg-icons';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'app-book-details',
-  imports:[RelatedBooksComponent,RatingComponent,ReviewComponent,CommonModule],
+  imports:[RelatedBooksComponent,RatingComponent,ReviewComponent,CommonModule,WishlistBtnComponent, FontAwesomeModule],
   standalone: true,
   templateUrl: './book-details.component.html',
   styleUrls: ['./book-details.component.css']
@@ -66,6 +70,9 @@ export class BookDetailsComponent implements OnInit {
   book: any;
   reviews: Review[] = [];
   ratingDistribution: { [key: number]: number } = {};
+  fullStar = faStarSolid;
+halfStar = faStarHalfAlt;
+emptyStar = faStarRegular;
 
   constructor(
     private route: ActivatedRoute,
@@ -125,7 +132,15 @@ calculateAverageRatingAndDistribution(): void {
   this.ratingDistribution = distribution;
 }
 
+getStarIcon(index: number): any {
+  if (!this.book || this.book.averageRating === undefined) return this.emptyStar;
 
+  const rating = this.book.averageRating;
+
+  if (index + 1 <= rating) return this.fullStar;
+  if (rating > index && rating < index + 1) return this.halfStar;
+  return this.emptyStar;
+}
 
   refreshReviews() {
     this.loadReviews();

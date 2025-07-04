@@ -1,128 +1,112 @@
-
 <div class="container my-5">
-    <div class="row">
-        <!-- Product Image -->
-        <div class="col-md-6">
-            <div class="product-image-container">
-                <img src="assets/book-covers/book-1.webp"  class="img-fluid product-image" />
-            </div>
-        </div>
-
-        <!-- Product Details -->
-        <div class="col-md-6">
-            <h2 class="fw-semibold mb-2">{{ book?.title }}</h2>
-
-            <!-- Ratings -->
-            <div class="d-flex align-items-center mb-3">
-                <div class="d-flex me-3">
-                    <app-rating></app-rating>
-                </div>
-            </div>
-
-            <!-- Price -->
-            <!-- <h4 class="fw-normal mb-3">
-                {{ book.price }}
-            </h4> -->
-            <!-- Description -->
-            <!-- <app-description [description]="bookDetails.description"></app-description> -->
-             <!-- <p class="text-muted product-description">
-                {{ book.description }}
-            </p> -->
-            <!-- Quantity & Buttons -->
-            <div class="d-flex align-items-center mb-4">
-                <div class="d-flex border rounded me-3">
-                    <button class="btn btn-outline-dark border-0">-</button>
-                    <div class="px-3 py-2">2</div>
-                    <button class="btn btn-outline-dark border-0">+</button>
-                </div>
-                <!-- <app-cart-btn></app-cart-btn> -->
-                <!-- <app-wishlist-btn></app-wishlist-btn> -->
-            </div>
-
-            <!-- Delivery & Return Info -->
-            <!-- <div class="border rounded p-3">
-                <div class="d-flex mb-3">
-                    <div class="me-3">
-                        <i class="bi bi-truck icon-large"></i>
-                    </div>
-                    <div>
-                        <div class="fw-medium">Free Delivery</div>
-                        <div class="text-decoration-underline small">
-                            Enter your postal code for Delivery Availability
-                        </div>
-                    </div>
-                </div>
-                <hr />
-                <div class="d-flex">
-                    <div class="me-3">
-                        <i class="bi bi-arrow-counterclockwise icon-large"></i>
-                    </div>
-                    <div>
-                        <div class="fw-medium">Return Delivery</div>
-                        <div class="small">
-                            Free 30 Days Delivery Returns. Details
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-        </div>
-    </div>
- <div class="row mt-4 g-4">
-  <!-- Left: Overall Rating -->
-  <div class="col-md-4">
-    <div class="card p-4 shadow-sm bg-white rounded-3 border-0 h-100">
-      <h5 class="text-center mb-3 text-secondary">Overall Rating</h5>
-
-      <!-- Stars -->
-      <div class="text-center mb-3">
-        <ng-container *ngFor="let star of [1, 2, 3, 4, 5]">
-          <i
-            class="fa"
-            [ngClass]="{
-              'fa-star': star <= getFloor(book?.averageRating || 0),
-              'fa-star-half-o': star === getCeil(book?.averageRating || 0) && (book?.averageRating % 1 >= 0.5),
-              'fa-star-o': star > (book?.averageRating || 0)
-            }"
-            style="color: #f0ad4e; font-size: 22px;"
-          ></i>
-        </ng-container>
-        <div class="fw-bold mt-2 fs-5 text-dark">
-          {{ book?.averageRating?.toFixed(1) || '0.0' }} / 5
-        </div>
+  <div class="row g-5">
+    <!-- Product Image -->
+    <div class="col-md-6">
+      <div class="border rounded shadow-sm p-3 bg-light">
+        <img [src]="book?.image" [alt]="book?.title" class="img-fluid w-100 rounded" />
       </div>
+    </div>
 
-      <!-- Rating Breakdown -->
-      <div *ngFor="let star of [5, 4, 3, 2, 1]" class="d-flex align-items-center mb-2">
-        <span style="width: 32px;" class="text-muted small">{{ star }} ★</span>
-        <div class="progress flex-grow-1 mx-2" style="height: 10px; background-color: #eee;">
-          <div
-            class="progress-bar bg-warning"
-            [style.width.%]="ratingDistribution[star] || 0"
-            role="progressbar"
-          ></div>
+    <!-- Product Details -->
+    <div class="col-md-6">
+      <h2 class="fw-semibold mb-3">{{ book?.title }}</h2>
+
+      <!-- Author -->
+      <p class="text-muted mb-1" *ngIf="book?.author">by <span class="fw-medium">{{ book.author }}</span></p>
+
+      <!-- Rating -->
+      <!-- <div class="d-flex align-items-center mb-3">
+        <div class="me-2">
+          <ng-container *ngFor="let star of [1,2,3,4,5]">
+            <i class="fa"
+               [ngClass]="{
+                'fa-star': star <= getFloor(book?.averageRating || 0),
+                'fa-star-half-o': star === getCeil(book?.averageRating || 0) && (book?.averageRating % 1 >= 0.5),
+                'fa-star-o': star > (book?.averageRating || 0)
+               }"
+               style="color: #f0ad4e;"></i>
+          </ng-container>
         </div>
-        <span style="width: 45px;" class="text-muted small text-end">
-          {{ ratingDistribution[star]?.toFixed(1) || '0.0' }}%
+        <span class="text-muted">({{ book?.averageRating?.toFixed(1) || '0.0' }} / 5)</span>
+      </div> -->
+        <app-rating [averageRating]="book.averageRating" [hasRating]="!!book.averageRating"></app-rating>
+
+      <!-- Price -->
+      <div class="mb-3">
+        <h4 class="text-danger fw-bold d-inline me-2">{{ book?.price | currency: 'EGP' }}</h4>
+        <span *ngIf="book?.discount" class="text-muted text-decoration-line-through">
+          {{ (book?.price / (1 - book.discount / 100)) | currency: 'EGP' }}
         </span>
       </div>
+
+      <!-- Description -->
+      <p class="text-muted mb-4" style="line-height: 1.7;">{{ book?.description }}</p>
+
+      <!-- Quantity + Buttons -->
+      <div class="d-flex align-items-center mb-4">
+        <div class="d-flex align-items-center border rounded me-3 px-2">
+          <button class="btn btn-sm btn-outline-secondary border-0">-</button>
+          <div class="px-3 py-1">1</div>
+          <button class="btn btn-sm btn-outline-secondary border-0">+</button>
+        </div>
+        <button class="btn btn-danger me-2 px-4">Add to Cart</button>
+        <app-wishlist-btn></app-wishlist-btn>
+      </div>
     </div>
   </div>
 
-  <!-- Right: Review List -->
-  <div class="col-md-8">
-    <div class="card p-4 shadow-sm bg-white rounded-3 border-0">
-      <app-review
-        [bookId]="bookId"
-        [reviews]="reviews"
-        (refresh)="refreshReviews()"
-      ></app-review>
+  <!-- Ratings & Reviews -->
+  <div class="row mt-5 g-4">
+    <!-- Left: Overall Rating -->
+    <div class="col-md-4">
+      <div class="card p-4 shadow-sm bg-white rounded-3 border-0 h-100">
+        <h5 class="text-center mb-3 text-secondary">Overall Rating</h5>
+
+        <!-- Stars -->
+         <div class="d-flex justify-content-center align-items-center mb-2">
+            <fa-icon
+                *ngFor="let star of [0, 1, 2, 3, 4]"
+                [icon]="getStarIcon(star)"
+                class="me-1"
+                [ngClass]="book?.averageRating ? 'text-warning' : 'text-muted opacity-50'"
+                style="font-size: 22px;"
+            ></fa-icon>
+
+            <div class="fw-bold ms-2 fs-5 text-dark">
+                {{ book?.averageRating?.toFixed(1) || '0.0' }} / 5
+            </div>
+        </div>
+
+
+        <!-- Rating Breakdown -->
+        <div *ngFor="let star of [5, 4, 3, 2, 1]" class="d-flex align-items-center mb-2">
+          <span style="width: 32px;" class="text-muted small">{{ star }} ★</span>
+          <div class="progress flex-grow-1 mx-2" style="height: 10px; background-color: #eee;">
+            <div class="progress-bar bg-warning"
+                 [style.width.%]="ratingDistribution[star] || 0"
+                 role="progressbar"></div>
+          </div>
+          <span style="width: 45px;" class="text-muted small text-end">
+            {{ ratingDistribution[star]?.toFixed(1) || '0.0' }}%
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Review List -->
+    <div class="col-md-8">
+      <div class="card p-4 shadow-sm bg-white rounded-3 border-0">
+        <app-review
+          [bookId]="bookId"
+          [reviews]="reviews"
+          (refresh)="refreshReviews()">
+        </app-review>
+      </div>
     </div>
   </div>
-</div>
 
-
-
-
-    
-    <app-related-books></app-related-books>
+  <!-- Related Books -->
+  <div class="mt-5">
+    <app-related-books [bookId]="bookId"></app-related-books>
+  </div>
 </div>
