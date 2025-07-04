@@ -11,4 +11,5 @@ export interface BookInterface {
   reviews: any[];
   createdAt: string;
   updatedAt: string;
+  averageRating ? :number ;
 }
