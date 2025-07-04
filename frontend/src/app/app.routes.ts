@@ -1,8 +1,17 @@
 import { Routes } from '@angular/router';
+
 import { AuthGuard } from './shared/guards/auth.guard';
 
 
+import { PaymentResultComponent } from './payment-result/payment-result.component';
+
+
 export const routes: Routes = [
+  {
+  path: 'payment-result',
+  component: PaymentResultComponent
+},
+
   { path: '', redirectTo: 'landing', pathMatch: 'full' },
   {
     path: 'landing',
@@ -19,7 +28,7 @@ export const routes: Routes = [
       import('./books-page/books-page.component').then((m) => m.BooksPageComponent),
   },
   {
-    path: 'bookDetails',
+    path: 'books/:id',
     loadComponent: () =>
       import('./book-details/book-details.component').then((m) => m.BookDetailsComponent),
   },
@@ -34,10 +43,12 @@ export const routes: Routes = [
       import('./cart/cart.component').then((m) => m.CartComponent),
   },
   {
-    path: 'checkout',
-    loadComponent: () =>
-      import('./checkout/checkout.component').then((m) => m.CheckoutComponent),
-  },
+  path: 'checkout',
+  loadComponent: () =>
+    import('./checkout/checkout.component').then((m) => m.CheckoutComponent),
+},
+
+
   {
     path: 'order',
     loadComponent: () =>

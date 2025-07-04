@@ -1,14 +1,12 @@
-import { Injectable ,inject} from '@angular/core';
+
+import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
-
-  constructor() { }
-
-  
   private http = inject(HttpClient);
   private apiUrl = 'http://localhost:5000/api/cart';
 
@@ -24,7 +22,7 @@ export class CartService {
   addToCart(bookId: string, quantity: number = 1): Observable<any> {
     return this.http.post(
       `${this.apiUrl}/add`,
-      { bookId, quantity },
+      { bookId, quantity }, 
       { headers: this.getAuthHeaders() }
     );
   }

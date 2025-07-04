@@ -1,0 +1,47 @@
+<div class="card product-card" (click)="goToDetails()">
+  <div class="image-container position-relative">
+
+    <span *ngIf="book.discount" class="badge discount-badge">
+      -{{ book.discount }}%
+    </span>
+
+    <img
+      [src]="book.image"
+      class="card-img-top"
+      [alt]="book.title"
+    />
+
+    <div class="action-icons">
+      <button class="icon-btn" title="Add to Wishlist">
+        <i class="fas fa-heart"></i>
+      </button>
+      <button (click)="onAddToCart()" class="icon-btn" title="Add to cart" >
+        <i class="fas fa-cart-plus"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="card-body text-center p-2">
+    <h6 class="product-title">{{ book.title }}</h6>
+
+    <p class="product-pricing mb-1">
+      <span class="text-danger fw-bold">
+        {{ book.price | currency: 'EGP' }}
+      </span>
+
+      <span
+        *ngIf="book.discount"
+        class="text-muted text-decoration-line-through ms-1"
+      >
+        {{
+          (book.price / (1 - book.discount / 100) | currency: 'EGP')
+        }}
+      </span>
+    </p>
+
+    <div class="rating d-flex justify-content-center align-items-center">
+      <span class="text-warning">★★★★★</span>
+      <span class="text-muted ms-1">({{ book.reviews.length || 0 }})</span>
+    </div>
+  </div>
+</div>

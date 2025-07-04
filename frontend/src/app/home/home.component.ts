@@ -75,8 +75,7 @@ loadBooks() {
     }
   });
 }
-
-setAvailableCategories() {
+  setAvailableCategories() {
   const categoryMap = new Map<string, string>();
 
   this.books.forEach(book => {
@@ -100,10 +99,6 @@ private formatCategoryName(category: string): string {
     .map(part => part.charAt(0).toUpperCase() + part.slice(1))
     .join('-');
 }
-
-
-//=========================================================================
-
 setTopSalesBooks() {
   this.topSalesBooks = [...this.books]
     .sort((a, b) => b.discount - a.discount)

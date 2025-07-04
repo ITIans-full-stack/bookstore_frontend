@@ -26,6 +26,12 @@
         </ul>
       </ng-container>
 
+     <ul class="navbar-nav">
+  <!-- Icons always visible -->
+  <li class="nav-item"><a class="nav-link"><i class="fas fa-heart"></i></a></li>
+  <a routerLink="/cart"><li class="nav-item"><a class="nav-link"><i class="fas fa-shopping-cart"></i></a></li></a>
+
+
       <!-- 👤 User actions (Login/Logout) -->
       <ul class="navbar-nav ms-3">
         <ng-container *ngIf="isLoggedIn$ | async; else loggedOut">

@@ -3,6 +3,7 @@ import { RatingComponent } from '../rating/rating.component';
 import { WishlistBtnComponent } from '../wishlist-btn/wishlist-btn.component';
 import { BookInterface } from '../../../core/interfaces/book-interface';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -15,4 +16,9 @@ import { CommonModule } from '@angular/common';
 export class BookCardComponent {
   @Input() book!: BookInterface;
 
+     constructor(private router: Router) {}
+
+  goToDetails() {
+    this.router.navigate(['/books', this.book._id]);
+  }
 }
