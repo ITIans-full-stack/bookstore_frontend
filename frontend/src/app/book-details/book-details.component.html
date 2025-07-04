@@ -1,16 +1,16 @@
-@if (bookDetails) {
+
 <div class="container my-5">
     <div class="row">
         <!-- Product Image -->
         <div class="col-md-6">
             <div class="product-image-container">
-                <img src="assets/book-covers/book-1.webp" [alt]="bookDetails.title" class="img-fluid product-image" />
+                <img src="assets/book-covers/book-1.webp"  class="img-fluid product-image" />
             </div>
         </div>
 
         <!-- Product Details -->
         <div class="col-md-6">
-            <h2 class="fw-semibold mb-2">{{bookDetails.title}}</h2>
+            <h2 class="fw-semibold mb-2">{{ book?.title }}</h2>
 
             <!-- Ratings -->
             <div class="d-flex align-items-center mb-3">
@@ -20,11 +20,14 @@
             </div>
 
             <!-- Price -->
-            <h4 class="fw-normal mb-3">
-                {{ bookDetails.price.amount | currency: bookDetails.price.currency }}
-            </h4>
+            <!-- <h4 class="fw-normal mb-3">
+                {{ book.price }}
+            </h4> -->
             <!-- Description -->
-            <app-description [description]="bookDetails.description"></app-description>
+            <!-- <app-description [description]="bookDetails.description"></app-description> -->
+             <!-- <p class="text-muted product-description">
+                {{ book.description }}
+            </p> -->
             <!-- Quantity & Buttons -->
             <div class="d-flex align-items-center mb-4">
                 <div class="d-flex border rounded me-3">
@@ -32,12 +35,12 @@
                     <div class="px-3 py-2">2</div>
                     <button class="btn btn-outline-dark border-0">+</button>
                 </div>
-                <app-cart-btn></app-cart-btn>
-                <app-wishlist-btn></app-wishlist-btn>
+                <!-- <app-cart-btn></app-cart-btn> -->
+                <!-- <app-wishlist-btn></app-wishlist-btn> -->
             </div>
 
             <!-- Delivery & Return Info -->
-            <div class="border rounded p-3">
+            <!-- <div class="border rounded p-3">
                 <div class="d-flex mb-3">
                     <div class="me-3">
                         <i class="bi bi-truck icon-large"></i>
@@ -61,9 +64,65 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
+ <div class="row mt-4 g-4">
+  <!-- Left: Overall Rating -->
+  <div class="col-md-4">
+    <div class="card p-4 shadow-sm bg-white rounded-3 border-0 h-100">
+      <h5 class="text-center mb-3 text-secondary">Overall Rating</h5>
+
+      <!-- Stars -->
+      <div class="text-center mb-3">
+        <ng-container *ngFor="let star of [1, 2, 3, 4, 5]">
+          <i
+            class="fa"
+            [ngClass]="{
+              'fa-star': star <= getFloor(book?.averageRating || 0),
+              'fa-star-half-o': star === getCeil(book?.averageRating || 0) && (book?.averageRating % 1 >= 0.5),
+              'fa-star-o': star > (book?.averageRating || 0)
+            }"
+            style="color: #f0ad4e; font-size: 22px;"
+          ></i>
+        </ng-container>
+        <div class="fw-bold mt-2 fs-5 text-dark">
+          {{ book?.averageRating?.toFixed(1) || '0.0' }} / 5
+        </div>
+      </div>
+
+      <!-- Rating Breakdown -->
+      <div *ngFor="let star of [5, 4, 3, 2, 1]" class="d-flex align-items-center mb-2">
+        <span style="width: 32px;" class="text-muted small">{{ star }} ★</span>
+        <div class="progress flex-grow-1 mx-2" style="height: 10px; background-color: #eee;">
+          <div
+            class="progress-bar bg-warning"
+            [style.width.%]="ratingDistribution[star] || 0"
+            role="progressbar"
+          ></div>
+        </div>
+        <span style="width: 45px;" class="text-muted small text-end">
+          {{ ratingDistribution[star]?.toFixed(1) || '0.0' }}%
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right: Review List -->
+  <div class="col-md-8">
+    <div class="card p-4 shadow-sm bg-white rounded-3 border-0">
+      <app-review
+        [bookId]="bookId"
+        [reviews]="reviews"
+        (refresh)="refreshReviews()"
+      ></app-review>
+    </div>
+  </div>
+</div>
+
+
+
+
+    
     <app-related-books></app-related-books>
 </div>
-}

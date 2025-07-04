@@ -1,0 +1,113 @@
+<div class="review-section p-4 border rounded shadow-sm bg-white">
+  <h4 class="mb-4 fw-bold text-secondary">Customer Reviews</h4>
+  <!-- Add Review Button -->
+    <div class="mb-3" *ngIf="!showForm">
+    <button class="btn btn-outline-custom"  (click)="showForm = true">Write a Review</button>
+    </div>
+
+    <!-- Error Message -->
+<div  class="alert alert-warning py-2 small">{{ errorMessage }}</div>
+  <!-- Add New Review Form -->
+  <div class="mb-5" *ngIf="showForm">
+    <h5 class="text-primary mb-3">Add Your Review</h5>
+    <form (ngSubmit)="addReview()">
+      <div class="mb-3">
+        <label for="rating" class="form-label">Rating (1 - 5)</label>
+        <input
+          type="number"
+          class="form-control"
+          id="rating"
+          name="rating"
+          min="1"
+          max="5"
+          [(ngModel)]="newReview.rating"
+          required
+        />
+      </div>
+      <div class="mb-3">
+        <label for="comment" class="form-label">Your Comment</label>
+        <textarea
+          class="form-control"
+          id="comment"
+          name="comment"
+          [(ngModel)]="newReview.comment"
+          rows="3"
+          placeholder="Share your thoughts about this book..."
+          required
+        ></textarea>
+      </div>
+      <button type="submit" class="btn btn-custom">
+        <i class="fa fa-paper-plane me-1"></i> Submit Review
+      </button>
+    </form>
+  </div>
+
+  <hr />
+
+  <!-- Display Reviews -->
+  <div *ngFor="let review of reviews" class="mb-4 p-3 border rounded bg-light">
+    <div *ngIf="editingReviewId !== review._id">
+      <div class="d-flex justify-content-between align-items-center mb-2">
+        <strong class="text-dark">{{ review.user?.name || 'Anonymous' }}</strong>
+        <div>
+          <ng-container *ngFor="let star of [1,2,3,4,5]">
+            <i
+              class="fa"
+              [ngClass]="{
+                'fa-star': star <= review.rating,
+                'fa-star-o': star > review.rating
+              }"
+              style="color: #f0ad4e;"
+            ></i>
+          </ng-container>
+          <span class="ms-2 text-muted">({{ review.rating }}/5)</span>
+        </div>
+      </div>
+      <p class="text-muted mb-2">{{ review.comment }}</p>
+
+      <div *ngIf="review.user?._id === getCurrentUserId()" class="mt-2">
+        <button class="btn btn-sm btn-outline-primary me-2" (click)="startEdit(review)">
+          <i class="fa fa-edit me-1"></i> Edit
+        </button>
+        <button class="btn btn-sm btn-outline-danger" (click)="deleteReview(review._id!)">
+          <i class="fa fa-trash me-1"></i> Delete
+        </button>
+      </div>
+    </div>
+
+    <!-- Edit Review Form -->
+    <div *ngIf="editingReviewId === review._id">
+      <h6 class="text-primary">Edit Your Review</h6>
+      <form (ngSubmit)="updateReview()">
+        <div class="mb-2">
+          <label class="form-label">Rating</label>
+          <input
+            type="number"
+            class="form-control"
+            [(ngModel)]="editedReview.rating"
+            name="editRating"
+            min="1"
+            max="5"
+          />
+        </div>
+        <div class="mb-2">
+          <label class="form-label">Comment</label>
+          <textarea
+            class="form-control"
+            [(ngModel)]="editedReview.comment"
+            name="editComment"
+            rows="3"
+          ></textarea>
+        </div>
+        <button type="submit" class="btn btn-sm btn-success me-2">
+          <i class="fa fa-check me-1"></i> Update
+        </button>
+        <button type="button" class="btn btn-sm btn-outline-secondary" (click)="cancelEdit()">
+          Cancel
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+

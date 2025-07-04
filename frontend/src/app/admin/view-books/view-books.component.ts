@@ -8,7 +8,7 @@ import { BookInterface } from '../../core/interfaces/book-interface';
 @Component({
   selector: 'app-view-books',
   standalone: true,
-  imports: [CommonModule], // ✅ Add this line
+  imports: [CommonModule], 
   templateUrl: './view-books.component.html',
   styleUrls: ['./view-books.component.css']
 })
@@ -18,7 +18,7 @@ export class ViewBooksComponent implements OnInit {
   constructor(private bookService: BookDataService) {}
 
   ngOnInit(): void {
-    this.bookService.getBooks().subscribe({
+    this.bookService.getAllBooks().subscribe({
   next: (res: any) => {
     if (Array.isArray(res.data)) {
       this.books = res.data;
