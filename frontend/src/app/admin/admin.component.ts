@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+
+import { RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
+
 import { AuthService } from '../shared/services/auth.service';
 
 @Component({
@@ -10,13 +13,15 @@ import { AuthService } from '../shared/services/auth.service';
   styleUrls: ['./admin.component.css']
 })
 export class AdminComponent {
-  constructor(
-    public authService: AuthService ,// needed for logout()
-    private router:Router,
-  ) {}
 
-   logout() {
-  this.authService.logout();
-  this.router.navigateByUrl('/landing', { replaceUrl: true }); 
-}
+
+  constructor(private router: Router, private authService: AuthService) {}
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/login']);
+  }
+
+
+
 }

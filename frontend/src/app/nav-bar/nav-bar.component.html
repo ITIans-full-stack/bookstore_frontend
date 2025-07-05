@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+<nav *ngIf="!showMinimalNav" class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
   <div class="container-fluid">
     <i class="fas fa-book fs-1  mx-3"></i>
     <span class="navbar-brand">BookShop</span>
@@ -17,7 +17,7 @@
           <a class="nav-link" routerLink="/home">Home</a>
         </li>
 
-        <ng-container *ngIf="!showMinimalNav">
+        <ng-container>
           <li class="nav-item">
             <a class="nav-link" routerLink="/contact">Contact</a>
           </li>
@@ -30,8 +30,8 @@
         </ng-container>
       </ul>
 
-      <!-- 🔍 Search + Icons (Hidden on login/register) -->
-      <ng-container *ngIf="!showMinimalNav">
+      <!-- 🔍 Search + Icons -->
+      <ng-container>
         <form class="d-flex" *ngIf="showSearch">
           <input class="form-control me-2 search" type="text" placeholder="Search books..." (input)="onSearch($event)" />
         </form>

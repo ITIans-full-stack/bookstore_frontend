@@ -51,14 +51,25 @@ showSearch = false;
   ) {}
 
   ngOnInit() {
-    this.isLoggedIn$ = this.authService.isLoggedIn$;
+  this.isLoggedIn$ = this.authService.isLoggedIn$;
 
-    this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd)
-    ).subscribe((event: any) => {
-      const path = event.urlAfterRedirects;
-      this.showMinimalNav = path.includes('/login') || path.includes('/register');
-    });
+  this.router.events.pipe(
+    filter(event => event instanceof NavigationEnd)
+  ).subscribe((event: any) => {
+    const path = event.urlAfterRedirects;
+
+    // ✅ Hide navbar on login, register, or any admin route
+    this.showMinimalNav =
+      path.includes('/login') ||
+      path.includes('/register') ||
+      path.startsWith('/admin');
+
+    // ✅ Show search only on /books or /books/:id
+    this.showSearch = path.includes('/books');
+  });
+}
+
+
 
      this.router.events.subscribe(() => {
       // Update search visibility based on the current route
@@ -70,6 +81,7 @@ showSearch = false;
   }
   
   
+
 
   onSearch(event: Event) {
     const value = (event.target as HTMLInputElement).value;
