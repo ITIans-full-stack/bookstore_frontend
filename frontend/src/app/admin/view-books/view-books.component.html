@@ -1,15 +1,34 @@
-<div class="container mt-5">
+<div class="container ">
   <h2 class="mb-4 display-6 fw-bold text-danger border-bottom pb-2">
     <i class="bi bi-journal-bookmark-fill me-2 text-danger"></i> Manage Books
   </h2>
+  <div class="row mb-4">
+    <div class="col-md-4 mb-2 w-75">
+      <input
+        type="text"
+        class="form-control shadow-sm"
+        placeholder="Search books..."
+        [(ngModel)]="searchTerm"
+        (input)="filterBooks()"
+      />
+    </div>
+    <div class="col-md-3 mb-2">
+      <select class="form-select shadow-sm" [(ngModel)]="searchType" (change)="filterBooks()">
+        <option value="title">Search by Title</option>
+        <option value="author">Search by Author</option>
+        <option value="category">Search by Category</option>
+      </select>
+    </div>
+  </div>
 
   <!-- No Books Message -->
   <div *ngIf="books.length === 0" class="alert alert-info shadow-sm rounded-3">
     No books inserted yet.
   </div>
+  
 
   <!-- Books List -->
-  <div *ngFor="let book of books" class="card mb-4 shadow-sm border-0 rounded-4 overflow-hidden">
+  <div *ngFor="let book of filteredBooks" class="card mb-4 shadow-sm border-0 rounded-4 overflow-hidden">
     <div class="row g-0">
 
       <!-- Book Image Section -->

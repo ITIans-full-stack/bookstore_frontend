@@ -34,7 +34,7 @@ export class InsertBookComponent implements OnInit{
       category: ['', Validators.required],
       price: [ [Validators.required, Validators.min(0)]],
       discount: [ [Validators.min(0), Validators.max(70)]],
-      stock: [ [Validators.required, Validators.min(0)]],
+      stock: [ [Validators.required, Validators.min(1)]],
     });
   }
 
