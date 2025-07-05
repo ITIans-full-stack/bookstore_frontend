@@ -61,24 +61,24 @@ showSearch = false;
     // ✅ Hide navbar on login, register, or any admin route
     this.showMinimalNav =
       path.includes('/login') ||
-      path.includes('/register') ||
-      path.startsWith('/admin');
+      path.includes('/register');
+      // path.startsWith('/admin');
 
     // ✅ Show search only on /books or /books/:id
     this.showSearch = path.includes('/books');
   });
-}
-
-
-
-     this.router.events.subscribe(() => {
+   this.router.events.subscribe(() => {
       // Update search visibility based on the current route
       this.showSearch = this.router.url.includes('/books');
     });
     this.router.events.subscribe(() => {
       this.isAdminRoute = this.router.url.includes('/admin');
     });
-  }
+}
+
+
+
+
   
   
 
