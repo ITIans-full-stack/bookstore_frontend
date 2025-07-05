@@ -21,4 +21,9 @@ export class BookCardComponent {
   goToDetails() {
     this.router.navigate(['/books', this.book._id]);
   }
+
+  addToCart(event: Event) {
+  event.stopPropagation(); 
+  console.log('Add to Cart clicked');
+}
 }

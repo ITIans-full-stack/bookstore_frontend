@@ -19,6 +19,13 @@
   <!-- Divider + Stock -->
   <div class="d-flex align-items-center gap-2">
     <div class="border-start" style="height: 20px; width: 1px; opacity: 0.5;"></div>
-    <small class="text-success opacity-75">In Stock</small>
+    <small *ngIf="stock > 0; else outOfStock" class="text-success opacity-75">
+  In Stock
+</small>
+
+<ng-template #outOfStock>
+  <small class="text-danger opacity-75">Out of Stock</small>
+</ng-template>
+
   </div>
 </div>

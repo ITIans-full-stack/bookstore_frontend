@@ -40,6 +40,7 @@ export class NavBarComponent implements OnInit {
 
 //
 showMinimalNav = false;
+showSearch = false;
 
   constructor(
     private searchService: SearchService,
@@ -55,6 +56,11 @@ showMinimalNav = false;
     ).subscribe((event: any) => {
       const path = event.urlAfterRedirects;
       this.showMinimalNav = path.includes('/login') || path.includes('/register');
+    });
+
+     this.router.events.subscribe(() => {
+      // Update search visibility based on the current route
+      this.showSearch = this.router.url.includes('/books');
     });
   }
 

@@ -27,6 +27,7 @@ pageSize: number = 8;
 books: BookInterface[] = [];
 filteredBooks: BookInterface[] = [];
 topSalesBooks: any[] = [];
+topRatingBooks: any[] = [];
 sortBy: 'lowToHigh' | 'highToLow' | '' = '';
 selectedCategories: Set<string> = new Set();
 showAllBooks = false;
@@ -65,6 +66,7 @@ loadBooks() {
         this.totalPages = res.totalPages;
         this.currentPage = res.page;
         this.setTopSalesBooks();
+        this.setTopRatingBooks();
         this.setAvailableCategories(); 
         this.setNewestBooks();
        
@@ -103,6 +105,11 @@ setTopSalesBooks() {
   this.topSalesBooks = [...this.books]
     .sort((a, b) => b.discount - a.discount)
     .slice(0, 7);
+}
+setTopRatingBooks() {
+  this.topRatingBooks = [...this.books]
+    .sort((a, b) => b.averageRating! - a.averageRating!)
+    .slice(0, 4);
 }
 
 

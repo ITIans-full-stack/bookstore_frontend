@@ -21,6 +21,7 @@ export class RatingComponent implements OnInit {
 
   @Input() reviewCount!: number
    @Input() hasRating: boolean = false;
+    @Input() stock!: number
 
   stars: Star[] = [
     { id: 1, selected: false, icon: faStarRegular },

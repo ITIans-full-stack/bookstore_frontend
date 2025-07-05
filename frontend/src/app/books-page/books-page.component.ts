@@ -29,6 +29,8 @@ sortBy: 'lowToHigh' | 'highToLow' | '' = '';
 selectedCategories: Set<string> = new Set();
 showAllBooks = false;
 availableCategories: string[] = [];
+availableAuthors: string[] = [];
+selectedAuthors: Set<string> = new Set();
 
   constructor(private searchService: SearchService , private booksService:BookDataService , private route: ActivatedRoute,
   private router: Router) {}
@@ -53,6 +55,7 @@ loadBooks(page: number = 1, limit : number =8) {
         this.totalPages = res.totalPages;
         this.currentPage = res.page;
         this.setAvailableCategories(); 
+        this.setAvailableAuthors(); 
         this.applyFilters(); 
       }
     },
@@ -77,6 +80,22 @@ setAvailableCategories() {
   });
 
   this.availableCategories = Array.from(categoryMap.values());
+}
+setAvailableAuthors() {
+  const authorMap = new Map<string, string>();
+
+  this.books.forEach(book => {
+    if (book.author) {
+      const formatted = this.formatCategoryName(book.author);
+      const lowerKey = formatted.toLowerCase();
+
+      if (!authorMap.has(lowerKey)) {
+        authorMap.set(lowerKey, formatted);
+      }
+    }
+  });
+
+  this.availableAuthors = Array.from(authorMap.values());
 }
 
 private formatCategoryName(category: string): string {
@@ -117,6 +136,16 @@ private formatCategoryName(category: string): string {
     this.applyFilters();
   }
 
+   onAuthorChange(author: string, event: Event) {
+    const isChecked = (event.target as HTMLInputElement).checked;
+    if (isChecked) {
+      this.selectedAuthors.add(author);
+    } else {
+      this.selectedAuthors.delete(author);
+    }
+    this.applyFilters();
+  }
+
   applyFilters() {
     let filtered = [...this.books];
 
@@ -132,6 +161,14 @@ private formatCategoryName(category: string): string {
   filtered = filtered.filter(book =>
     Array.from(this.selectedCategories).some(
       cat => cat.toLowerCase() === book.category.toLowerCase()
+    )
+  );
+}
+// author filter
+if (this.selectedAuthors.size > 0) {
+  filtered = filtered.filter(book =>
+    Array.from(this.selectedAuthors).some(
+      cat => cat.toLowerCase() === book.author.toLowerCase()
     )
   );
 }
@@ -152,6 +189,9 @@ private formatCategoryName(category: string): string {
 
   isCategorySelected(category: string): boolean {
     return this.selectedCategories.has(category);
+  }
+  isAuthorSelected(author: string): boolean {
+    return this.selectedAuthors.has(author);
   }
 
   addToCart(book: BookInterface) {

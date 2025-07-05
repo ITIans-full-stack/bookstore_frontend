@@ -24,8 +24,8 @@
 
       <!-- 🔍 Search + Icons (Hidden on login/register) -->
       <ng-container *ngIf="!showMinimalNav">
-        <form class="d-flex">
-          <input class="form-control me-2" type="text" placeholder="Search books..." (input)="onSearch($event)" />
+        <form class="d-flex" *ngIf="showSearch">
+          <input class="form-control me-2 search " type="text" placeholder="Search books..." (input)="onSearch($event)" />
         </form>
 
         <ul class="navbar-nav">
