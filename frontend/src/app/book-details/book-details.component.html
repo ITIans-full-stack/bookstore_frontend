@@ -2,7 +2,7 @@
   <div class="row g-5">
     <!-- Product Image -->
     <div class="col-md-6">
-      <div class="border rounded shadow-sm p-3 bg-light">
+      <div class="border rounded shadow-sm p-3 bg-light ">
         <img [src]="book?.image" [alt]="book?.title" class="img-fluid w-100 rounded" />
       </div>
     </div>
@@ -29,7 +29,7 @@
         </div>
         <span class="text-muted">({{ book?.averageRating?.toFixed(1) || '0.0' }} / 5)</span>
       </div> -->
-        <app-rating [averageRating]="book.averageRating" [hasRating]="!!book.averageRating"></app-rating>
+        <app-rating [averageRating]="book.averageRating" [stock]="book.stock" [hasRating]="!!book.averageRating"></app-rating>
 
       <!-- Price -->
       <div class="mb-3">
@@ -49,7 +49,20 @@
           <div class="px-3 py-1">1</div>
           <button class="btn btn-sm btn-outline-secondary border-0">+</button>
         </div>
-        <button class="btn btn-danger me-2 px-4">Add to Cart</button>
+        <!-- <button class="btn btn-danger me-2 px-4">Add to Cart</button> -->
+         <button 
+  class="btn btn-danger me-2 px-4 w-25 text-light"
+  *ngIf="book"
+ [disabled]="book.stock === 0 || book.stock === undefined"
+  [ngClass]="{
+    'btn-secondary disabled-btn': book.stock === 0 || book.stock === undefined
+  }"
+  [attr.title]="book.stock === 0 || book.stock === undefined ? 'Out of Stock' : 'Add this book to your cart'"
+  data-bs-toggle="tooltip"
+  data-bs-placement="top"
+ >
+  Add To Cart
+</button>
         <app-wishlist-btn></app-wishlist-btn>
       </div>
     </div>

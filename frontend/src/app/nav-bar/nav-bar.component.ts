@@ -41,6 +41,8 @@ export class NavBarComponent implements OnInit {
 //
 showMinimalNav = false;
 showSearch = false;
+  isAdminRoute = false;
+
 
   constructor(
     private searchService: SearchService,
@@ -66,6 +68,19 @@ showSearch = false;
     this.showSearch = path.includes('/books');
   });
 }
+
+
+
+     this.router.events.subscribe(() => {
+      // Update search visibility based on the current route
+      this.showSearch = this.router.url.includes('/books');
+    });
+    this.router.events.subscribe(() => {
+      this.isAdminRoute = this.router.url.includes('/admin');
+    });
+  }
+  
+  
 
 
   onSearch(event: Event) {
