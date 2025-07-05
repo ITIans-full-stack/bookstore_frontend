@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute, RouterModule } from '@angular/router';
 import { AuthService } from '../shared/services/auth.service';
-
+import { getDecodedToken } from '../shared/utils/jwt';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -64,14 +64,28 @@ bubbles = new Array(20); // 20 animated bubbles
       return;
     }
 
-    this.auth.login(this.loginForm.value).subscribe({
-      next: (res: any) => {
-        localStorage.setItem('token', res.token);
-       // this.router.navigate(['/home']);
-      this.auth.setToken(res.token); // 🔑 updates login state
-this.router.navigate(['/home']);
+//     this.auth.login(this.loginForm.value).subscribe({
+//       next: (res: any) => {
+//         localStorage.setItem('token', res.token);
+//        // this.router.navigate(['/home']);
+//       this.auth.setToken(res.token); // 🔑 updates login state
+// this.router.navigate(['/home']);
 
-      },
+//       },
+this.auth.login(this.loginForm.value).subscribe({
+  next: (res: any) => {
+    localStorage.setItem('token', res.token);
+    this.auth.setToken(res.token);
+
+    const decoded = getDecodedToken();
+
+    // 🔁 Redirect based on role
+    if (decoded?.role === 'admin') {
+      this.router.navigate(['/admin']);
+    } else {
+      this.router.navigate(['/home']);
+    }
+  },
       error: (err) => {
         this.showToastMessage(err.error.message || '❌ Login failed.', 'error');
       }
