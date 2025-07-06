@@ -1,32 +1,35 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { OrderService } from '../../core/services/orderService/order.service';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-view-orders',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,ReactiveFormsModule],
   templateUrl: './view-orders.component.html',
   styleUrls: ['./view-orders.component.css']
 })
 export class ViewOrdersComponent implements OnInit {
-  orders = [
-    {
-      orderId: 'ORD001',
-      user: 'abdallah@example.com',
-      totalPrice: 720,
-      status: 'Delivered',
-      date: '2025-06-23'
-    },
-    {
-      orderId: 'ORD002',
-      user: 'user2@example.com',
-      totalPrice: 480,
-      status: 'Pending',
-      date: '2025-06-22'
-    }
-  ];
 
-  constructor() {}
+ orders: any[] = [];
 
-  ngOnInit(): void {}
+  constructor(private orderService:OrderService) {}
+
+  ngOnInit(): void {
+    this.orderService.getAllOrders().subscribe({
+      next: (res) => {
+        if (Array.isArray(res)) {
+          this.orders = res;
+        } else {
+          console.warn('Data is not an array:', res);
+          this.orders = [];
+        }
+      },
+      error: (err) => {
+        console.error('Failed to fetch orders:', err);
+        this.orders = [];
+      }
+    });
+  }
 }

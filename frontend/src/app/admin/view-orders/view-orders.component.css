@@ -1,0 +1,20 @@
+table td {
+  background-color: transparent; /* Ensure td is clear */
+  vertical-align: middle;
+}
+
+.badge {
+  border-radius: 0.4rem;
+  font-size: 0.875rem;
+  display: inline-block;
+  min-width: 80px;
+  text-align: center;
+}
+
+.transition {
+  transition: background-color 0.3s ease;
+}
+.transition:hover {
+  background-color: #f8f9fa;
+}
+
