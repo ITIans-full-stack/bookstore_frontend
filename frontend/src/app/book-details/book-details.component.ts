@@ -52,15 +52,22 @@ import { BookDataService } from '../core/services/book-data.service';
 import {ReviewComponent} from '../review/review.component'
 import { ReviewService } from '../core/services/reviewservices/review.service';
 import { Review } from '../core/interfaces/review';
-import { CommonModule } from '@angular/common';
+import { CommonModule, ViewportScroller } from '@angular/common';
 import { WishlistBtnComponent } from '../shared/components/wishlist-btn/wishlist-btn.component';
 import { faStar as faStarSolid, faStarHalfAlt } from '@fortawesome/free-solid-svg-icons';
 import { faStar as faStarRegular } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { ChatbotComponent } from "../chatbot/chatbot.component";
 
 @Component({
   selector: 'app-book-details',
-  imports:[RelatedBooksComponent,RatingComponent,ReviewComponent,CommonModule,WishlistBtnComponent, FontAwesomeModule],
+  imports:[RelatedBooksComponent,
+    RatingComponent,
+    ReviewComponent,
+    CommonModule,
+    WishlistBtnComponent,
+    ChatbotComponent,
+    FontAwesomeModule],
   standalone: true,
   templateUrl: './book-details.component.html',
   styleUrls: ['./book-details.component.css']
@@ -77,15 +84,23 @@ emptyStar = faStarRegular;
   constructor(
     private route: ActivatedRoute,
     private bookService: BookDataService,
-    private reviewService: ReviewService
+    private reviewService: ReviewService,
+    private viewportScroller: ViewportScroller
   ) {}
 
   ngOnInit(): void {
-    this.bookId = this.route.snapshot.params['id'];
+   this.route.params.subscribe(params => {
+    this.bookId = params['id'];
+    this.scrollToTop(); 
     this.loadBook();
     this.loadReviews();
+  });
   }
+scrollToTop(): void {
+  this.viewportScroller.scrollToPosition([0, 0]);
+}
 
+  
   loadBook() {
     this.bookService.getBookById(this.bookId).subscribe((res) => {
       this.book = res;

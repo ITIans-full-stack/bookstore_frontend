@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SearchService } from '../core/services/search.service';
 import { BookDataService } from '../core/services/book-data.service';
 import { Subscription } from 'rxjs';
-import { CommonModule } from '@angular/common';
+import { CommonModule, ViewportScroller } from '@angular/common';
 import { BookCardComponent } from '../shared/components/book-card/book-card.component';
 import { FormsModule } from '@angular/forms';
 
@@ -33,7 +33,7 @@ availableAuthors: string[] = [];
 selectedAuthors: Set<string> = new Set();
 
   constructor(private searchService: SearchService , private booksService:BookDataService , private route: ActivatedRoute,
-  private router: Router) {}
+  private router: Router, private viewportScroller: ViewportScroller) {}
 
   ngOnInit() {
   this.loadBooks(this.currentPage , this.pageSize);
@@ -54,6 +54,7 @@ loadBooks(page: number = 1, limit : number =8) {
         this.filteredBooks = [...this.books];
         this.totalPages = res.totalPages;
         this.currentPage = res.page;
+        this.scrollToTop(); 
         this.setAvailableCategories(); 
         this.setAvailableAuthors(); 
         this.applyFilters(); 
@@ -65,6 +66,9 @@ loadBooks(page: number = 1, limit : number =8) {
   });
 }
 
+scrollToTop(): void {
+  this.viewportScroller.scrollToPosition([0, 0]);
+}
 setAvailableCategories() {
   const categoryMap = new Map<string, string>();
 
