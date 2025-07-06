@@ -21,6 +21,13 @@ export const routes: Routes = [
      canActivate: [NonAdminGuard],
   },
   {
+    path: 'about',
+    loadComponent: () =>
+      import('./about/about.component').then((m) => m.AboutComponent),
+     canActivate: [NonAdminGuard],
+  },
+
+  {
     path: 'home',
     loadComponent: () =>
       import('./home/home.component').then((m) => m.HomeComponent),
