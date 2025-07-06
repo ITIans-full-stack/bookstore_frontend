@@ -29,7 +29,7 @@
   [attr.title]="book.stock === 0 || book.stock === undefined ? 'Out of Stock' : 'Add this book to your cart'"
   data-bs-toggle="tooltip"
   data-bs-placement="top"
-  (click)="addToCart($event)">
+  (click)="onAddToCart()">
   Add To Cart
 </button>
             </div>
