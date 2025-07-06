@@ -1,0 +1,59 @@
+<h1 class="display-6 font-serif text-dark mb-4 pb-2 border-bottom border-secondary">Insert Book</h1>
+
+<div class="bg-white p-5 rounded-3 shadow-lg max-width-form mx-auto border border-light">
+  <form (submit)="onSubmit($event)">
+    <div class="mb-4">
+      <label for="title" class="form-label text-muted small fw-semibold">Title</label>
+      <input type="text" class="form-control shadow-sm rounded" id="title" placeholder="Enter book title" required>
+    </div>
+
+    <div class="mb-4">
+      <label for="bookImage" class="form-label text-muted small fw-semibold">Book Image</label>
+      <div class="d-flex align-items-center">
+        <input type="file" class="d-none" id="bookImage" accept="image/*" (change)="onFileSelected($event)" >
+        <label for="bookImage" class="btn btn-success custom-file-upload shadow-sm rounded">
+          Choose File
+        </label>
+        <span class="ms-3 text-muted" id="fileName" >{{ selectedFileName }}</span>
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label for="author" class="form-label text-muted small fw-semibold">Author</label>
+      <input type="text" class="form-control shadow-sm rounded" id="author" placeholder="Enter author name" required>
+    </div>
+
+    <div class="mb-4">
+      <label for="category" class="form-label text-muted small fw-semibold">Category</label>
+      <select class="form-select shadow-sm rounded" id="category" required>
+        <option value="">-- Select a category --</option>
+        <option value="fiction">Fiction</option>
+        <option value="non-fiction">Non-Fiction</option>
+        <option value="science">Science</option>
+        <option value="history">History</option>
+        <option value="fantasy">Fantasy</option>
+      </select>
+    </div>
+
+    <div class="mb-4">
+      <label for="price" class="form-label text-muted small fw-semibold">Price (EGP)</label>
+      <input type="number" class="form-control shadow-sm rounded" id="price" placeholder="0" required>
+    </div>
+
+    <div class="mb-4">
+      <label for="stock" class="form-label text-muted small fw-semibold">Stock</label>
+      <input type="number" class="form-control shadow-sm rounded" id="stock" placeholder="0" required>
+    </div>
+
+    <div class="mb-5">
+      <label for="description" class="form-label text-muted small fw-semibold">Description</label>
+      <textarea class="form-control shadow-sm rounded" id="description" rows="5" placeholder="Enter book description" required></textarea>
+    </div>
+
+    <div class="d-flex justify-content-end">
+      <button type="submit"  class="btn btn-primary btn-lg shadow rounded submit-button">
+        Submit
+      </button>
+    </div>
+  </form>
+</div>

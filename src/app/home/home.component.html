@@ -1,0 +1,114 @@
+
+<div class="row">
+<div id="carouselExampleSlidesOnly" class="carousel slide w-100" data-bs-ride="carousel">
+  <div class="carousel-inner w-100">
+    <!-- Slide 1 -->
+    <div class="carousel-item active">
+      <div class="position-relative">
+        <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=1920&q=80"
+             class="d-block w-100 vh-100 object-fit-cover" alt="Books on table">
+        <div class="carousel-overlay"></div>
+        <div class="carousel-caption custom-caption">
+          <h1 class="display-4 animate__animated animate__fadeInDown">Unlock Infinite Worlds</h1>
+          <p class="lead animate__animated animate__fadeInUp">Dive into books that ignite your imagination and fuel your dreams.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 2 -->
+    <div class="carousel-item">
+      <div class="position-relative">
+        <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=1920&q=80"
+             class="d-block w-100 vh-100 object-fit-cover" alt="Reading near window">
+        <div class="carousel-overlay"></div>
+        <div class="carousel-caption custom-caption">
+          <h1 class="display-4 animate__animated animate__fadeInDown">Silence. Solitude. Stories.</h1>
+          <p class="lead animate__animated animate__fadeInUp">Find peace in the quiet corners of a book lover’s paradise.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 3 -->
+    <div class="carousel-item">
+      <div class="position-relative">
+        <img src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=1920&q=80"
+             class="d-block w-100 vh-100 object-fit-cover" alt="Open book with glasses">
+        <div class="carousel-overlay"></div>
+        <div class="carousel-caption custom-caption">
+          <h1 class="display-4 animate__animated animate__fadeInDown">Every Page Holds Power</h1>
+          <p class="lead animate__animated animate__fadeInUp">Turn the page to knowledge, wisdom, and the unknown.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="d-flex justify-content-center w-100">
+  <main class="p-3 w-100" style="max-width: 90%;">
+<section class="categories-section text-center py-3 px-2">
+  <h2 class="section-title mb-4">Categories</h2>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-4 text-wrap text-break"
+           *ngFor="let category of availableCategories">
+        <div class="category-card p-3 rounded shadow-sm bg-white h-100 d-flex flex-column justify-content-center align-items-center">
+          <div class="category-icon mb-2">
+            <i class="bi bi-book" style="font-size: 2rem;"></i>
+          </div>
+          <h6 class="mt-2 text-dark">{{ category }}</h6>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Newest Books Section -->
+<section class="newest-books-section text-center mb-3">
+  <h2 class="section-title">Newest Books</h2>
+  <div class="scroll-wrapper position-relative">
+    <button class="scroll-btn left" (click)="scrollLeft()">
+      <i class="fas fa-chevron-left"></i>
+    </button>
+    <div class="book-card-container" #scrollContainer>
+      <app-book-card *ngFor="let book of newestBooks" [book]="book"></app-book-card>
+    </div>
+    <button class="scroll-btn right" (click)="scrollRight()">
+      <i class="fas fa-chevron-right"></i>
+    </button>
+  </div>
+</section>
+
+    <!-- Flash Sales Section -->
+    <section class="flash-sales-section text-center mb-3">
+      <h2 class="section-title">Top Sales</h2>
+      <div class="scroll-wrapper position-relative">
+        <button class="scroll-btn left" (click)="scrollLeft()">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <div class="book-card-container" #scrollContainer>
+          <app-book-card *ngFor="let book of topSalesBooks" [book]="book"></app-book-card>
+        </div>
+        <button class="scroll-btn right" (click)="scrollRight()">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+    </section>
+
+    <section class="text-center my-4">
+      <button
+        class="btn btn-danger w-20 d-none d-sm-inline-block"
+        (click)="onViewAllClick()"
+      >
+        View All Books
+      </button>
+    </section>
+
+    
+
+  </main>
+</div>
+
+  </div>
+

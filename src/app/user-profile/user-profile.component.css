@@ -1,0 +1,82 @@
+/* 🌟 Animated Bubble Background */
+.bubble-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: linear-gradient(to top right, #f8f9fa, #ffffff);
+}
+
+.bubble {
+  position: absolute;
+  bottom: -100px;
+  width: 40px;
+  height: 40px;
+  background: rgba(220, 53, 69, 0.15);
+  border-radius: 50%;
+  animation: floatUp 16s linear infinite;
+  animation-delay: calc(var(--i) * -1s);
+  left: calc(5% + (90% * var(--i) / 20));
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-120vh) scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* 🔧 Sidebar Styling */
+.sidebar-menu .list-group-item {
+  border: none;
+  border-radius: 0;
+  padding: 14px 22px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+  background-color: transparent;
+}
+
+.sidebar-menu .list-group-item:hover {
+  background-color: #f8f9fa;
+}
+
+.sidebar-menu .active {
+  color: #dc3545;
+  font-weight: bold;
+  background-color: rgba(220, 53, 69, 0.05);
+}
+
+/* ✨ Card Customization */
+.card {
+  border: none;
+  border-radius: 16px;
+}
+
+/* 🔒 Inputs */
+input.form-control {
+  border-radius: 8px;
+}
+
+/* ❌ Password Mismatch Error */
+.text-danger {
+  font-size: 0.875rem;
+  margin-top: 5px;
+  color: #B00020;
+  animation: shake 0.3s ease;
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-3px); }
+  50% { transform: translateX(3px); }
+  75% { transform: translateX(-3px); }
+  100% { transform: translateX(0); }
+}

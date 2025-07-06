@@ -1,0 +1,25 @@
+<div class="container py-4">
+  <h2 class="mb-4">Past Orders</h2>
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover shadow-sm">
+      <thead class="table-dark">
+        <tr>
+          <th>Order ID</th>
+          <th>User</th>
+          <th>Total Price (EGP)</th>
+          <th>Status</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let order of orders">
+          <td>{{ order.orderId }}</td>
+          <td>{{ order.user }}</td>
+          <td>{{ order.totalPrice }}</td>
+          <td>{{ order.status }}</td>
+          <td>{{ order.date }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

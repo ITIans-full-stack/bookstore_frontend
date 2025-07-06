@@ -1,0 +1,131 @@
+<div class="container1 py-5">
+  <div class="container">
+    <h2 class="mb-4 your-cart-title">
+      <i class="fas fa-shopping-cart me-2"></i> Cart
+    </h2>
+
+    <div class="row gx-5">
+      <div class="col-lg-8">
+        <!-- Error Message -->
+        <div *ngIf="errorMessage()" class="alert alert-danger">{{ errorMessage() }}</div>
+
+        <!-- Loading Spinner -->
+        <div *ngIf="isLoading()" class="text-center py-5">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+
+        <ng-container *ngIf="cartItems().length > 0 && !isLoading(); else emptyCart">
+          <!-- Header row -->
+          <div class="cart-header-row text-muted fw-semibold px-2 py-2 mb-2 d-none d-md-block">
+            <div class="row g-0 text-center">
+              <div class="col-5 text-start ps-3">Product</div>
+              <div class="col-2">Price</div>
+              <div class="col-2">Quantity</div>
+              <div class="col-2"> Subtotal</div>
+              <div class="col-1">Remove</div>
+            </div>
+          </div>
+
+          <!-- Desktop View -->
+          <div class="cart-items-wrapper d-none d-md-block">
+            <div *ngFor="let item of cartItems()" class="cart-row shadow-sm rounded mb-3 p-3 bg-white">
+              <div class="row align-items-center text-center">
+                <div class="col-5 d-flex align-items-center text-start gap-3">
+                  <img [src]="item.book.image" class="cart-thumb" alt="{{ item.book.title }}">
+                  <div>
+                    <div class="fw-semibold">{{ item.book.title }}</div>
+                  </div>
+                </div>
+                <div class="col-2">{{ item.book.price }} EGP</div>
+                <div class="col-2">
+                  <div class="quantity-control mx-auto d-inline-flex">
+                    <button (click)="decreaseQty(item)" [disabled]="isLoading()"><i class="fas fa-minus"></i></button>
+                    <span>{{ item.quantity }}</span>
+                    <button (click)="increaseQty(item)" [disabled]="isLoading()"><i class="fas fa-plus"></i></button>
+                  </div>
+                </div>
+                <div class="col-2 fw-bold">{{ item.book.price * item.quantity }} EGP</div>
+                <div class="col-1">
+                  <button (click)="removeItem(item)" class="btn btn-remove-icon" [disabled]="isLoading()">
+                    <i class="fas fa-trash-alt"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mobile View -->
+          <div class="cart-items-wrapper d-block d-md-none">
+            <div *ngFor="let item of cartItems()" class="cart-row shadow-sm rounded mb-3 p-3 bg-white">
+              <div class="d-flex gap-3 align-items-center mb-3">
+                <img [src]="item.book.image" class="cart-thumb" alt="{{ item.book.title }}">
+                <div>
+                  <div class="fw-semibold">{{ item.book.title }}</div>
+                  <div class="text-muted small">{{ item.book.price }} EGP</div>
+                </div>
+              </div>
+
+              <div class="d-flex justify-content-between mb-2">
+                <span class="text-muted">Quantity</span>
+                <div class="quantity-control">
+                  <button (click)="decreaseQty(item)" [disabled]="isLoading()"><i class="fas fa-minus"></i></button>
+                  <span>{{ item.quantity }}</span>
+                  <button (click)="increaseQty(item)" [disabled]="isLoading()"><i class="fas fa-plus"></i></button>
+                </div>
+              </div>
+
+              <div class="d-flex justify-content-between mb-2">
+                <span class="text-muted">Subtotal</span>
+                <strong>{{ item.book.price * item.quantity }} EGP</strong>
+              </div>
+
+              <div class="text-end">
+                <button (click)="removeItem(item)" class="btn btn-remove-icon" [disabled]="isLoading()">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="d-flex justify-content-between mt-4">
+            <button class="btn btn-outline-secondary" (click)="returnToShop()" [disabled]="isLoading()">Return To Shop</button>
+            <button class="btn btn-outline-danger" (click)="clearCart()" [disabled]="isLoading()">Clear Cart</button>
+          </div>
+        </ng-container>
+
+        <!-- Empty Cart -->
+        <ng-template #emptyCart>
+          <div class="text-center py-5 empty-cart">
+            <i class="fas fa-box-open fa-3x text-secondary mb-3"></i>
+            <p class="fs-5">Your cart is empty.</p>
+            <button class="btn btn-outline-secondary" (click)="returnToShop()">Go to Shop</button>
+          </div>
+        </ng-template>
+      </div>
+
+      <!-- Summary Section -->
+      <div class="col-lg-4">
+        <div class="cart-summary">
+          <h5>Cart Total</h5>
+          <div class="d-flex justify-content-between mb-2">
+            <span>Subtotal</span>
+            <span>{{ getTotalPrice() }} EGP</span>
+          </div>
+          <div class="d-flex justify-content-between mb-2">
+            <span>Shipping</span>
+            <span>Free</span>
+          </div>
+          <hr>
+          <div class="d-flex justify-content-between fw-bold mb-3">
+            <span>Total</span>
+            <span>{{ getTotalPrice() }} EGP</span>
+          </div>
+          <button class="btn btn-danger w-100" (click)="proceedToCheckout()" [disabled]="isLoading() || cartItems().length === 0">Proceed to Checkout</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

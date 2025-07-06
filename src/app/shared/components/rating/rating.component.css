@@ -1,0 +1,7 @@
+.selected {
+  color: #ffdf00;
+}
+
+button:hover {
+  color: #ffdf00;;
+}
