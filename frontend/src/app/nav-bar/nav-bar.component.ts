@@ -135,13 +135,13 @@ export class NavBarComponent implements OnInit {
       path.includes('/register');
       // path.startsWith('/admin');
 
-    // ✅ Show search only on /books or /books/:id
-    this.showSearch = path.includes('/books');
+    // ✅ Show search only on /books 
+    this.showSearch = path==='/books';
   });
-   this.router.events.subscribe(() => {
-      // Update search visibility based on the current route
-      this.showSearch = this.router.url.includes('/books');
-    });
+  //  this.router.events.subscribe(() => {
+  //     // Update search visibility based on the current route
+  //     this.showSearch = this.router.url.includes('/books');
+  //   });
     this.router.events.subscribe(() => {
       this.isAdminRoute = this.router.url.includes('/admin');
     });
@@ -151,11 +151,10 @@ export class NavBarComponent implements OnInit {
 
 
 
-  onSearch(event: Event) {
+   onSearch(event: Event) {
     const value = (event.target as HTMLInputElement).value;
     this.searchService.setSearchTerm(value);
   }
-
   logout() {
     this.authService.logout();
     this.router.navigateByUrl('/login', { replaceUrl: true });
