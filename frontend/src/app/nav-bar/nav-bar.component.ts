@@ -132,8 +132,8 @@ export class NavBarComponent implements OnInit {
     // ✅ Hide navbar on login, register, or any admin route
     this.showMinimalNav =
       path.includes('/login') ||
-      path.includes('/register');
-      // path.startsWith('/admin');
+      path.includes('/register')||
+      path.includes('/notfound');
 
     // ✅ Show search only on /books 
     this.showSearch = path==='/books';
