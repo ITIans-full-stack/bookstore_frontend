@@ -32,9 +32,75 @@
     <div class="row g-0">
 
       <!-- Book Image Section -->
-      <div class="col-md-3 bg-light d-flex align-items-center justify-content-center p-3">
-        <img [src]="book.image" [alt]="book.title" class="img-fluid rounded-3 shadow-sm" style="max-height: 200px; object-fit: contain;" />
+    
+<div class="col-md-3 bg-light d-flex align-items-center justify-content-center p-3">
+
+  <!-- If book.images exists and has at least one image -->
+  <div *ngIf="book.images?.length > 0; else singleImage">
+
+    <!-- Unique carousel ID using book._id -->
+    <div [id]="'carousel_' + book._id" class="carousel slide w-100" data-bs-ride="carousel">
+      <div class="carousel-inner rounded shadow-sm" style="height: 250px;">
+        
+        <!-- book.image as the first (active) slide -->
+        <div class="carousel-item active">
+          <img 
+            [src]="book.image" 
+            [alt]="book.title" 
+            class="d-block w-100" 
+            style="width: 100%; height: 100%; object-fit: contain;" 
+          />
+        </div>
+
+        <!-- book.images slides -->
+        <div 
+          *ngFor="let img of book.images; let i = index" 
+          class="carousel-item"
+        >
+          <img 
+            [src]="img" 
+            class="d-block w-100" 
+            style="width: 100%; height: 100%; object-fit: contain;" 
+            [alt]="book.title + ' image ' + (i + 1)" 
+          />
+        </div>
+
       </div>
+
+      <!-- Controls with dynamic target -->
+      <button 
+        class="carousel-control-prev" 
+        type="button" 
+        [attr.data-bs-target]="'#carousel_' + book._id"
+        data-bs-slide="prev"
+      >
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button 
+        class="carousel-control-next" 
+        type="button" 
+        [attr.data-bs-target]="'#carousel_' + book._id"
+        data-bs-slide="next"
+      >
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Fallback if no book.images -->
+  <ng-template #singleImage>
+    <img 
+      [src]="book.image || 'assets/images/no-image.png'" 
+      [alt]="book.title" 
+      class="img-fluid rounded-3 shadow-sm" 
+      style="width: 100%; height: 100%; object-fit: contain;" 
+    />
+  </ng-template>
+</div>
+
+
 
       <!-- Book Details -->
       <div class="col-md-9">
@@ -269,7 +335,7 @@
 
       <!-- Image -->
       <div class="mb-3">
-        <label class="form-label">Change Image</label>
+        <label class="form-label">Change Book Cover</label>
         <div class="d-flex align-items-center">
           <input type="file" id="editImageInput" class="d-none" (change)="onEditFileSelected($event)" />
           <label for="editImageInput" class="btn btn-outline-success btn-sm">Choose File</label>
@@ -284,10 +350,59 @@
 
         <!-- Show current image if no new one selected -->
         <div *ngIf="!editImagePreviewUrl && selectedBook?.image" class="mt-3">
-          <label class="form-label small">Current Image:</label><br />
+          <label class="form-label small">Current Cover:</label><br />
           <img [src]="selectedBook.image" class="img-thumbnail" style="max-height: 150px;" />
         </div>
       </div>
+
+
+      <!-- Book Images Section -->
+
+<div class="mb-4">
+  <label class="form-label fw-bold text-dark small">📚 Book Images</label>
+
+  <!-- Current Images (Existing in DB) -->
+  <div class="mb-2">
+    <div class="small text-muted mb-1">Current Images:</div>
+    <div class="d-flex flex-wrap gap-3">
+      <div *ngFor="let img of selectedBook.images; let i = index" class="position-relative">
+        <img [src]="img" alt="Book Image" class="img-thumbnail shadow-sm"
+          style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px;" />
+        <button type="button" class="btn-close position-absolute top-0 end-0 m-1 bg-white rounded-circle p-1 shadow-sm"
+          style="opacity: 0.85;" (click)="removeExistingImage(i)">
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Upload New Images -->
+  <div class="mb-2">
+    <input type="file" id="editImagesInput" class="d-none" multiple (change)="onEditImagesSelected($event)" />
+    <label for="editImagesInput" class="btn btn-outline-danger btn-sm rounded-pill px-4 shadow-sm">
+      <i class="bi bi-upload me-1"></i> Upload New Images
+    </label>
+    <!-- <button *ngIf="editImagePreviews?.length" class="btn btn-outline-danger btn-sm ms-2" (click)="clearNewImages()">
+      Clear New Images
+    </button> -->
+    <div class="small text-muted mt-2">
+      {{ editSelectedImagesNames?.join(', ') }}
+    </div>
+  </div>
+
+  <!-- Preview New Uploaded Images -->
+  <div *ngIf="editImagePreviews?.length" class="d-flex flex-wrap gap-3 mt-2">
+    <div *ngFor="let preview of editImagePreviews; let i = index" class="position-relative">
+      <img [src]="preview" alt="Preview" class="img-thumbnail shadow-sm"
+        style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px;" />
+      <button type="button" class="btn-close position-absolute top-0 end-0 m-1 bg-white rounded-circle p-1 shadow-sm"
+        style="opacity: 0.85;" (click)="removeNewImage(i)">
+      </button>
+    </div>
+  </div>
+</div>
+
+
+      
 
       <!-- Description -->
       <div class="col-12">

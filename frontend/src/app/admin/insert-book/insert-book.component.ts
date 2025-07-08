@@ -15,10 +15,16 @@ export class InsertBookComponent implements OnInit{
  bookForm!: FormGroup;
   selectedFileName: string = 'No file chosen';
   selectedFile: File | null = null;
+  selectedImagePreview:string='';
    toastMessage = '';
   showToast = false;
   toastType: 'success' | 'error' = 'success';
 availableCategories: string[] = ['Fiction', 'Non-Fiction', 'Science', 'History', 'Fantasy', 'Literature', 'Poetry', 'Science-Fiction','Historical-Fiction','Children'];
+selectedImages: File[] = [];
+
+imagesError: boolean = false;
+
+selectedImagesPreview: string[] = [];
 
 
 
@@ -33,10 +39,12 @@ availableCategories: string[] = ['Fiction', 'Non-Fiction', 'Science', 'History',
     author: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(20)]],
     description: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(1000)]],
     image: ['', Validators.required],
+    images: [[]],
     category: [[], [Validators.required, Validators.minLength(1)]],
     price: [null, [Validators.required, Validators.min(0)]],
     discount: [null, [Validators.min(0), Validators.max(70)]],
     stock: [null, [Validators.required, Validators.min(1)]],
+    averageRating: [0],
 
     });
 
@@ -50,8 +58,46 @@ availableCategories: string[] = ['Fiction', 'Non-Fiction', 'Science', 'History',
       this.selectedFile = file;
       this.bookForm.patchValue({ image: file });
       this.bookForm.get('image')?.updateValueAndValidity();
+
+       const reader = new FileReader();
+    reader.onload = (e: any) => {
+      this.selectedImagePreview = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  
     }
+
   }
+  removeCoverImage(): void {
+  this.selectedFile = null;
+  this.selectedFileName = 'No file chosen';
+  this.selectedImagePreview = '';
+  this.bookForm.patchValue({ image: null });
+  this.bookForm.get('image')?.markAsTouched();
+}
+
+
+onExtraImageSelected(event: any): void {
+  const file = event.target.files[0];
+  if (file) {
+    this.selectedImages.push(file);
+
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      this.selectedImagesPreview.push(e.target.result);
+    };
+    reader.readAsDataURL(file);
+  }
+
+  // Reset the input to allow selecting same file again
+  event.target.value = '';
+}
+removeExtraImage(index: number): void {
+  this.selectedImages.splice(index, 1);
+  this.selectedImagesPreview.splice(index, 1);
+}
+
+
  showToastMsg(message: string, type: 'success' | 'error' = 'success') {
     this.toastMessage = message;
     this.toastType = type;
@@ -85,6 +131,9 @@ availableCategories: string[] = ['Fiction', 'Non-Fiction', 'Science', 'History',
     formData.append('discount', this.bookForm.get('discount')?.value);
     formData.append('stock', this.bookForm.get('stock')?.value);
     formData.append('image', this.selectedFile);
+    this.selectedImages.forEach((file) => {
+  formData.append('images', file);
+});
 
     this.bookDataService.addBook(formData).subscribe({
       next: () => {
@@ -92,6 +141,9 @@ availableCategories: string[] = ['Fiction', 'Non-Fiction', 'Science', 'History',
         this.bookForm.reset();
         this.selectedFileName = 'No file chosen';
         this.selectedFile = null;
+        this.selectedImages = [];
+        this.selectedImagesPreview=[];
+   
       },
       error: (err) => {
         console.error('Book submission failed:', err);

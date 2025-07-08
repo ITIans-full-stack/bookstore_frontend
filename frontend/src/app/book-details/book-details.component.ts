@@ -80,6 +80,8 @@ export class BookDetailsComponent implements OnInit {
   fullStar = faStarSolid;
 halfStar = faStarHalfAlt;
 emptyStar = faStarRegular;
+imageList: string[] = [];
+
 
   constructor(
     private route: ActivatedRoute,
@@ -107,7 +109,16 @@ scrollToTop(): void {
       if (this.reviews.length > 0) {
       this.calculateAverageRatingAndDistribution();
     }
+
+        if (this.book) {
+  const additionalImages = this.book.images || [];
+  const allImages = [this.book.image, ...additionalImages];
+  this.imageList = Array.from(new Set(allImages));
+}
     });
+
+
+
   }
 
   loadReviews() {

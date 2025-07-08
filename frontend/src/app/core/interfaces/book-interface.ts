@@ -8,6 +8,7 @@ export interface BookInterface {
   description: string;
   stock: number;
   image: string;
+  images: any[];
   reviews: any[];
   createdAt: string;
   updatedAt: string;

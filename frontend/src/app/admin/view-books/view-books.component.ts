@@ -74,7 +74,12 @@ selectedCategory: string = '';
 
 //====================================================================
   onEdit(book: BookInterface): void {
-    this.selectedBook = { ...book };
+    // this.selectedBook = { ...book };
+this.selectedBook = {
+  ...book,
+  images: Array.isArray(book.images) ? [...book.images] : []
+};
+
     this.editSelectedFile = null;
     this.editSelectedFileName = 'No file chosen';
     this.editImagePreviewUrl = null;
@@ -104,7 +109,59 @@ selectedCategory: string = '';
     this.editSelectedFile = null;
     this.editSelectedFileName = 'No file chosen';
     this.editImagePreviewUrl = null;
+      this.editSelectedImagesNames = [];
+  this.newImages = [];
+  this.editImagePreviews = [];
+  this.removedImages = []; 
   }
+
+
+removedImages: string[] = [];
+editImagePreviews: string[] = [];
+editSelectedImagesNames: string[] = [];
+newImages: File[] = [];
+
+removeExistingImage(index: number): void {
+  if (this.selectedBook && Array.isArray(this.selectedBook.images)) {
+    const removed = this.selectedBook.images.splice(index, 1);
+    if (removed.length > 0) {
+      this.removedImages.push(removed[0]); // Track removed image URL
+    }
+  }
+}
+
+
+removeNewImage(index: number): void {
+  this.newImages.splice(index, 1);
+  this.editImagePreviews.splice(index, 1);
+  this.editSelectedImagesNames.splice(index, 1);
+}
+
+
+clearNewImages(): void {
+  this.newImages = [];
+  this.editImagePreviews = [];
+  this.editSelectedImagesNames = [];
+}
+
+
+ onEditImagesSelected(event: Event): void {
+  const input = event.target as HTMLInputElement;
+  if (input.files && input.files.length > 0) {
+    Array.from(input.files).forEach((file) => {
+      this.newImages.push(file);
+
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.editImagePreviews.push(e.target.result);
+      };
+      reader.readAsDataURL(file);
+
+      this.editSelectedImagesNames.push(file.name);
+    });
+  }
+}
+
 
   onEditFileSelected(event: Event): void {
     const file = (event.target as HTMLInputElement)?.files?.[0];
@@ -119,6 +176,7 @@ selectedCategory: string = '';
       reader.readAsDataURL(file);
     }
   }
+  
 
  submitEdit(): void {
   if (!this.selectedBook || !this.editForm.valid) {
@@ -142,15 +200,39 @@ selectedCategory: string = '';
     formData.append('image', this.editSelectedFile);
   }
 
+   // Add existing image URLs to "images"
+  if (this.selectedBook.images && this.selectedBook.images.length > 0) {
+    this.selectedBook.images.forEach((imgUrl: string) => {
+      formData.append('images', imgUrl); 
+    });
+  }
+
+  // Add new image files to "images"
+  this.newImages.forEach((imageFile: File) => {
+    formData.append('images', imageFile); 
+  });
+
+  
   this.bookService.updateBookById(this.selectedBook._id, formData).subscribe({
     next: (res) => {
       this.toastType = 'success';
       this.toastMessage = 'Book updated successfully!';
       this.showToast = true;
       const index = this.books.findIndex(b => b._id === this.selectedBook?._id);
+      // if (index !== -1) {
+      //   this.books[index] = { ...this.selectedBook!, ...this.editForm.value };
+      // }
       if (index !== -1) {
-        this.books[index] = { ...this.selectedBook!, ...this.editForm.value };
-      }
+  const updatedBook = res.data;
+
+  // Ensure category is always an array
+  updatedBook.category = Array.isArray(updatedBook.category)
+    ? updatedBook.category
+    : updatedBook.category.split(',').map((cat: string) => cat.trim());
+
+  this.books[index] = updatedBook;
+}
+
       this.cancelEdit();
       this.filterBooks();
     },
