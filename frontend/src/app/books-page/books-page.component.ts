@@ -41,6 +41,18 @@ selectedAuthors: Set<string> = new Set();
     this.searchTerm = term.toLowerCase();
     this.applyFilters();
   });
+  this.booksService.getCategories().subscribe({
+      next: (cats) => (this.availableCategories = cats),
+      error: (err) => console.error('Failed to load categories', err),
+    });
+    this.booksService.getAllAuthors().subscribe({
+  next: (res) => {
+    this.availableAuthors = res.data;
+  },
+  error: (err) => {
+    console.error('Failed to fetch authors', err);
+  }
+});
 }
   ngOnDestroy() {
     this.searchSub.unsubscribe();
@@ -55,8 +67,8 @@ loadBooks(page: number = 1, limit : number =8) {
         this.totalPages = res.totalPages;
         this.currentPage = res.page;
         this.scrollToTop(); 
-        this.setAvailableCategories(); 
-        this.setAvailableAuthors(); 
+        this.availableCategories; 
+        this.availableAuthors; 
         this.applyFilters(); 
       }
     },
@@ -69,46 +81,46 @@ loadBooks(page: number = 1, limit : number =8) {
 scrollToTop(): void {
   this.viewportScroller.scrollToPosition([0, 0]);
 }
-setAvailableCategories() {
-  const categoryMap = new Map<string, string>();
+// setAvailableCategories() {
+//   const categoryMap = new Map<string, string>();
 
-  this.books.forEach(book => {
-    if (book.category) {
-      const formatted = this.formatCategoryName(book.category);
-      const lowerKey = formatted.toLowerCase();
+//   this.books.forEach(book => {
+//     if (book.category) {
+//       const formatted = this.formatCategoryName(book.category);
+//       const lowerKey = formatted.toLowerCase();
 
-      if (!categoryMap.has(lowerKey)) {
-        categoryMap.set(lowerKey, formatted);
-      }
-    }
-  });
+//       if (!categoryMap.has(lowerKey)) {
+//         categoryMap.set(lowerKey, formatted);
+//       }
+//     }
+//   });
 
-  this.availableCategories = Array.from(categoryMap.values());
-}
-setAvailableAuthors() {
-  const authorMap = new Map<string, string>();
+//   this.availableCategories = Array.from(categoryMap.values());
+// }
+// setAvailableAuthors() {
+//   const authorMap = new Map<string, string>();
 
-  this.books.forEach(book => {
-    if (book.author) {
-      const formatted = this.formatCategoryName(book.author);
-      const lowerKey = formatted.toLowerCase();
+//   this.books.forEach(book => {
+//     if (book.author) {
+//       const formatted = this.formatCategoryName(book.author);
+//       const lowerKey = formatted.toLowerCase();
 
-      if (!authorMap.has(lowerKey)) {
-        authorMap.set(lowerKey, formatted);
-      }
-    }
-  });
+//       if (!authorMap.has(lowerKey)) {
+//         authorMap.set(lowerKey, formatted);
+//       }
+//     }
+//   });
 
-  this.availableAuthors = Array.from(authorMap.values());
-}
+//   this.availableAuthors = Array.from(authorMap.values());
+// }
 
-private formatCategoryName(category: string): string {
-  return category
-    .toLowerCase()
-    .split('-')
-    .map(part => part.charAt(0).toUpperCase() + part.slice(1))
-    .join('-');
-}
+// private formatCategoryName(category: string): string {
+//   return category
+//     .toLowerCase()
+//     .split('-')
+//     .map(part => part.charAt(0).toUpperCase() + part.slice(1))
+//     .join('-');
+// }
 
 
 //=========================================================================
@@ -148,44 +160,60 @@ private formatCategoryName(category: string): string {
       this.selectedAuthors.delete(author);
     }
     this.applyFilters();
+    
   }
 
   applyFilters() {
-    let filtered = [...this.books];
+  let filtered = [...this.books];
 
-    // Search
-    if (this.searchTerm) {
-      filtered = filtered.filter(book =>
-        book.title.toLowerCase().includes(this.searchTerm)
-      );
-    }
-
-    // Category filter
-    if (this.selectedCategories.size > 0) {
-  filtered = filtered.filter(book =>
-    Array.from(this.selectedCategories).some(
-      cat => cat.toLowerCase() === book.category.toLowerCase()
-    )
-  );
-}
-// author filter
-if (this.selectedAuthors.size > 0) {
-  filtered = filtered.filter(book =>
-    Array.from(this.selectedAuthors).some(
-      cat => cat.toLowerCase() === book.author.toLowerCase()
-    )
-  );
-}
-
-    // Sorting
-    if (this.sortBy === 'lowToHigh') {
-      filtered.sort((a, b) => a.price - b.price);
-    } else if (this.sortBy === 'highToLow') {
-      filtered.sort((a, b) => b.price - a.price);
-    }
-
-    this.filteredBooks = filtered;
+  // Filter by search term (title)
+  if (this.searchTerm.trim()) {
+    const searchLower = this.searchTerm.trim().toLowerCase();
+    filtered = filtered.filter(book =>
+      book.title?.toLowerCase().includes(searchLower)
+    );
   }
+
+  // Filter by selected categories
+ if (this.selectedCategories.size > 0) {
+  filtered = filtered.filter(book =>
+    Array.isArray(book.category) && book.category.length > 0
+      ? book.category.some(
+          (cat: string) =>
+            Array.from(this.selectedCategories).some(
+              selected => selected.toLowerCase() === String(cat).toLowerCase()
+            )
+        )
+      : this.selectedCategories.has(String(book.category).toLowerCase())
+  );
+}
+
+
+  // Filter by selected authors
+if (this.selectedAuthors.size > 0) {
+  filtered = filtered.filter(book => {
+    if (!book.author) return false;
+
+    const bookAuthor = String(book.author).trim().toLowerCase();
+
+    return Array.from(this.selectedAuthors).some(
+      selected => selected.trim().toLowerCase() === bookAuthor
+    );
+  });
+}
+
+
+  // Sort by price
+  if (this.sortBy === 'lowToHigh') {
+    filtered.sort((a, b) => a.price - b.price);
+  } else if (this.sortBy === 'highToLow') {
+    filtered.sort((a, b) => b.price - a.price);
+  }
+
+  this.filteredBooks = filtered;
+  
+}
+
 
   // onViewAllClick() {
   //   this.showAllBooks = true;

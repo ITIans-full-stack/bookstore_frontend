@@ -48,9 +48,16 @@
                 <i class="bi bi-person-fill me-1"></i>
                 <strong>{{ book.author }}</strong>
               </p>
-              <span class="badge bg-dark rounded-pill text-capitalize">
-                <i class="bi bi-tags-fill me-1"></i>{{ book.category }}
-              </span>
+              <div class="d-flex flex-wrap gap-2 mt-2">
+  <span 
+    *ngFor="let cat of book.category" 
+    class="badge rounded-pill px-3 py-2 text-capitalize shadow-sm d-inline-flex align-items-center bg-dark"
+  >
+    <i class="bi bi-tags-fill me-1 small"></i> {{ cat }}
+  </span>
+</div>
+
+
             </div>
 
             <!-- Buttons -->
@@ -160,25 +167,74 @@
       </div>
 
       <!-- Category -->
-      <div class="mb-4">
-  <label class="form-label text-muted small fw-semibold">Category</label>
+       <!-- Category Multi-Select -->
+<div class="col-md-6">
+  <label class="form-label fw-semibold">Categories</label>
+
+  <!-- Dropdown to select new category -->
+  <select
+    class="form-select shadow-sm rounded mb-2"
+    [(ngModel)]="selectedCategory"
+    (change)="addCategory(selectedCategory)"
+    [ngModelOptions]="{ standalone: true }"
+  >
+    <option value="" disabled selected>-- Select a category --</option>
+    <option
+      *ngFor="let cat of availableCategories"
+      [value]="cat"
+      [disabled]="selectedCategories.includes(cat)"
+    >
+      {{ cat }}
+    </option>
+  </select>
+
+  <!-- Selected categories as badges with remove buttons -->
+  <div class="mt-2">
+    <span
+      class="badge bg-danger me-2 mb-1 p-2 d-inline-flex align-items-center"
+      *ngFor="let cat of selectedCategories"
+    >
+      {{ cat }}
+      <button
+        type="button"
+        class="btn-close btn-close-white btn-sm ms-2"
+        aria-label="Remove"
+        (click)="removeCategory(cat)"
+      ></button>
+    </span>
+  </div>
+
+  <!-- Validation error -->
+  <div
+    class="text-danger small mt-1"
+    *ngIf="editForm.get('category')?.invalid && editForm.get('category')?.touched"
+  >
+    At least one category is required.
+  </div>
+</div>
+
+   <!-- Category -->
+<!-- <div class="col-md-6">
+  <label class="form-label fw-semibold">Category</label>
   <select
     class="form-select shadow-sm rounded"
     formControlName="category"
+    
     [class.is-invalid]="editForm.get('category')?.invalid && editForm.get('category')?.touched"
   >
-    <option value="" disabled>-- Select a category --</option>
+    <option value="" disabled selected>-- Select a category --</option>
     <option value="fiction">Fiction</option>
-<option value="non-fiction">Non-Fiction</option>
-<option value="science">Science</option>
-<option value="history">History</option>
-<option value="fantasy">Fantasy</option>
-<option value="literature">Literature</option>
+    <option value="non-fiction">Non-Fiction</option>
+    <option value="science">Science</option>
+    <option value="history">History</option>
+    <option value="fantasy">Fantasy</option>
+    <option value="literature">Literature</option>
   </select>
-  <div class="invalid-feedback" *ngIf="editForm.get('category')?.hasError('required')">
+  <div class="invalid-feedback mt-1" *ngIf="editForm.get('category')?.hasError('required') && editForm.get('category')?.touched">
     Category is required.
   </div>
-</div>
+</div> -->
+
 
 
       <!-- Price -->

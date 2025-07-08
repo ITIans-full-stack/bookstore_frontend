@@ -34,6 +34,7 @@ showAllBooks = false;
 availableCategories: string[] = [];
 newestBooks: BookInterface[] = [];
 
+
   constructor(private searchService: SearchService , private booksService:BookDataService , private route: ActivatedRoute,
   private router: Router) {}
 
@@ -42,6 +43,15 @@ newestBooks: BookInterface[] = [];
   this.searchSub = this.searchService.searchTerm$.subscribe(term => {
     this.searchTerm = term.toLowerCase();
   });
+
+   this.booksService.getCategories().subscribe({
+      next: (cats) => (this.availableCategories = cats),
+      error: (err) => console.error('Failed to load categories', err),
+    });
+
+    this.booksService.getTopSalesBooks().subscribe(res => this.topSalesBooks = res.data);
+  this.booksService.getTopRatedBooks().subscribe(res => this.topRatingBooks = res.data);
+  this.booksService.getNewestBooks().subscribe(res => this.newestBooks = res.data);
 }
   ngOnDestroy() {
     this.searchSub.unsubscribe();
@@ -65,10 +75,10 @@ loadBooks() {
         this.filteredBooks = [...this.books];
         this.totalPages = res.totalPages;
         this.currentPage = res.page;
-        this.setTopSalesBooks();
-        this.setTopRatingBooks();
-        this.setAvailableCategories(); 
-        this.setNewestBooks();
+        // this.setTopSalesBooks();
+        // this.setTopRatingBooks();
+        // this.setAvailableCategories(); 
+        // this.setNewestBooks();
        
       }
     },
@@ -77,47 +87,47 @@ loadBooks() {
     }
   });
 }
-  setAvailableCategories() {
-  const categoryMap = new Map<string, string>();
+//   setAvailableCategories() {
+//   const categoryMap = new Map<string, string>();
 
-  this.books.forEach(book => {
-    if (book.category) {
-      const formatted = this.formatCategoryName(book.category);
-      const lowerKey = formatted.toLowerCase();
+//   this.books.forEach(book => {
+//     if (book.category) {
+//       const formatted = this.formatCategoryName(book.category);
+//       const lowerKey = formatted.toLowerCase();
 
-      if (!categoryMap.has(lowerKey)) {
-        categoryMap.set(lowerKey, formatted);
-      }
-    }
-  });
+//       if (!categoryMap.has(lowerKey)) {
+//         categoryMap.set(lowerKey, formatted);
+//       }
+//     }
+//   });
 
-  this.availableCategories = Array.from(categoryMap.values());
-}
+//   this.availableCategories = Array.from(categoryMap.values());
+// }
 
-private formatCategoryName(category: string): string {
-  return category
-    .toLowerCase()
-    .split('-')
-    .map(part => part.charAt(0).toUpperCase() + part.slice(1))
-    .join('-');
-}
-setTopSalesBooks() {
-  this.topSalesBooks = [...this.books]
-    .sort((a, b) => b.discount - a.discount)
-    .slice(0, 7);
-}
-setTopRatingBooks() {
-  this.topRatingBooks = [...this.books]
-    .sort((a, b) => b.averageRating! - a.averageRating!)
-    .slice(0, 4);
-}
+// private formatCategoryName(category: string): string {
+//   return category
+//     .toLowerCase()
+//     .split('-')
+//     .map(part => part.charAt(0).toUpperCase() + part.slice(1))
+//     .join('-');
+// }
+// setTopSalesBooks() {
+//   this.topSalesBooks = [...this.books]
+//     .sort((a, b) => b.discount - a.discount)
+//     .slice(0, 7);
+// }
+// setTopRatingBooks() {
+//   this.topRatingBooks = [...this.books]
+//     .sort((a, b) => b.averageRating! - a.averageRating!)
+//     .slice(0, 4);
+// }
 
 
-setNewestBooks() {
-  this.newestBooks = [...this.books]
-    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-    .slice(0, 5);
-}
+// setNewestBooks() {
+//   this.newestBooks = [...this.books]
+//     .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+//     .slice(0, 5);
+// }
   onViewAllClick() {
    this.router.navigate(['/books']);
 

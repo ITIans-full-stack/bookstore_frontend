@@ -28,6 +28,9 @@ selectedBook: BookInterface | null = null;
 toastType: 'success' | 'error' = 'success';
 showToast = false;
 selectedBookToDelete: any = null;
+availableCategories: string[] = ['Fiction', 'Non-Fiction', 'Science', 'History', 'Fantasy', 'Literature', 'Poetry', 'Science-Fiction','Historical-Fiction','Children'];
+selectedCategories: string[] = [];
+selectedCategory: string = '';
 
   constructor(private bookService: BookDataService , private fb: FormBuilder) {}
 
@@ -35,7 +38,12 @@ selectedBookToDelete: any = null;
     this.bookService.getAllBooks().subscribe({
   next: (res: any) => {
     if (Array.isArray(res.data)) {
-      this.books = res.data;
+      this.books = res.data.map((book: any) => ({
+  ...book,
+  category: Array.isArray(book.category)
+    ? book.category
+    : book.category.split(',').map((cat: string) => cat.trim())
+}));
       this.filterBooks();
     } else {
       console.error('Data is not an array:', res);
@@ -71,11 +79,19 @@ selectedBookToDelete: any = null;
     this.editSelectedFileName = 'No file chosen';
     this.editImagePreviewUrl = null;
 
+     const normalizedCategories = Array.isArray(book.category)
+    ? book.category
+    : book.category.split(',').map(c => c.trim());
+
+ 
+  this.selectedCategories = [...normalizedCategories];
+
     this.editForm = this.fb.group({
       title: [book.title, [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
       author: [book.author, [Validators.required, Validators.minLength(4), Validators.maxLength(20)]],
       description: [book.description, [Validators.required, Validators.minLength(5), Validators.maxLength(2000)]],
-      category: [book.category.toLowerCase(), [Validators.required]],
+     category: [this.selectedCategories, [Validators.required]],
+
       price: [book.price, [Validators.required, Validators.min(0)]],
       discount: [book.discount ?? 0, [Validators.min(0), Validators.max(70)]],
       stock: [book.stock, [Validators.required, Validators.min(0)]],
@@ -114,7 +130,10 @@ selectedBookToDelete: any = null;
   formData.append('title', this.editForm.get('title')?.value);
   formData.append('author', this.editForm.get('author')?.value);
   formData.append('description', this.editForm.get('description')?.value);
-  formData.append('category', this.editForm.get('category')?.value);
+  this.editForm.get('category')?.value.forEach((cat: string) => {
+  formData.append('category[]', cat);
+});
+
   formData.append('price', String(this.editForm.get('price')?.value));
   formData.append('discount', String(this.editForm.get('discount')?.value));
   formData.append('stock', String(this.editForm.get('stock')?.value));
@@ -142,6 +161,20 @@ selectedBookToDelete: any = null;
       this.showToast = true;
     }
   });
+}
+
+addCategory(category: string) {
+  if (category && !this.selectedCategories.includes(category)) {
+    this.selectedCategories.push(category);
+    this.editForm.get('category')?.setValue(this.selectedCategories);
+  }
+  this.selectedCategory = '';
+}
+
+// Remove a selected category
+removeCategory(cat: string) {
+  this.selectedCategories = this.selectedCategories.filter(c => c !== cat);
+  this.editForm.get('category')?.setValue(this.selectedCategories);
 }
 //====================================================================
 

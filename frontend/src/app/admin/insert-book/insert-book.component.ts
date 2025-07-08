@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BookDataService } from '../../core/services/book-data.service';
-import { FormBuilder, FormGroup , ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup , FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
 
 @Component({
   selector: 'app-insert-book',
   standalone: true,
-  imports: [CommonModule,ReactiveFormsModule],
+  imports: [CommonModule,ReactiveFormsModule,FormsModule],
   templateUrl: './insert-book.component.html',
   styleUrls: ['./insert-book.component.css']
 })
@@ -18,6 +18,8 @@ export class InsertBookComponent implements OnInit{
    toastMessage = '';
   showToast = false;
   toastType: 'success' | 'error' = 'success';
+availableCategories: string[] = ['Fiction', 'Non-Fiction', 'Science', 'History', 'Fantasy', 'Literature', 'Poetry', 'Science-Fiction','Historical-Fiction','Children'];
+
 
 
 
@@ -27,15 +29,18 @@ export class InsertBookComponent implements OnInit{
 
    ngOnInit(): void {
     this.bookForm = this.fb.group({
-      title: ['', Validators.required , Validators.min(4),Validators.max(50)],
-      author: ['', Validators.required , Validators.min(4),Validators.max(20)],
-      description: ['', Validators.required, Validators.min(5),Validators.max(1000)],
-      image: ['', Validators.required],
-      category: ['', Validators.required],
-      price: [ [Validators.required, Validators.min(0)]],
-      discount: [ [Validators.min(0), Validators.max(70)]],
-      stock: [ [Validators.required, Validators.min(1)]],
+    title: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
+    author: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(20)]],
+    description: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(1000)]],
+    image: ['', Validators.required],
+    category: [[], [Validators.required, Validators.minLength(1)]],
+    price: [null, [Validators.required, Validators.min(0)]],
+    discount: [null, [Validators.min(0), Validators.max(70)]],
+    stock: [null, [Validators.required, Validators.min(1)]],
+
     });
+
+    
   }
 
   onFileSelected(event: Event): void {
@@ -74,7 +79,8 @@ export class InsertBookComponent implements OnInit{
     formData.append('title', this.bookForm.get('title')?.value);
     formData.append('author', this.bookForm.get('author')?.value);
     formData.append('description', this.bookForm.get('description')?.value);
-    formData.append('category', this.bookForm.get('category')?.value);
+    const categories = this.bookForm.get('category')?.value;
+    categories.forEach((cat: string) => formData.append('category[]', cat));
     formData.append('price', this.bookForm.get('price')?.value);
     formData.append('discount', this.bookForm.get('discount')?.value);
     formData.append('stock', this.bookForm.get('stock')?.value);
@@ -93,5 +99,24 @@ export class InsertBookComponent implements OnInit{
       }
     });
   }
+
+
+selectedCategory: string = '';
+selectedCategories: string[] = [];
+
+addCategory(cat: string): void {
+  if (cat && !this.selectedCategories.includes(cat)) {
+    this.selectedCategories.push(cat);
+    this.bookForm.get('category')?.setValue(this.selectedCategories);
+    this.bookForm.get('category')?.markAsTouched();
+  }
+  this.selectedCategory = ''; // reset the select
+}
+
+removeCategory(cat: string): void {
+  this.selectedCategories = this.selectedCategories.filter(c => c !== cat);
+  this.bookForm.get('category')?.setValue(this.selectedCategories);
+  this.bookForm.get('category')?.markAsTouched();
+}
 
 }

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BookInterface } from '../interfaces/book-interface';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 
@@ -43,5 +43,30 @@ export class BookDataService {
   deleteBookById(id: string): Observable<BookInterface> {
     return this.http.delete<BookInterface>(`${this.apiUrl}/${id}`);
   }
+
+  //get categories
+   getCategories(): Observable<string[]> {
+    return this.http.get<{ data: string[] }>(`${this.apiUrl}/categories`).pipe(
+      map((res) => res.data)
+    );
+  }
+//top sales
+  getTopSalesBooks() {
+  return this.http.get<{ data: BookInterface[] }>(`${this.apiUrl}/top-sales`);
+}
+//top rated
+
+getTopRatedBooks() {
+  return this.http.get<{ data: BookInterface[] }>(`${this.apiUrl}/top-rated`);
+}
+//newest
+
+getNewestBooks() {
+  return this.http.get<{ data: BookInterface[] }>(`${this.apiUrl}/newest`);
+}
+//get authors
+getAllAuthors() {
+  return this.http.get<{ data: string[] }>(`${this.apiUrl}/authors`);
+}
 
 }

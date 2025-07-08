@@ -50,21 +50,46 @@
     </div>
 
     <!-- Category -->
-    <div class="mb-4">
-      <label class="form-label text-muted small fw-semibold">Category</label>
-      <select class="form-select shadow-sm rounded"
-              formControlName="category"
-              [class.is-invalid]="bookForm.get('category')?.invalid && bookForm.get('category')?.touched">
-        <option value="" disabled>-- Select a category --</option>
-        <option value="fiction">Fiction</option>
-        <option value="non-fiction">Non-Fiction</option>
-        <option value="science">Science</option>
-        <option value="history">History</option>
-        <option value="fantasy">Fantasy</option>
-        <option value="fantasy">Literatul</option>
-      </select>
-      <div class="invalid-feedback" *ngIf="bookForm.get('category')?.hasError('required')">Category is required.</div>
-    </div>
+<!-- Category Multi-Select -->
+<div class="mb-4">
+  <label class="form-label text-muted small fw-semibold">Categories</label>
+
+  <select
+    class="form-select shadow-sm rounded mb-2"
+    [(ngModel)]="selectedCategory"
+    (change)="addCategory(selectedCategory)"
+    [ngModelOptions]="{standalone: true}"
+  >
+    <option value="" disabled selected>-- Select a category --</option>
+    <option *ngFor="let cat of availableCategories" [value]="cat" [disabled]="selectedCategories.includes(cat)">
+      {{ cat }}
+    </option>
+  </select>
+
+  <!-- Selected Categories as Badges -->
+  <div class="mt-2">
+    <span
+      class="badge bg-danger me-2 mb-1 p-2 d-inline-flex align-items-center"
+      *ngFor="let cat of selectedCategories"
+    >
+      {{ cat }}
+      <button
+        type="button"
+        class="btn-close btn-close-white btn-sm ms-2"
+        aria-label="Remove"
+        (click)="removeCategory(cat)"
+      ></button>
+    </span>
+  </div>
+
+  <!-- Validation error -->
+  <div class="text-danger small mt-1" *ngIf="bookForm.get('category')?.invalid && bookForm.get('category')?.touched">
+    At least one category is required.
+  </div>
+</div>
+
+
+
 
     <!-- Price -->
     <div class="mb-4">
