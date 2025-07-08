@@ -57,14 +57,17 @@ newestBooks: BookInterface[] = [];
     this.searchSub.unsubscribe();
   }
 
-@ViewChild('scrollContainer', { static: false }) scrollContainer!: ElementRef;
+@ViewChild('newestScroll', { static: false }) newestScroll!: HTMLElement;
+@ViewChild('salesScroll', { static: false }) salesScroll!: HTMLElement;
 
-  scrollLeft() {
-    this.scrollContainer.nativeElement.scrollBy({ left: -300, behavior: 'smooth' });
-  }
-  scrollRight() {
-    this.scrollContainer.nativeElement.scrollBy({ left: 300, behavior: 'smooth' });
-  }
+scrollRight(ref: HTMLElement) {
+  ref.scrollBy({ left: 300, behavior: 'smooth' });
+}
+
+scrollLeft(ref: HTMLElement) {
+  ref.scrollBy({ left: -300, behavior: 'smooth' });
+}
+
 
 
 loadBooks() {

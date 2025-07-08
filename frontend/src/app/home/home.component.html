@@ -68,13 +68,13 @@
 <section class="newest-books-section text-center mb-3">
   <h2 class="section-title">Newest Books</h2>
   <div class="scroll-wrapper position-relative">
-    <button class="scroll-btn left" (click)="scrollLeft()">
+    <button class="scroll-btn left" (click)="scrollLeft(newestScroll)">
       <i class="fas fa-chevron-left"></i>
     </button>
-    <div class="book-card-container" #scrollContainer>
+    <div class="book-card-container" #newestScroll>
       <app-book-card *ngFor="let book of newestBooks" [book]="book"></app-book-card>
     </div>
-    <button class="scroll-btn right" (click)="scrollRight()">
+    <button class="scroll-btn right" (click)="scrollRight(newestScroll)">
       <i class="fas fa-chevron-right"></i>
     </button>
   </div>
@@ -84,13 +84,13 @@
     <section class="flash-sales-section text-center mb-3">
       <h2 class="section-title">Top Sales</h2>
       <div class="scroll-wrapper position-relative">
-        <button class="scroll-btn left" (click)="scrollLeft()">
+        <button class="scroll-btn left" (click)="scrollLeft(salesScroll)">
           <i class="fas fa-chevron-left"></i>
         </button>
-        <div class="book-card-container" #scrollContainer>
+        <div class="book-card-container" #salesScroll>
           <app-book-card *ngFor="let book of topSalesBooks" [book]="book"></app-book-card>
         </div>
-        <button class="scroll-btn right" (click)="scrollRight()">
+        <button class="scroll-btn right" (click)="scrollRight(salesScroll)">
           <i class="fas fa-chevron-right"></i>
         </button>
       </div>
