@@ -133,7 +133,9 @@ export class NavBarComponent implements OnInit {
     this.showMinimalNav =
       path.includes('/login') ||
       path.includes('/register')||
-      path.includes('/notfound');
+      path.includes('/notfound')||
+      path.includes('/landing');
+
 
     // ✅ Show search only on /books 
     this.showSearch = path==='/books';
