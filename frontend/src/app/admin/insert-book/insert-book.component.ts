@@ -143,6 +143,9 @@ removeExtraImage(index: number): void {
         this.selectedFile = null;
         this.selectedImages = [];
         this.selectedImagesPreview=[];
+        this.selectedCategories=[];
+        this.selectedImagePreview='';
+        
    
       },
       error: (err) => {

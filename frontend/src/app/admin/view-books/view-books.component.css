@@ -31,3 +31,29 @@ input:focus , textarea:focus , select:focus {
   box-shadow: 0 0 5px rgba(77, 15, 15, 0.6);
   outline: none;
 }
+.custom-pagination {
+  display: flex;
+  list-style: none;
+  gap: 0.5rem;
+  justify-content: center;
+  padding: 1rem 0;
+}
+
+.page-number button {
+  padding: 0.4rem 0.8rem;
+  border: none;
+  background-color: #eee;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.page-number.active button {
+  background-color: red;
+  color: white;
+  font-weight: bold;
+}
+
+.page-number button:disabled {
+  background-color: #ccc;
+  cursor: default;
+}

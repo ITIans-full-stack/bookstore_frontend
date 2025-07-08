@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, ViewportScroller } from '@angular/common';
 import { Book } from '../../book-details/models/book';
 import { BookDataService } from '../../core/services/book-data.service';
 import { BookInterface } from '../../core/interfaces/book-interface';
@@ -31,30 +31,46 @@ selectedBookToDelete: any = null;
 availableCategories: string[] = ['Fiction', 'Non-Fiction', 'Science', 'History', 'Fantasy', 'Literature', 'Poetry', 'Science-Fiction','Historical-Fiction','Children'];
 selectedCategories: string[] = [];
 selectedCategory: string = '';
-
-  constructor(private bookService: BookDataService , private fb: FormBuilder) {}
+currentPage: number = 1;
+totalPages: number = 1;
+pageSize: number = 10;
+  constructor(private bookService: BookDataService , private fb: FormBuilder,private viewportScroller: ViewportScroller) {}
 
   ngOnInit(): void {
-    this.bookService.getAllBooks().subscribe({
-  next: (res: any) => {
-    if (Array.isArray(res.data)) {
-      this.books = res.data.map((book: any) => ({
-  ...book,
-  category: Array.isArray(book.category)
-    ? book.category
-    : book.category.split(',').map((cat: string) => cat.trim())
-}));
-      this.filterBooks();
-    } else {
-      console.error('Data is not an array:', res);
-    }
-  },
-  error: (err) => {
-    console.error('Error fetching books:', err);
-  }
-});
+ this.loadBooks(this.currentPage);
+ this.scrollToTop();
  
   }
+
+  loadBooks(page: number = 1): void {
+  this.currentPage = page;
+
+  this.bookService.getBooks(this.currentPage, this.pageSize).subscribe({
+    next: (res: any) => {
+      if (Array.isArray(res.data)) {
+        this.books = res.data.map((book: any) => ({
+          ...book,
+          category: Array.isArray(book.category)
+            ? book.category
+            : book.category.split(',').map((cat: string) => cat.trim())
+        }));
+
+        this.totalPages = res.totalPages || 1;
+        this.currentPage = res.page;
+        this.scrollToTop(); 
+        this.filterBooks();
+      } else {
+        console.error('Data is not an array:', res);
+      }
+    },
+    error: (err) => {
+      console.error('Error fetching books:', err);
+    }
+  });
+}
+scrollToTop(): void {
+  this.viewportScroller.scrollToPosition([0, 0]);
+}
   
 
 //=================================================================

@@ -33,14 +33,14 @@
 
       <!-- Book Image Section -->
     
-<div class="col-md-3 bg-light d-flex align-items-center justify-content-center p-3">
+<div class="col-md-3 bg-light d-flex align-items-center justify-content-center p-3  "style="height: 300px;">
 
   <!-- If book.images exists and has at least one image -->
   <div *ngIf="book.images?.length > 0; else singleImage">
 
     <!-- Unique carousel ID using book._id -->
     <div [id]="'carousel_' + book._id" class="carousel slide w-100" data-bs-ride="carousel">
-      <div class="carousel-inner rounded shadow-sm" style="height: 300px;">
+      <div class="carousel-inner rounded shadow-sm" style="height: 100%;">
         
         <!-- book.image as the first (active) slide -->
         <div class="carousel-item active">
@@ -448,6 +448,24 @@
     <button type="button" class="btn-close btn-close-white me-2 m-auto" (click)="showToast = false" aria-label="Close"></button>
   </div>
 </div>
+
+<nav *ngIf="totalPages > 1" aria-label="Page navigation">
+  <ul class="custom-pagination">
+    <li
+      class="page-number"
+      *ngFor="let page of [].constructor(totalPages); let i = index"
+      [class.active]="currentPage === i + 1"
+    >
+      <button
+        (click)="loadBooks(i + 1)"
+        [disabled]="currentPage === i + 1"
+      >
+        {{ i + 1 }}
+      </button>
+    </li>
+  </ul>
+</nav>
+
 
 
 
