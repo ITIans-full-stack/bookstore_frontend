@@ -177,6 +177,17 @@ export class BookCardComponent {
   constructor(private router: Router, private cartService: CartService) {}
 
   ngOnInit() {
+    if (this.isUserLoggedIn()) {
+      this.loadCartStatus();
+    }
+  }
+
+  private isUserLoggedIn(): boolean {
+    const token = localStorage.getItem('token');
+    return !!token;
+  }
+
+  private loadCartStatus() {
     this.cartService.getCart().subscribe({
       next: (cart) => {
         const cartItem = cart.items.find((item: any) => item.book._id === this.book._id);
@@ -185,12 +196,17 @@ export class BookCardComponent {
       },
       error: (err) => {
         console.error('Error fetching cart:', err);
-        this.showToast(err.error?.message || 'Failed to load cart', 'danger');
       },
     });
   }
 
   onAddToCart() {
+    if (!this.isUserLoggedIn()) {
+      this.showToast('Please log in to add items to cart', 'danger');
+     
+      return;
+    }
+
     if (this.book.stock <= 0) {
       this.showToast('Product is out of stock', 'danger');
       return;
@@ -217,6 +233,11 @@ export class BookCardComponent {
   }
 
   onRemoveFromCart() {
+    if (!this.isUserLoggedIn()) {
+      this.showToast('Please log in to remove items from cart', 'danger');
+      return;
+    }
+
     if (this.isLoading) return;
 
     this.isLoading = true;
@@ -235,6 +256,11 @@ export class BookCardComponent {
   }
 
   updateQuantity(increment: number) {
+    if (!this.isUserLoggedIn()) {
+      this.showToast('Please log in to update cart', 'danger');
+      return;
+    }
+
     const newQuantity = this.quantity + increment;
     if (newQuantity < 1) return;
     if (newQuantity > this.book.stock) {
@@ -263,6 +289,8 @@ export class BookCardComponent {
 
   showToast(message: string, type: 'success' | 'danger') {
     const toastContainer = document.getElementById('toast-container');
+    if (!toastContainer) return;
+    
     const toast = document.createElement('div');
     toast.className = `toast align-items-center text-white bg-${type} border-0 show`;
     toast.setAttribute('role', 'alert');
@@ -274,7 +302,7 @@ export class BookCardComponent {
         <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
       </div>
     `;
-    toastContainer?.appendChild(toast);
+    toastContainer.appendChild(toast);
     setTimeout(() => toast.remove(), 3000);
   }
 }
