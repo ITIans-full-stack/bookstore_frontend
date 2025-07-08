@@ -27,3 +27,12 @@
   background-color: #f8d7da; 
   color: #b02a37;
 }
+.review-box {
+  border-left: 4px solid #dc3545;
+  background-color: #fdfdfd;
+  transition: box-shadow 0.3s ease;
+}
+
+.review-box:hover {
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}

@@ -75,6 +75,8 @@ import { ChatbotComponent } from "../chatbot/chatbot.component";
 export class BookDetailsComponent implements OnInit {
   bookId!: string;
   book: any;
+  showFullDescription = false;
+  isLongDescription = false;
   reviews: Review[] = [];
   ratingDistribution: { [key: number]: number } = {};
   fullStar = faStarSolid;
@@ -87,7 +89,9 @@ emptyStar = faStarRegular;
     private reviewService: ReviewService,
     private viewportScroller: ViewportScroller
   ) {}
-
+toggleDescription() {
+  this.showFullDescription = !this.showFullDescription;
+}
   ngOnInit(): void {
    this.route.params.subscribe(params => {
     this.bookId = params['id'];
@@ -118,13 +122,13 @@ scrollToTop(): void {
     }
     });
   }
-getFloor(value: number): number {
-  return Math.floor(value);
-}
+  getFloor(value: number): number {
+    return Math.floor(value);
+  }
 
-getCeil(value: number): number {
-  return Math.ceil(value);
-}
+  getCeil(value: number): number {
+    return Math.ceil(value);
+  }
 
 
 calculateAverageRatingAndDistribution(): void {

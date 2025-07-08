@@ -1,12 +1,12 @@
 <div class="review-section p-4 border rounded shadow-sm bg-white">
   <h4 class="mb-4 fw-bold text-secondary">Customer Reviews</h4>
   <!-- Add Review Button -->
-    <div class="mb-3" *ngIf="!showForm">
+    <div class="mb-3" *ngIf="canWriteReview && !showForm">
     <button class="btn btn-outline-custom"  (click)="showForm = true">Write a Review</button>
     </div>
 
     <!-- Error Message -->
-<div  class="alert alert-warning py-2 small">{{ errorMessage }}</div>
+  <div  class="alert alert-warning py-2 small" *ngIf="!canWriteReview && errorMessage">{{ errorMessage }}</div>
   <!-- Add New Review Form -->
   <div class="mb-5" *ngIf="showForm">
     <h5 class="text-primary mb-3">Add Your Review</h5>
@@ -45,7 +45,7 @@
   <hr />
 
   <!-- Display Reviews -->
-  <div *ngFor="let review of reviews" class="mb-4 p-3 border rounded bg-light">
+  <div *ngFor="let review of visibleReviews" class="mb-4 p-3 border rounded bg-light">
     <div *ngIf="editingReviewId !== review._id">
       <div class="d-flex justify-content-between align-items-center mb-2">
         <strong class="text-dark">{{ review.user?.name || 'Anonymous' }}</strong>
@@ -108,6 +108,11 @@
       </form>
     </div>
   </div>
+  <div class="text-center mt-3" *ngIf="allReviews.length > 3">
+  <button class="btn btn-outline-secondary btn-sm" (click)="toggleShowAll()">
+    {{ showAll ? 'Show Less' : 'Show All Reviews' }}
+  </button>
+</div>
 </div>
 
 
