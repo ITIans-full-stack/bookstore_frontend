@@ -30,12 +30,29 @@
 
 
 
-    <!-- Product Details -->
-    <div class="col-md-6">
-      <h2 class="fw-semibold mb-3">{{ book?.title }}</h2>
+    <!-- Book Images Thumbnails -->
+<div class="mt-3">
+  <div class="d-flex flex-wrap gap-2 justify-content-start">
+    <img 
+      *ngFor="let img of imageList" 
+      [src]="img" 
+      class="img-thumbnail border"
+      [ngClass]="{ 'border-danger border-1': img === book?.image }"
+      style="width: 80px; height: 100px; object-fit: cover; cursor: pointer;"
+      (click)="book.image = img" 
+      [alt]="book?.title + ' preview'" />
+  </div>
+</div>
 
-      <!-- Author -->
-      <p class="text-muted mb-1" *ngIf="book?.author">by <span class="fw-medium">{{ book.author }}</span></p>
+  </div>
+</div>
+
+
+
+    <!-- Book Info -->
+    <div class="col-lg-7">
+      <h2 class="fw-bold text-dark mb-2">{{ book?.title }}</h2>
+      <p class="text-muted mb-2" *ngIf="book?.author">By <strong>{{ book.author }}</strong></p>
 
       <!-- Rating -->
       <!-- <div class="d-flex align-items-center mb-3">
@@ -52,40 +69,59 @@
         </div>
         <span class="text-muted">({{ book?.averageRating?.toFixed(1) || '0.0' }} / 5)</span>
       </div> -->
-        <app-rating [averageRating]="book?.averageRating" [stock]="book?.stock" [hasRating]="!!book?.averageRating"></app-rating>
+        <app-rating [averageRating]="book.averageRating" [stock]="book.stock" [hasRating]="!!book.averageRating"></app-rating>
 
-      <!-- Price -->
-      <div class="mb-3">
-        <h4 class="text-danger fw-bold d-inline me-2">{{ book?.price | currency: 'EGP' }}</h4>
-        <span *ngIf="book?.discount" class="text-muted text-decoration-line-through">
+      <!-- Price Section -->
+      <div class="mt-3 mb-3">
+        <h3 class="text-danger fw-bold d-inline me-2">{{ book?.price | currency: 'EGP' }}</h3>
+        <span *ngIf="book?.discount" class="text-muted text-decoration-line-through fs-6">
           {{ (book?.price / (1 - book.discount / 100)) | currency: 'EGP' }}
         </span>
       </div>
 
-      <!-- Description -->
-      <p class="text-muted mb-4" style="line-height: 1.7;">{{ book?.description }}</p>
+      <!-- Stock -->
+      <!-- <p class="text-success mb-2 fw-medium" *ngIf="book?.stock > 0">In Stock</p>
+      <p class="text-danger mb-2 fw-medium" *ngIf="book?.stock === 0">Out of Stock</p> -->
 
-      <!-- Quantity + Buttons -->
+      <!-- Description -->
+      <!-- <p
+        class="text-muted mb-4 description-toggle"
+        [class.collapsed]="showFullDescription"
+      >
+        {{ book?.description }}
+      </p>
+      <a class="text-primary small" style="cursor:pointer;" (click)="showFullDescription = !showFullDescription">
+        {{ showFullDescription ? 'See Less' : 'See More' }}
+      </a> -->
+
+      <p class="description-text">
+        <span *ngIf="!showFullDescription">
+          {{ book?.description | slice:0:120 }}...
+          <a (click)="toggleDescription()" class="see-toggle">See More</a>
+        </span>
+        <span *ngIf="showFullDescription">
+          {{ book?.description }}
+          <a (click)="toggleDescription()" class="see-toggle">See Less</a>
+        </span>
+      </p>
+
+
+
+      <!-- Quantity + Action Buttons -->
       <div class="d-flex align-items-center mb-4">
-        <div class="d-flex align-items-center border rounded me-3 px-2">
+        <div class="d-flex align-items-center border rounded px-2 py-1 me-3">
           <button class="btn btn-sm btn-outline-secondary border-0">-</button>
           <div class="px-3 py-1">1</div>
           <button class="btn btn-sm btn-outline-secondary border-0">+</button>
         </div>
-        <!-- <button class="btn btn-danger me-2 px-4">Add to Cart</button> -->
-         <button 
-  class="btn btn-danger me-2 px-4 w-25 text-light"
-  *ngIf="book"
- [disabled]="book.stock === 0 || book.stock === undefined"
-  [ngClass]="{
-    'btn-secondary disabled-btn': book.stock === 0 || book.stock === undefined
-  }"
-  [attr.title]="book.stock === 0 || book.stock === undefined ? 'Out of Stock' : 'Add this book to your cart'"
-  data-bs-toggle="tooltip"
-  data-bs-placement="top"
- >
-  Add To Cart
-</button>
+        <button 
+          class="btn btn-custom me-2 px-4"
+          [disabled]="book.stock === 0 || book.stock === undefined"
+          [ngClass]="{ 'btn-secondary disabled-btn': book.stock === 0 || book.stock === undefined }"
+          [attr.title]="book.stock === 0 ? 'Out of Stock' : 'Add this book to your cart'"
+        >
+          Add To Cart
+        </button>
         <app-wishlist-btn></app-wishlist-btn>
       </div>
     </div>
@@ -93,7 +129,6 @@
 
   <!-- Ratings & Reviews -->
   <div class="row mt-5 g-4">
-    <!-- Left: Overall Rating -->
     <div class="col-md-4">
       <div class="card p-4 shadow-sm bg-white rounded-3 border-0 h-100">
         <h5 class="text-center mb-3 text-secondary">Overall Rating</h5>
@@ -104,7 +139,7 @@
                 *ngFor="let star of [0, 1, 2, 3, 4]"
                 [icon]="getStarIcon(star)"
                 class="me-1"
-                [ngClass]="book?.averageRating? 'text-warning' : 'text-muted opacity-50'"
+                [ngClass]="book?.averageRating ? 'text-warning' : 'text-muted opacity-50'"
                 style="font-size: 22px;"
             ></fa-icon>
 
@@ -113,35 +148,28 @@
             </div>
         </div>
 
-
-        <!-- Rating Breakdown -->
-        <div *ngFor="let star of [5, 4, 3, 2, 1]" class="d-flex align-items-center mb-2">
-          <span style="width: 32px;" class="text-muted small">{{ star }} ★</span>
-          <div class="progress flex-grow-1 mx-2" style="height: 10px; background-color: #eee;">
-            <div class="progress-bar bg-warning"
-                 [style.width.%]="ratingDistribution[star] || 0"
-                 role="progressbar"></div>
+        <!-- Rating Bars -->
+        <div *ngFor="let star of [5,4,3,2,1]" class="d-flex align-items-center mb-2">
+          <span class="text-muted small" style="width: 35px;">{{ star }} ★</span>
+          <div class="progress flex-grow-1 mx-2" style="height: 10px;">
+            <div class="progress-bar bg-warning" [style.width.%]="ratingDistribution[star] || 0"></div>
           </div>
-          <span style="width: 45px;" class="text-muted small text-end">
+          <span class="text-muted small text-end" style="width: 45px;">
             {{ ratingDistribution[star]?.toFixed(1) || '0.0' }}%
           </span>
         </div>
       </div>
     </div>
 
-    <!-- Right: Review List -->
+    <!-- Reviews -->
     <div class="col-md-8">
-      <div class="card p-4 shadow-sm bg-white rounded-3 border-0">
-        <app-review
-          [bookId]="bookId"
-          [reviews]="reviews"
-          (refresh)="refreshReviews()">
-        </app-review>
+      <div class="card p-4 shadow-sm review-card">
+        <app-review [bookId]="bookId" [reviews]="reviews" (refresh)="refreshReviews()"></app-review>
       </div>
     </div>
   </div>
 
-  <!-- Related Books -->
+  <!-- Related -->
   <div class="mt-5">
     <app-related-books [bookId]="bookId"></app-related-books>
     <app-chatbot></app-chatbot>

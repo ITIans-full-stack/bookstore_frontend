@@ -15,8 +15,10 @@ export class ReviewComponent implements OnInit {
   @Input() bookId!: string
   @Input() reviews: Review[] = [];
   @Output() refresh = new EventEmitter<void>();
-  // canWriteReview: boolean = false;
-
+  canWriteReview: boolean = false;
+  allReviews: Review[] = [];
+  visibleReviews: Review[] = [];
+  showAll: boolean = false;
   newReview: { rating: number; comment: string } = { rating: 0, comment: '' };
   editingReviewId: string | null = null;
   editedReview: { rating: number; comment: string } = { rating: 0, comment: '' };
@@ -26,6 +28,7 @@ export class ReviewComponent implements OnInit {
   errorMessage: string = '';
   ngOnInit(): void {
     this.loadReviews();
+    this.checkReviewPermission();
   }
 
   getToken(): string | null {
@@ -33,15 +36,23 @@ export class ReviewComponent implements OnInit {
   }
 
   loadReviews() {
-    this.reviewService.getReviews(this.bookId).subscribe({
-      next: (data) => {
-        this.reviews = data;
-      },
-      error: (err) => {
-        console.error('Error loading reviews:', err);
-      }
-    });
-  }
+  this.reviewService.getReviews(this.bookId).subscribe({
+    next: (data) => {
+      this.allReviews = data
+        .filter(r => r.createdAt)
+        .sort((a, b) => new Date(b.createdAt!).getTime() - new Date(a.createdAt!).getTime());
+
+      this.visibleReviews = this.allReviews.slice(0, 3);
+    },
+    error: (err) => {
+      console.error('Error loading reviews:', err);
+    }
+  });
+}
+toggleShowAll() {
+  this.showAll = !this.showAll;
+  this.visibleReviews = this.showAll ? this.allReviews : this.allReviews.slice(0, 3);
+}
 
   addReview() {
     const token = this.getToken();
@@ -90,10 +101,12 @@ export class ReviewComponent implements OnInit {
     if (!token) return;
 
     this.reviewService.deleteReview(reviewId, token).subscribe({
-      next: () => this.loadReviews(),
+      next: () =>{ this.loadReviews()
+                  this.refresh.emit();
+      },
       error: (err) => console.error('Delete review error:', err)
     });
-    this.refresh.emit();
+    
   }
 
   getCurrentUserId(): string | null {
@@ -108,28 +121,28 @@ export class ReviewComponent implements OnInit {
   }
 }
 
-// checkReviewPermission() {
-//   const token = localStorage.getItem('token');
-//   if (!token) {
-//     this.errorMessage = 'Please log in to write a review.';
-//     return;
-//   }
+checkReviewPermission() {
+  const token = this.getToken();
+  if (!token) {
+    this.errorMessage = 'Please log in to write a review.';
+    return;
+  }
 
-//   this.reviewService.canReview(this.bookId, token).subscribe({
-//     next: (res) => {
-//       this.canWriteReview = res.canReview;
-//       this.errorMessage = '';
-//     },
-//     error: (err) => {
-//       if (err.status === 403) {
-//         this.canWriteReview = false;
-//         this.errorMessage = 'You can only review books you have purchased.';
-//       } else {
-//         this.errorMessage = 'Something went wrong. Try again later.';
-//       }
-//     }
-//   });
-// }
+  this.reviewService.canReview(this.bookId, token).subscribe({
+    next: (res) => {
+      this.canWriteReview = res.canReview;
+      this.errorMessage = '';
+    },
+    error: (err) => {
+      if (err.status === 403) {
+        this.canWriteReview = false;
+        this.errorMessage = 'You can only review books you have purchased.';
+      } else {
+        this.errorMessage = 'Something went wrong. Try again later.';
+      }
+    }
+  });
+}
 
 
   cancelEdit() {

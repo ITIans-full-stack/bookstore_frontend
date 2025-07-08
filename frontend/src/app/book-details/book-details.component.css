@@ -1,31 +1,77 @@
 .product-image-container {
-  background-color: #f8f9fa;
+  background-color: #fff;
   padding: 1.5rem;
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
+  border: 1px solid #e0e0e0;
   height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .product-image {
   max-height: 400px;
+  object-fit: contain;
 }
 
 .product-description {
-  max-width: 373px;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+/* .description-text {
+  line-height: 1.7;
+  font-size: 15px;
+  color: #555;
+} */
+.description-toggle {
+  font-size: 15px;
+  color: #555;
+  max-height: 4.5em; /* roughly 3 lines */
+  overflow: hidden;
+  line-height: 1.5em;
+  transition: max-height 0.3s ease;
 }
 
-.icon-large {
-  font-size: 1.5rem;
+.description-toggle.collapsed {
+  max-height: none;
 }
-.card {
-  border-radius: 12px;
-  border: none;
+.see-toggle {
+  font-weight: 600;
+  color: #000;
+  cursor: pointer;
+  text-decoration: none;
+  margin-left: 4px;
+}
+
+.see-toggle:hover {
+  text-decoration: underline;
+}
+
+
+
+.btn-custom {
+  background-color: #dc3545;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 0.375rem;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.btn-custom:hover {
+  background-color: #af2a38;
+  color: #fff;
+}
+
+.rating-card,
+.review-card {
+  background-color: #fff;
+  border-radius: 0.75rem;
+  border: 1px solid #ddd;
 }
 
 .progress-bar {
   transition: width 0.4s ease;
+}
+
+.card {
+  border: none;
 }
 
 .fa {
@@ -35,34 +81,3 @@
 .fa:hover {
   transform: scale(1.1);
 }
-
-.btn-custom {
-  background-color: #dc3545;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  font-weight: 500;
-  border-radius: 6px;
-  transition: background-color 0.2s ease;
-}
-
-.btn-custom:hover {
-  background-color: #b02a37; /* darker red on hover */
-  color: white;
-}
-
-.btn-outline-custom {
-  border: 1px solid #dc3545;
-  background-color: transparent;
-  color: #dc3545;
-  border-radius: 6px;
-  padding: 6px 12px;
-  font-weight: 500;
-  transition: background-color 0.2s ease;
-}
-
-.btn-outline-custom:hover {
-  background-color: #f8d7da; /* light red background */
-  color: #b02a37;
-}
-

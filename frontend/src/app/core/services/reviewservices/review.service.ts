@@ -34,7 +34,7 @@ export class ReviewService {
 
   canReview(bookId: string, token: string) {
   return this.http.get<{ canReview: boolean }>(
-    `${this.apiUrl}/reviews/can-review/${bookId}`,
+    `${this.apiUrl}/can-review/${bookId}`,
     {
       headers: { Authorization: `Bearer ${token}` }
     }
