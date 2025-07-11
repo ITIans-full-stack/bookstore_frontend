@@ -60,7 +60,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ChatbotComponent } from "../chatbot/chatbot.component";
 import { OrderService } from "../core/services/orderService/order.service";
 import { BookInterface } from "../core/interfaces/book-interface";
-
+import { CartBtnComponent } from "../shared/components/cart-btn/cart-btn.component";
 @Component({
   selector: 'app-book-details',
   imports:[RelatedBooksComponent,
@@ -69,7 +69,8 @@ import { BookInterface } from "../core/interfaces/book-interface";
     CommonModule,
     WishlistBtnComponent,
     ChatbotComponent,
-    FontAwesomeModule],
+    FontAwesomeModule
+  , CartBtnComponent,],
   standalone: true,
   templateUrl: './book-details.component.html',
   styleUrls: ['./book-details.component.css']

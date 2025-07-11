@@ -59,7 +59,7 @@
       </p>
 
       <!-- Quantity & Add to Cart -->
-      <div class="d-flex align-items-center mb-4">
+      <!-- <div class="d-flex align-items-center mb-4">
         <div class="d-flex align-items-center border rounded px-2 py-1 me-3">
           <button class="btn btn-sm btn-outline-secondary border-0">-</button>
           <div class="px-3 py-1">1</div>
@@ -75,7 +75,25 @@
           data-bs-placement="top"
         >
           Add To Cart
-        </button>
+        </button> -->
+
+        <!-- cart-btn component -->
+<div class="book-details">
+  <div class="book-info">
+    <h1>{{ book.title }}</h1>
+    <p>{{ book.description }}</p>
+    <div class="price">{{ book.price | currency:'EGP' }}</div>
+  </div>
+  
+  <div class="cart-actions">
+    <app-cart-btn 
+      [book]="book"
+      [showQuantityControls]="true"
+      buttonText="Add To Cart"
+      customClass="cart-btn-lg">
+    </app-cart-btn>
+  </div>
+</div>
 
         <app-wishlist-btn></app-wishlist-btn>
       </div>
@@ -146,4 +164,4 @@
     <app-related-books [bookId]="bookId"></app-related-books>
     <app-chatbot></app-chatbot>
   </div>
-</div>
+

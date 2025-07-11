@@ -1,1 +1,70 @@
-<button class="btn btn-danger px-4 me-2">Add to Cart</button>
+<!-- add to cart button (when not in cart) -->
+<div *ngIf="!isInCart" class="cart-btn-container">
+  <button 
+    class="btn cart-btn-add {{customClass}}"
+    [ngClass]="{
+      'btn-secondary disabled-btn': book.stock === 0 || book.stock === undefined,
+      'loading': isLoading
+    }"
+    [attr.title]="book.stock === 0 || book.stock === undefined ? 'Out of Stock' : 'Add this book to your cart'"
+    [disabled]="book.stock === 0 || book.stock === undefined || isLoading"
+    (click)="onAddToCart()">
+    
+    <span *ngIf="!isLoading">
+      <i class="fas fa-cart-plus me-2"></i>
+      {{ buttonText }}
+    </span>
+    <span *ngIf="isLoading">
+      <i class="fas fa-spinner fa-spin me-2"></i>
+      Adding...
+    </span>
+  </button>
+</div>
+
+<!-- quantity controls (when in cart) -->
+<div *ngIf="isInCart && showQuantityControls" class="cart-quantity-controls {{customClass}}">
+  <button 
+    class="btn btn-quantity btn-decrease"
+    [disabled]="isLoading"
+    (click)="decreaseQuantity()">
+    <i class="fas fa-minus"></i>
+  </button>
+  
+  <span class="quantity-display">
+    <span *ngIf="!isLoading">{{ quantity }}</span>
+    <i *ngIf="isLoading" class="fas fa-spinner fa-spin"></i>
+  </span>
+  
+  <button 
+    class="btn btn-quantity btn-increase"
+    [disabled]="isLoading || quantity >= book.stock"
+    (click)="increaseQuantity()">
+    <i class="fas fa-plus"></i>
+  </button>
+  
+  <button 
+    class="btn btn-remove-cart ms-2"
+    [disabled]="isLoading"
+    (click)="removeFromCart()"
+    title="Remove from cart">
+    <i class="fas fa-trash-alt"></i>
+  </button>
+</div>
+
+<!-- simple "In Cart" indicator (when showQuantityControls is false) -->
+<div *ngIf="isInCart && !showQuantityControls" class="cart-btn-container">
+  <button 
+    class="btn cart-btn-in-cart {{customClass}}"
+    [disabled]="isLoading"
+    (click)="removeFromCart()">
+    
+    <span *ngIf="!isLoading">
+      <i class="fas fa-check me-2"></i>
+      In Cart ({{ quantity }})
+    </span>
+    <span *ngIf="isLoading">
+      <i class="fas fa-spinner fa-spin me-2"></i>
+      Removing...
+    </span>
+  </button>
+</div>

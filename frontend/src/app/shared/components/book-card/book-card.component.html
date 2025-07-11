@@ -21,20 +21,15 @@
 
             <!-- <button class="btn add-to-cart w-70">Add To Cart</button> -->
 
-            <div>
-                <button 
-  class="btn add-to-cart w-70 text-light"
-  *ngIf="book"
- 
-  [ngClass]="{
-    'btn-secondary disabled-btn': book.stock === 0 || book.stock === undefined
-  }"
-  [attr.title]="book.stock === 0 || book.stock === undefined ? 'Out of Stock' : 'Add this book to your cart'"
-  data-bs-toggle="tooltip"
-  data-bs-placement="top"
-  (click)="onAddToCart()">
-  Add To Cart
-</button>
+            
+     <!-- cart-btn component -->
+              <div class="cart-btn-wrapper">
+                <app-cart-btn 
+                    [book]="book"
+                    [showQuantityControls]="false"
+                    buttonText="Add To Cart"
+                    customClass="w-100">
+                </app-cart-btn>
             </div>
         </div>
 

@@ -1,0 +1,245 @@
+.cart-btn-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.cart-btn-add {
+  background-color: #000;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  width: 80%;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cart-btn-add:hover {
+  background-color: #db4444;
+  color: #fff;
+}
+
+.cart-btn-add:focus {
+  box-shadow: 0 0 0 0.2rem rgba(220, 68, 68, 0.25);
+}
+
+.cart-btn-in-cart {
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  width: 100%;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cart-btn-in-cart:hover {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.cart-quantity-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #f8f9fa;
+  border: 2px solid #dee2e6;
+  border-radius: 8px;
+  padding: 8px 12px;
+  width: 100%;
+  min-height: 44px;
+}
+
+.btn-quantity {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid #dee2e6;
+  background: #fff;
+  color: #495057;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.btn-quantity:hover:not(:disabled) {
+  background: #007bff;
+  color: #fff;
+  border-color: #007bff;
+}
+
+.btn-quantity:disabled {
+  background: #f8f9fa;
+  color: #6c757d;
+  cursor: not-allowed;
+}
+
+.btn-decrease:hover:not(:disabled) {
+  background: #dc3545;
+  border-color: #dc3545;
+}
+
+.btn-increase:hover:not(:disabled) {
+  background: #28a745;
+  border-color: #28a745;
+}
+
+.quantity-display {
+  background: #fff;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-weight: 600;
+  color: #495057;
+  min-width: 40px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+}
+
+.btn-remove-cart {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid #dc3545;
+  background: #fff;
+  color: #dc3545;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.btn-remove-cart:hover:not(:disabled) {
+  background: #dc3545;
+  color: #fff;
+}
+
+.disabled-btn {
+  pointer-events: auto;
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.disabled-btn:hover {
+  background-color: #000 !important;
+  color: #fff !important;
+}
+
+.loading {
+  cursor: wait;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .cart-btn-add,
+  .cart-btn-in-cart {
+    padding: 8px 16px;
+    font-size: 0.85rem;
+    min-height: 40px;
+  }
+  
+  .cart-quantity-controls {
+    padding: 6px 10px;
+    min-height: 40px;
+  }
+  
+  .btn-quantity,
+  .btn-remove-cart {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .quantity-display {
+    padding: 4px 8px;
+    min-width: 35px;
+    height: 28px;
+  }
+}
+
+@media (max-width: 576px) {
+  .cart-btn-add,
+  .cart-btn-in-cart {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    min-height: 36px;
+  }
+  
+  .cart-quantity-controls {
+    padding: 4px 8px;
+    min-height: 36px;
+    gap: 6px;
+  }
+  
+  .btn-quantity,
+  .btn-remove-cart {
+    width: 26px;
+    height: 26px;
+  }
+  
+  .quantity-display {
+    padding: 2px 6px;
+    min-width: 30px;
+    height: 26px;
+    font-size: 0.85rem;
+  }
+}
+
+/* Animation for loading states */
+.fa-spinner {
+  animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Custom size variants */
+.cart-btn-sm {
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  min-height: 36px;
+}
+
+.cart-btn-lg {
+  padding: 12px 24px;
+  font-size: 1rem;
+  min-height: 48px;
+}
+
+/* Theme variants */
+.cart-btn-primary {
+  background-color: #007bff;
+}
+
+.cart-btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.cart-btn-success {
+  background-color: #28a745;
+}
+
+.cart-btn-success:hover {
+  background-color: #1e7e34;
+}
