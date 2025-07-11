@@ -76,6 +76,20 @@
 
 
 
+<!-- Book PDF -->
+<div class="mb-4">
+  <label class="form-label text-muted small fw-semibold">Book PDF</label>
+  <div class="d-flex align-items-center">
+    <input type="file" class="d-none" id="bookPdf" accept="application/pdf" (change)="onPdfSelected($event)" />
+    <label for="bookPdf" class="btn btn-success shadow-sm rounded">Choose PDF</label>
+    <span class="ms-3 text-muted">{{ selectedPdfFileName }}</span>
+  </div>
+  <div class="text-danger small" *ngIf="pdfError">PDF is required.</div>
+</div>
+
+
+
+
 
     <!-- Category -->
 <!-- Category Multi-Select -->
@@ -147,9 +161,9 @@
       <input type="number" class="form-control shadow-sm rounded"
              formControlName="stock"
              [class.is-invalid]="bookForm.get('stock')?.invalid && bookForm.get('stock')?.touched"
-             placeholder="0" />
+             placeholder="1" />
       <div class="invalid-feedback" *ngIf="bookForm.get('stock')?.hasError('required')">Stock is required.</div>
-      <div class="invalid-feedback" *ngIf="bookForm.get('stock')?.hasError('min')">Stock must be ≥ 0.</div>
+      <div class="invalid-feedback" *ngIf="bookForm.get('stock')?.hasError('min')">Stock must be ≥ 1.</div>
     </div>
 
     <!-- Submit -->

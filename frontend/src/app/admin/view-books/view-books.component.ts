@@ -34,6 +34,18 @@ selectedCategory: string = '';
 currentPage: number = 1;
 totalPages: number = 1;
 pageSize: number = 10;
+
+removedImages: string[] = [];
+editImagePreviews: string[] = [];
+editSelectedImagesNames: string[] = [];
+newImages: File[] = [];
+
+expandedBookId: string | null = null;
+editPdfFile: File | null = null;
+editSelectedPdfName: string = '';
+pdfRemoved: boolean = false;
+
+
   constructor(private bookService: BookDataService , private fb: FormBuilder,private viewportScroller: ViewportScroller) {}
 
   ngOnInit(): void {
@@ -41,6 +53,9 @@ pageSize: number = 10;
  this.scrollToTop();
  
   }
+
+
+
 
   loadBooks(page: number = 1): void {
   this.currentPage = page;
@@ -72,7 +87,10 @@ scrollToTop(): void {
   this.viewportScroller.scrollToPosition([0, 0]);
 }
   
-
+toggleDescription(bookId: string, event: Event): void {
+  event.preventDefault(); 
+  this.expandedBookId = this.expandedBookId === bookId ? null : bookId;
+}
 //=================================================================
   filterBooks(): void {
   const term = this.searchTerm.toLowerCase().trim();
@@ -129,13 +147,13 @@ this.selectedBook = {
   this.newImages = [];
   this.editImagePreviews = [];
   this.removedImages = []; 
+  this.editPdfFile = null;
+this.editSelectedPdfName = '';
+this.pdfRemoved = false;
   }
 
 
-removedImages: string[] = [];
-editImagePreviews: string[] = [];
-editSelectedImagesNames: string[] = [];
-newImages: File[] = [];
+
 
 removeExistingImage(index: number): void {
   if (this.selectedBook && Array.isArray(this.selectedBook.images)) {
@@ -193,6 +211,22 @@ clearNewImages(): void {
     }
   }
   
+//pdf
+  onEditPdfSelected(event: Event): void {
+  const input = event.target as HTMLInputElement;
+  if (input.files && input.files.length > 0) {
+    this.editPdfFile = input.files[0];
+    this.editSelectedPdfName = this.editPdfFile.name;
+  }
+}
+removePdf(): void {
+  this.pdfRemoved = true;
+  if (this.selectedBook) {
+    this.selectedBook.pdf = ''; // Optionally clear the URL in UI
+  }
+}
+
+
 
  submitEdit(): void {
   if (!this.selectedBook || !this.editForm.valid) {
@@ -227,6 +261,12 @@ clearNewImages(): void {
   this.newImages.forEach((imageFile: File) => {
     formData.append('images', imageFile); 
   });
+   if (this.editPdfFile) {
+  formData.append('pdf', this.editPdfFile);
+}
+if (this.pdfRemoved) {
+  formData.append('removePdf', 'true'); 
+}
 
   
   this.bookService.updateBookById(this.selectedBook._id, formData).subscribe({

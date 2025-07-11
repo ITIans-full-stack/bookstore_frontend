@@ -13,4 +13,5 @@ export interface BookInterface {
   createdAt: string;
   updatedAt: string;
   averageRating ? :number ;
+  pdf?: string;
 }

@@ -163,12 +163,40 @@
           </div>
 
           <!-- Description -->
-          <div class="text-muted small" style="max-height: 4.5em; overflow: hidden; text-overflow: ellipsis;">
+
+        <div class="text-muted small">
+            <span *ngIf="expandedBookId === book._id; else shortDesc">
             {{ book.description || 'No description provided.' }}
-          </div>
+              <a href="#" (click)="toggleDescription(book._id, $event)" style="color: red;">See less</a>
+           </span>
+
+        <ng-template #shortDesc>
+            <span>
+              {{ book.description?.slice(0, 500) || 'No description provided.' }}
+                <span *ngIf="book.description?.length > 500">...</span>
+             <a *ngIf="book.description?.length > 500" href="#" (click)="toggleDescription(book._id, $event)"style="color: red;">See more</a>
+          </span>
+           </ng-template>
+         </div>  
+
+
+
 
         </div>
+                  <!-- PDF Button (shows only if PDF exists) -->
+<a *ngIf="book.pdf"
+   class="btn btn-outline-secondary position-absolute  end-0 m-3 shadow-sm d-flex align-items-center gap-1"
+   [href]="book.pdf"
+   target="_blank"
+   rel="noopener noreferrer"
+   title="Open PDF in new tab"
+>
+  <i class="bi bi-file-earmark-pdf-fill text-danger"></i>
+  <span>View PDF</span>
+</a>
       </div>
+
+      
     </div>
   </div>
 <!-- delete -->
@@ -338,7 +366,7 @@
         <label class="form-label">Change Book Cover</label>
         <div class="d-flex align-items-center">
           <input type="file" id="editImageInput" class="d-none" (change)="onEditFileSelected($event)" />
-          <label for="editImageInput" class="btn btn-outline-success btn-sm">Choose File</label>
+          <label for="editImageInput" class="btn btn-outline-danger btn-sm">Choose File</label>
           <span class="ms-2 small text-muted">{{ editSelectedFileName }}</span>
         </div>
 
@@ -357,8 +385,7 @@
 
 
       <!-- Book Images Section -->
-
-<div class="mb-4">
+  <div class="mb-4">
   <label class="form-label fw-bold text-dark small">📚 Book Images</label>
 
   <!-- Current Images (Existing in DB) -->
@@ -376,7 +403,7 @@
   </div>
 
   <!-- Upload New Images -->
-  <div class="mb-2">
+   <div class="mb-2">
     <input type="file" id="editImagesInput" class="d-none" multiple (change)="onEditImagesSelected($event)" />
     <label for="editImagesInput" class="btn btn-outline-danger btn-sm rounded-pill px-4 shadow-sm">
       <i class="bi bi-upload me-1"></i> Upload New Images
@@ -400,6 +427,26 @@
     </div>
   </div>
 </div>
+
+
+<!-- PDF Upload -->
+<div class="mb-2">
+  <label class="form-label fw-semibold">Upload PDF File</label>
+  <div class="d-flex align-items-center mb-2">
+    <input type="file" id="editPdfInput" class="d-none" accept="application/pdf" (change)="onEditPdfSelected($event)" />
+    <label for="editPdfInput" class="btn btn-outline-danger btn-sm ">Choose PDF</label>
+    <span class="ms-2 small text-muted">{{ editSelectedPdfName || 'No file selected' }}</span>
+  </div>
+
+  <!-- Existing PDF Link -->
+  <div *ngIf="selectedBook?.pdf && !pdfRemoved" class="mb-2">
+    <a [href]="selectedBook.pdf" target="_blank" style="color: red;">View Current PDF</a>
+    <button class="btn btn-sm btn-danger ms-3" (click)="removePdf()">Remove PDF</button>
+
+</div>
+</div>
+
+
 
 
       

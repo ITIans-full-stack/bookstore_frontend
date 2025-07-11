@@ -27,6 +27,11 @@ imagesError: boolean = false;
 selectedImagesPreview: string[] = [];
 
 
+selectedPdfFile: File | null = null;
+selectedPdfFileName = 'No file chosen';
+pdfError = false;
+
+
 
 
 
@@ -98,6 +103,21 @@ removeExtraImage(index: number): void {
 }
 
 
+onPdfSelected(event: Event): void {
+  const file = (event.target as HTMLInputElement)?.files?.[0];
+  if (file && file.type === 'application/pdf') {
+    this.selectedPdfFile = file;
+    this.selectedPdfFileName = file.name;
+    this.pdfError = false;
+  } else {
+    this.selectedPdfFile = null;
+    this.selectedPdfFileName = 'No file chosen';
+    this.pdfError = true;
+    this.showToastMsg('Please select a valid PDF file.', 'error');
+  }
+}
+
+
  showToastMsg(message: string, type: 'success' | 'error' = 'success') {
     this.toastMessage = message;
     this.toastType = type;
@@ -120,6 +140,11 @@ removeExtraImage(index: number): void {
       this.showToastMsg('⚠️ Please fill in all required fields and upload an image.', 'error');
       return;
     }
+    if (!this.selectedPdfFile) {
+  this.pdfError = true;
+  this.showToastMsg('⚠️ Please upload the book PDF.', 'error');
+  return;
+}
 
     const formData = new FormData();
     formData.append('title', this.bookForm.get('title')?.value);
@@ -134,6 +159,7 @@ removeExtraImage(index: number): void {
     this.selectedImages.forEach((file) => {
   formData.append('images', file);
 });
+formData.append('pdf', this.selectedPdfFile);
 
     this.bookDataService.addBook(formData).subscribe({
       next: () => {
@@ -143,8 +169,14 @@ removeExtraImage(index: number): void {
         this.selectedFile = null;
         this.selectedImages = [];
         this.selectedImagesPreview=[];
-        this.selectedCategories=[];
+        // this.selectedCategories=[];
         this.selectedImagePreview='';
+        this.selectedPdfFile=null;
+        this.selectedPdfFileName='No file chosen'
+
+        this.selectedCategories = [];
+        this.bookForm.patchValue({ category: [] });
+
         
    
       },
@@ -162,16 +194,22 @@ selectedCategories: string[] = [];
 addCategory(cat: string): void {
   if (cat && !this.selectedCategories.includes(cat)) {
     this.selectedCategories.push(cat);
-    this.bookForm.get('category')?.setValue(this.selectedCategories);
-    this.bookForm.get('category')?.markAsTouched();
+    // this.bookForm.get('category')?.setValue(this.selectedCategories);
+    // this.bookForm.get('category')?.markAsTouched();
+
+    this.bookForm.patchValue({ category: this.selectedCategories });
+    this.bookForm.get('category')?.updateValueAndValidity();
   }
   this.selectedCategory = ''; // reset the select
 }
 
 removeCategory(cat: string): void {
   this.selectedCategories = this.selectedCategories.filter(c => c !== cat);
-  this.bookForm.get('category')?.setValue(this.selectedCategories);
-  this.bookForm.get('category')?.markAsTouched();
+  // this.bookForm.get('category')?.setValue(this.selectedCategories);
+  // this.bookForm.get('category')?.markAsTouched();
+
+  this.bookForm.patchValue({ category: this.selectedCategories });
+  this.bookForm.get('category')?.updateValueAndValidity();
 }
 
 }
