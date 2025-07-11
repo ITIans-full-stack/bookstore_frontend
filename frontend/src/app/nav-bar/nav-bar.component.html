@@ -4,7 +4,7 @@
     <span class="navbar-brand">BookShop</span>
 
     <!-- 🔔 Notification icon always visible -->
-    <ul class="navbar-nav ms-auto" *ngIf="isAdminRoute" >
+    <ul class="navbar-nav ms-auto" *ngIf="isAdminRoute">
       <li class="nav-item">
         <a class="nav-link"><i class="fas fa-bell fs-4 mx-5"></i></a>
       </li>
@@ -35,13 +35,17 @@
       <!-- 🔍 Search + Icons -->
       <ng-container>
         <form class="d-flex" *ngIf="showSearch">
-          <input class="form-control me-2 search" type="text" placeholder="Search books..." (input)="onSearch($event)" />
+          <input class="form-control me-2 search" type="text" placeholder="Search books..."
+            (input)="onSearch($event)" />
         </form>
 
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link"><i class="fas fa-heart"></i></a>
+            <a class="nav-link" routerLink="/wishlist">
+              <i class="fas fa-heart"></i>
+            </a>
           </li>
+
           <li class="nav-item">
             <a class="nav-link" routerLink="/cart"><i class="fas fa-shopping-cart"></i></a>
           </li>

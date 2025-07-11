@@ -47,9 +47,4 @@ export class AuthService {
   verifyEmail(token: string) {
     return this.http.get(`${this.API}/verify-email/${token}`);
   }
-
-
-
-
-
 }

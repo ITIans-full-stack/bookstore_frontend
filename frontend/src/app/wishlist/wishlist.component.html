@@ -1,5 +1,5 @@
 @for (book of wishlistBooks; track book._id) {
 <div class="col-md-3">
-    <app-book-card [book]="book" (remove)="remove(book._id)"></app-book-card>
+    <app-book-card [book]="book" [showRemoveButton]="true" (remove)="remove($event)"></app-book-card>
 </div>
 }
