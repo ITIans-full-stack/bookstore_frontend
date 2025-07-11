@@ -79,6 +79,20 @@
 
         <app-wishlist-btn></app-wishlist-btn>
       </div>
+
+      <!-- pdf view -->
+      <a 
+     *ngIf="book?.pdf  && isBookOrdered()"
+      [href]="book.pdf"
+      target="_blank"
+      class="btn btn-danger me-2 px-5 w-50 text-light"
+     [ngClass]="{ 'btn-secondary disabled-btn': book?.stock === 0 || book?.stock === undefined }"
+     [attr.title]="book?.stock === 0 || book?.stock === undefined ? 'Out of Stock' : 'Download PDF'"
+     >
+     View Book PDF
+     </a>
+
+
     </div>
   </div>
 

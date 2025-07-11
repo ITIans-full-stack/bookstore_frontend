@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule, ViewportScroller } from '@angular/common';
-import { Book } from '../../book-details/models/book';
 import { BookDataService } from '../../core/services/book-data.service';
 import { BookInterface } from '../../core/interfaces/book-interface';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';

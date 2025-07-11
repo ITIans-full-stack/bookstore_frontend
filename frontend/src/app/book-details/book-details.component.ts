@@ -58,6 +58,8 @@ import { faStar as faStarSolid, faStarHalfAlt } from '@fortawesome/free-solid-sv
 import { faStar as faStarRegular } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ChatbotComponent } from "../chatbot/chatbot.component";
+import { OrderService } from "../core/services/orderService/order.service";
+import { BookInterface } from "../core/interfaces/book-interface";
 
 @Component({
   selector: 'app-book-details',
@@ -83,13 +85,15 @@ export class BookDetailsComponent implements OnInit {
 halfStar = faStarHalfAlt;
 emptyStar = faStarRegular;
 imageList: string[] = [];
+ orders: any[] = [];
 
 
   constructor(
     private route: ActivatedRoute,
     private bookService: BookDataService,
     private reviewService: ReviewService,
-    private viewportScroller: ViewportScroller
+    private viewportScroller: ViewportScroller,
+    private orderservice: OrderService
   ) {}
 toggleDescription() {
   this.showFullDescription = !this.showFullDescription;
@@ -100,6 +104,7 @@ toggleDescription() {
     this.scrollToTop(); 
     this.loadBook();
     this.loadReviews();
+    this.loadOrders();
   });
   }
 scrollToTop(): void {
@@ -120,6 +125,8 @@ scrollToTop(): void {
   this.imageList = Array.from(new Set(allImages));
 }
     });
+
+  
 
 
 
@@ -175,4 +182,22 @@ getStarIcon(index: number): any {
   refreshReviews() {
     this.loadReviews();
   }
+
+
+  loadOrders() {
+  this.orderservice.getMyOrders().subscribe({
+    next: (res) => {
+      this.orders = res?.data || [];
+    },
+    error: (err) => {
+      console.error('Failed to load orders', err);
+    }
+  });
+}
+
+isBookOrdered(): boolean {
+  return this.orders.some(order =>
+     order.books?.some((b: BookInterface) => b._id === this.bookId)
+  );
+}
 }
