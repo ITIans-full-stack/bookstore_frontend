@@ -185,19 +185,25 @@ getStarIcon(index: number): any {
 
 
   loadOrders() {
-  this.orderservice.getMyOrders().subscribe({
-    next: (res) => {
-      this.orders = res?.data || [];
-    },
-    error: (err) => {
-      console.error('Failed to load orders', err);
-    }
-  });
+ this.orderservice.getMyOrders().subscribe({
+      next: (res: any) => {
+        this.orders = res.orders || [];
+        console.log(this.orders);
+      },
+      error: (err) => {
+        console.error('Error fetching orders:', err);
+      }
+    });
 }
 
 isBookOrdered(): boolean {
+  if (!this.book || !this.orders) return false;
+
   return this.orders.some(order =>
-     order.books?.some((b: BookInterface) => b._id === this.bookId)
+    order.books.some((item: any) =>
+      item.book && item.book._id === this.book._id
+    )
   );
 }
+
 }

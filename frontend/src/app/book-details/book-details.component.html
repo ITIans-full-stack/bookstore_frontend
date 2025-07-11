@@ -81,8 +81,9 @@
       </div>
 
       <!-- pdf view -->
+       <!-- || book.price==0 -->
       <a 
-     *ngIf="book?.pdf  && isBookOrdered()"
+     *ngIf="(book?.pdf  && isBookOrdered()) || (book?.pdf && book.price==0 )"
       [href]="book.pdf"
       target="_blank"
       class="btn btn-danger me-2 px-5 w-50 text-light"
