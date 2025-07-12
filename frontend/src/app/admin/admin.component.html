@@ -1,46 +1,58 @@
 <div class="d-flex bg-light font-inter" style="min-height: 100%;">
-<aside class="sidebar-width bg-custom-green-dark text-white p-4 d-flex flex-column rounded-end shadow sticky-sidebar">
+  <aside class="sidebar-width bg-custom-green-dark text-white p-4 d-flex flex-column rounded-end shadow sticky-sidebar">
     <div class="fs-3 fw-bold mb-5 d-flex align-items-center">
-      <svg xmlns="http://www.w3.org/2000/svg" class="sidebar-icon me-2 text-custom-green-light" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+      <svg xmlns="http://www.w3.org/2000/svg" class="sidebar-icon me-2 text-custom-green-light" fill="none"
+        viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
       </svg>
       Admin Panel
     </div>
     <nav class="flex-grow-1">
       <ul class="list-unstyled">
         <li class="mb-3">
-          <a routerLink="/admin" routerLinkActive="sidebar-link-active" [routerLinkActiveOptions]="{ exact: true }" class="sidebar-link d-flex align-items-center p-3 rounded text-white">
-            <svg xmlns="http://www.w3.org/2000/svg" class="sidebar-link-icon me-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <a routerLink="/admin" routerLinkActive="sidebar-link-active" [routerLinkActiveOptions]="{ exact: true }"
+            class="sidebar-link d-flex align-items-center p-3 rounded text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" class="sidebar-link-icon me-3" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
             </svg>
             Insert Books
           </a>
         </li>
         <li class="mb-3">
-          <a routerLink="/admin/view-books" routerLinkActive="sidebar-link-active" [routerLinkActiveOptions]="{ exact: true }" class="sidebar-link d-flex align-items-center p-3 rounded">
-            <svg xmlns="http://www.w3.org/2000/svg" class="sidebar-link-icon me-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" />
+          <a routerLink="/admin/view-books" routerLinkActive="sidebar-link-active"
+            [routerLinkActiveOptions]="{ exact: true }" class="sidebar-link d-flex align-items-center p-3 rounded">
+            <svg xmlns="http://www.w3.org/2000/svg" class="sidebar-link-icon me-3" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" />
             </svg>
             View Books
           </a>
         </li>
         <li class="mb-3">
-          <a routerLink="/admin/view-orders" routerLinkActive="sidebar-link-active" [routerLinkActiveOptions]="{ exact: true }" class="sidebar-link d-flex align-items-center p-3 rounded">
-            <svg xmlns="http://www.w3.org/2000/svg" class="sidebar-link-icon me-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M10 12l2 2 4-4" />
+          <a routerLink="/admin/view-orders" routerLinkActive="sidebar-link-active"
+            [routerLinkActiveOptions]="{ exact: true }" class="sidebar-link d-flex align-items-center p-3 rounded">
+            <svg xmlns="http://www.w3.org/2000/svg" class="sidebar-link-icon me-3" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M10 12l2 2 4-4" />
             </svg>
             View Orders
           </a>
         </li>
 
-      <li class="mb-3">
-  <a (click)="logout()" class="sidebar-link d-flex align-items-center p-3 rounded" style="cursor: pointer;">
-    <svg xmlns="http://www.w3.org/2000/svg" class="sidebar-link-icon me-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-    </svg>
-    Sign Out
-  </a>
-</li>
+        <li class="mb-3">
+          <a (click)="logout()" class="sidebar-link d-flex align-items-center p-3 rounded" style="cursor: pointer;">
+            <svg xmlns="http://www.w3.org/2000/svg" class="sidebar-link-icon me-3" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+            </svg>
+            Sign Out
+          </a>
+        </li>
 
 
 
@@ -48,6 +60,36 @@
     </nav>
   </aside>
   <main class="flex-grow-1 p-4 overflow-auto">
+    <h3 class="fw-bold mb-4">Live Orders</h3>
+    <h3 class="fw-bold mb-4 text-success">📦 Live Orders</h3>
+
+    <!-- No orders -->
+    <div *ngIf="orders.length === 0" class="alert alert-info">
+      No new orders yet.
+    </div>
+
+    <div *ngFor="let order of orders" class="card border-success border-2 mb-4 shadow-sm">
+      <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+        <span>🆔 Order: <strong>{{ order.orderId }}</strong></span>
+        <span class="badge bg-warning text-dark text-uppercase">{{ order.status }}</span>
+      </div>
+
+      <div class="card-body">
+        <p class="mb-2"><strong>👤 User ID:</strong> {{ order.user }}</p>
+        <p class="mb-2"><strong>💵 Total Price:</strong> ${{ order.totalPrice }}</p>
+
+        <!-- Books List -->
+        <div *ngIf="order.books?.length">
+          <strong>📚 Books:</strong>
+          <ul class="list-group list-group-flush mt-2">
+            <li *ngFor="let b of order.books" class="list-group-item d-flex justify-content-between align-items-center">
+              {{ b?.title || 'Unknown Title' }}
+              <span class="badge bg-primary rounded-pill">{{ b?.quantity || 1 }}</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
     <router-outlet></router-outlet>
   </main>
 </div>
