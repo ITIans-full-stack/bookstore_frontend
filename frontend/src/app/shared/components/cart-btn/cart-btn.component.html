@@ -3,11 +3,11 @@
   <button 
     class="btn cart-btn-add {{customClass}}"
     [ngClass]="{
-      'btn-secondary disabled-btn': book.stock === 0 || book.stock === undefined,
+      'btn-secondary disabled-btn': book?.stock === 0 || book?.stock === undefined,
       'loading': isLoading
     }"
-    [attr.title]="book.stock === 0 || book.stock === undefined ? 'Out of Stock' : 'Add this book to your cart'"
-    [disabled]="book.stock === 0 || book.stock === undefined || isLoading"
+    [attr.title]="book?.stock === 0 || book?.stock === undefined ? 'Out of Stock' : 'Add this book to your cart'"
+    [disabled]="book?.stock === 0 || book?.stock === undefined || isLoading"
     (click)="onAddToCart()">
     
     <span *ngIf="!isLoading">
@@ -20,6 +20,7 @@
     </span>
   </button>
 </div>
+
 
 <!-- quantity controls (when in cart) -->
 <div *ngIf="isInCart && showQuantityControls" class="cart-quantity-controls {{customClass}}">

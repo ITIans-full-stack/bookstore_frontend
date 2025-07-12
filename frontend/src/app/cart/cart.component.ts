@@ -283,19 +283,19 @@ export class CartComponent {
   }
 
   fetchCart() {
-    this.isLoading.set(true);
+   
     this.errorMessage.set(null);
     this.cartService.getCart().subscribe({
       next: (res) => {
         this.cartItems.set(res.items || []);
-        this.isLoading.set(false);
+        
       },
       error: (err) => {
         console.error('Error fetching cart:', err);
         this.errorMessage.set(err.error?.message || 'Failed to load cart. Please try again.');
         this.showErrorToast.set(true);
         this.autoCloseToast(this.showErrorToast);
-        this.isLoading.set(false);
+        
       },
     });
   }
@@ -307,7 +307,7 @@ export class CartComponent {
 
   confirmRemoveItem() {
     if (!this.itemToRemove) return;
-    this.isLoading.set(true);
+    
     this.cartService.removeFromCart(this.itemToRemove.book._id).subscribe({
       next: () => {
         this.fetchCart();
@@ -321,7 +321,6 @@ export class CartComponent {
         this.errorMessage.set(err.error?.message || 'Failed to remove item. Please try again.');
         this.showErrorToast.set(true);
         this.autoCloseToast(this.showErrorToast);
-        this.isLoading.set(false);
       },
     });
   }
@@ -338,18 +337,18 @@ export class CartComponent {
       this.autoCloseToast(this.showErrorToast);
       return;
     }
-    this.isLoading.set(true);
+   
     this.cartService.addToCart(item.book._id, 1).subscribe({
       next: () => {
         this.fetchCart();
-        this.isLoading.set(false);
+       
       },
       error: (err) => {
         console.error('Error increasing quantity:', err);
         this.errorMessage.set(err.error?.message || 'Failed to update quantity. Please try again.');
         this.showErrorToast.set(true);
         this.autoCloseToast(this.showErrorToast);
-        this.isLoading.set(false);
+        
       },
     });
   }
@@ -358,18 +357,17 @@ export class CartComponent {
     if (item.quantity <= 1) {
       this.promptRemoveItem(item);
     } else {
-      this.isLoading.set(true);
+    
       this.cartService.addToCart(item.book._id, -1).subscribe({
         next: () => {
           this.fetchCart();
-          this.isLoading.set(false);
+          
         },
         error: (err) => {
           console.error('Error decreasing quantity:', err);
           this.errorMessage.set(err.error?.message || 'Failed to update quantity. Please try again.');
           this.showErrorToast.set(true);
           this.autoCloseToast(this.showErrorToast);
-          this.isLoading.set(false);
         },
       });
     }
