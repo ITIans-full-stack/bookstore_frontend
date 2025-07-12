@@ -152,7 +152,7 @@
 //   }
 // }
 
-import { Component, Input, inject } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { BookInterface } from '../../../core/interfaces/book-interface';
 import { CommonModule } from '@angular/common';
 import { CartService } from '../../../core/services/cartservices/cart.service';
@@ -170,11 +170,13 @@ import { CartBtnComponent } from '../cart-btn/cart-btn.component';
 })
 export class BookCardComponent {
   @Input() book!: BookInterface;
+  @Input() showRemoveButton = false;
+  @Output() remove = new EventEmitter<string>();
   isInCart: boolean = false;
   quantity: number = 1;
   isLoading: boolean = false;
 
-  constructor(private router: Router, private cartService: CartService) {}
+  constructor(private router: Router, private cartService: CartService) { }
 
   ngOnInit() {
     if (this.isUserLoggedIn()) {
@@ -203,7 +205,7 @@ export class BookCardComponent {
   onAddToCart() {
     if (!this.isUserLoggedIn()) {
       this.showToast('Please log in to add items to cart', 'danger');
-     
+
       return;
     }
 
@@ -290,7 +292,7 @@ export class BookCardComponent {
   showToast(message: string, type: 'success' | 'danger') {
     const toastContainer = document.getElementById('toast-container');
     if (!toastContainer) return;
-    
+
     const toast = document.createElement('div');
     toast.className = `toast align-items-center text-white bg-${type} border-0 show`;
     toast.setAttribute('role', 'alert');
@@ -305,4 +307,9 @@ export class BookCardComponent {
     toastContainer.appendChild(toast);
     setTimeout(() => toast.remove(), 3000);
   }
+
+  emitRemove() {
+    this.remove.emit(this.book._id);
+  }
+
 }

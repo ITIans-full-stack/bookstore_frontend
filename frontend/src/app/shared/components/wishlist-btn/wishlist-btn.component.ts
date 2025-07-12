@@ -1,25 +1,45 @@
-import { Component, Input } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { WishlistService } from '../../services/wishlist.service';
 import { BookInterface } from '../../../core/interfaces/book-interface';
+import { CommonModule } from '@angular/common';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-wishlist-btn',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './wishlist-btn.component.html',
   styleUrl: './wishlist-btn.component.css',
 })
-export class WishlistBtnComponent {
+export class WishlistBtnComponent implements OnInit, OnDestroy {
   @Input() book!: BookInterface;
+  isInWishlist = false;
+  private subscription?: Subscription;
 
-  constructor(
-    private wishlistService: WishlistService,
-    private router: Router
-  ) { }
+  constructor(private wishlistService: WishlistService) { }
+
+  ngOnInit(): void {
+    this.subscription = this.wishlistService.wishlist$.subscribe((wishlist) => {
+      this.isInWishlist = wishlist.some((b) => b._id === this.book._id);
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
+  }
 
   addToWishlist(): void {
-    this.wishlistService.addToWishlist(this.book);
-    this.router.navigate(['/wishlist']);
+    console.log('Trying to add:', this.book);
+
+    if (!this.isInWishlist) {
+      this.wishlistService.addToWishlist(this.book).subscribe({
+        next: () => {
+          console.log('Book added successfully');
+        },
+        error: (err) => {
+          console.error('Failed to add to wishlist:', err);
+        },
+      });
+    }
   }
 }

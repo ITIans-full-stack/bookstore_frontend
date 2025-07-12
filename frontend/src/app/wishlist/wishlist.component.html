@@ -1,5 +1,15 @@
-@for (book of wishlistBooks; track book._id) {
-<div class="col-md-3">
-    <app-book-card [book]="book" (remove)="remove(book._id)"></app-book-card>
+<div class="container py-4">
+    @if (wishlistBooks.length > 0) {
+    <div class="row g-4">
+        @for (book of wishlistBooks; track book._id) {
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <app-book-card [book]="book" [showRemoveButton]="true" (remove)="remove($event)"></app-book-card>
+        </div>
+        }
+    </div>
+    } @else {
+    <div class="text-center py-5 text-muted fs-4">
+        No books found in your wishlist.
+    </div>
+    }
 </div>
-}

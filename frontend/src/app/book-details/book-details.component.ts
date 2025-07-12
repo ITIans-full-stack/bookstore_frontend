@@ -49,7 +49,7 @@ import { RelatedBooksComponent } from "./related-books/related-books.component";
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BookDataService } from '../core/services/book-data.service';
-import {ReviewComponent} from '../review/review.component'
+import { ReviewComponent } from '../review/review.component'
 import { ReviewService } from '../core/services/reviewservices/review.service';
 import { Review } from '../core/interfaces/review';
 import { CommonModule, ViewportScroller } from '@angular/common';
@@ -63,7 +63,7 @@ import { BookInterface } from "../core/interfaces/book-interface";
 import { CartBtnComponent } from "../shared/components/cart-btn/cart-btn.component";
 @Component({
   selector: 'app-book-details',
-  imports:[RelatedBooksComponent,
+  imports: [RelatedBooksComponent,
     RatingComponent,
     ReviewComponent,
     CommonModule,
@@ -83,10 +83,10 @@ export class BookDetailsComponent implements OnInit {
   reviews: Review[] = [];
   ratingDistribution: { [key: number]: number } = {};
   fullStar = faStarSolid;
-halfStar = faStarHalfAlt;
-emptyStar = faStarRegular;
-imageList: string[] = [];
- orders: any[] = [];
+  halfStar = faStarHalfAlt;
+  emptyStar = faStarRegular;
+  imageList: string[] = [];
+  orders: any[] = [];
 
 
   constructor(
@@ -95,39 +95,39 @@ imageList: string[] = [];
     private reviewService: ReviewService,
     private viewportScroller: ViewportScroller,
     private orderservice: OrderService
-  ) {}
-toggleDescription() {
-  this.showFullDescription = !this.showFullDescription;
-}
-  ngOnInit(): void {
-   this.route.params.subscribe(params => {
-    this.bookId = params['id'];
-    this.scrollToTop(); 
-    this.loadBook();
-    this.loadReviews();
-    this.loadOrders();
-  });
+  ) { }
+  toggleDescription() {
+    this.showFullDescription = !this.showFullDescription;
   }
-scrollToTop(): void {
-  this.viewportScroller.scrollToPosition([0, 0]);
-}
+  ngOnInit(): void {
+    this.route.params.subscribe(params => {
+      this.bookId = params['id'];
+      this.scrollToTop();
+      this.loadBook();
+      this.loadReviews();
+      this.loadOrders();
+    });
+  }
+  scrollToTop(): void {
+    this.viewportScroller.scrollToPosition([0, 0]);
+  }
 
-  
+
   loadBook() {
     this.bookService.getBookById(this.bookId).subscribe((res) => {
       this.book = res;
       if (this.reviews.length > 0) {
-      this.calculateAverageRatingAndDistribution();
-    }
+        this.calculateAverageRatingAndDistribution();
+      }
 
-        if (this.book) {
-  const additionalImages = this.book.images || [];
-  const allImages = [this.book.image, ...additionalImages];
-  this.imageList = Array.from(new Set(allImages));
-}
+      if (this.book) {
+        const additionalImages = this.book.images || [];
+        const allImages = [this.book.image, ...additionalImages];
+        this.imageList = Array.from(new Set(allImages));
+      }
     });
 
-  
+
 
 
 
@@ -137,8 +137,8 @@ scrollToTop(): void {
     this.reviewService.getReviews(this.bookId).subscribe((res) => {
       this.reviews = res;
       if (this.book) {
-      this.calculateAverageRatingAndDistribution();
-    }
+        this.calculateAverageRatingAndDistribution();
+      }
     });
   }
   getFloor(value: number): number {
@@ -150,35 +150,35 @@ scrollToTop(): void {
   }
 
 
-calculateAverageRatingAndDistribution(): void {
-  const totalRatings = this.reviews.length;
-  if (totalRatings === 0) {
-    this.book.averageRating = 0;
-    this.ratingDistribution = {};
-    return;
+  calculateAverageRatingAndDistribution(): void {
+    const totalRatings = this.reviews.length;
+    if (totalRatings === 0) {
+      this.book.averageRating = 0;
+      this.ratingDistribution = {};
+      return;
+    }
+
+    const total = this.reviews.reduce((sum, r) => sum + r.rating, 0);
+    this.book.averageRating = total / totalRatings;
+
+    const distribution: { [key: number]: number } = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+    this.reviews.forEach((r) => distribution[r.rating]++);
+    for (let key in distribution) {
+      distribution[+key] = (distribution[+key] / totalRatings) * 100;
+    }
+
+    this.ratingDistribution = distribution;
   }
 
-  const total = this.reviews.reduce((sum, r) => sum + r.rating, 0);
-  this.book.averageRating = total / totalRatings;
+  getStarIcon(index: number): any {
+    if (!this.book || this.book.averageRating === undefined) return this.emptyStar;
 
-  const distribution: { [key: number]: number } = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
-  this.reviews.forEach((r) => distribution[r.rating]++);
-  for (let key in distribution) {
-    distribution[+key] = (distribution[+key] / totalRatings) * 100;
+    const rating = this.book.averageRating;
+
+    if (index + 1 <= rating) return this.fullStar;
+    if (rating > index && rating < index + 1) return this.halfStar;
+    return this.emptyStar;
   }
-
-  this.ratingDistribution = distribution;
-}
-
-getStarIcon(index: number): any {
-  if (!this.book || this.book.averageRating === undefined) return this.emptyStar;
-
-  const rating = this.book.averageRating;
-
-  if (index + 1 <= rating) return this.fullStar;
-  if (rating > index && rating < index + 1) return this.halfStar;
-  return this.emptyStar;
-}
 
   refreshReviews() {
     this.loadReviews();
@@ -186,7 +186,7 @@ getStarIcon(index: number): any {
 
 
   loadOrders() {
- this.orderservice.getMyOrders().subscribe({
+    this.orderservice.getMyOrders().subscribe({
       next: (res: any) => {
         this.orders = res.orders || [];
         console.log(this.orders);
@@ -195,16 +195,16 @@ getStarIcon(index: number): any {
         console.error('Error fetching orders:', err);
       }
     });
-}
+  }
 
-isBookOrdered(): boolean {
-  if (!this.book || !this.orders) return false;
+  isBookOrdered(): boolean {
+    if (!this.book || !this.orders) return false;
 
-  return this.orders.some(order =>
-    order.books.some((item: any) =>
-      item.book && item.book._id === this.book._id
-    )
-  );
-}
+    return this.orders.some(order =>
+      order.books.some((item: any) =>
+        item.book && item.book._id === this.book._id
+      )
+    );
+  }
 
 }

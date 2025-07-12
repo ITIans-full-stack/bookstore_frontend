@@ -4,11 +4,11 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class UserService{
+export class UserService {
 
-    private apiUrl = 'https://jsonplaceholder.typicode.com/users/1';
+  private apiUrl = 'https://jsonplaceholder.typicode.com/users/1';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getUser(): Observable<any> {
     return this.http.get(this.apiUrl);

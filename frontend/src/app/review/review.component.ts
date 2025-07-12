@@ -1,4 +1,4 @@
-import { Component, Input, OnInit,Output,EventEmitter} from '@angular/core';
+import { Component, Input, OnInit,Output,EventEmitter,OnChanges,SimpleChanges} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ReviewService } from '../core/services/reviewservices/review.service';
@@ -11,7 +11,7 @@ import { Review } from '../core/interfaces/review';
   templateUrl: './review.component.html',
   styleUrls: ['./review.component.css']
 })
-export class ReviewComponent implements OnInit {
+export class ReviewComponent implements OnInit, OnChanges {
   @Input() bookId!: string
   @Input() reviews: Review[] = [];
   @Output() refresh = new EventEmitter<void>();
@@ -29,6 +29,12 @@ export class ReviewComponent implements OnInit {
   ngOnInit(): void {
     this.loadReviews();
     this.checkReviewPermission();
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['bookId'] && !changes['bookId'].firstChange) {
+      this.loadReviews();
+      this.checkReviewPermission();
+    }
   }
 
   getToken(): string | null {

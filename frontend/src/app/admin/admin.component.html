@@ -1,46 +1,58 @@
 <div class="d-flex bg-light font-inter" style="min-height: 100%;">
-<aside class="sidebar-width bg-custom-green-dark text-white p-4 d-flex flex-column rounded-end shadow sticky-sidebar">
+  <aside class="sidebar-width bg-custom-green-dark text-white p-4 d-flex flex-column rounded-end shadow sticky-sidebar">
     <div class="fs-3 fw-bold mb-5 d-flex align-items-center">
-      <svg xmlns="http://www.w3.org/2000/svg" class="sidebar-icon me-2 text-custom-green-light" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+      <svg xmlns="http://www.w3.org/2000/svg" class="sidebar-icon me-2 text-custom-green-light" fill="none"
+        viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
       </svg>
       Admin Panel
     </div>
     <nav class="flex-grow-1">
       <ul class="list-unstyled">
         <li class="mb-3">
-          <a routerLink="/admin" routerLinkActive="sidebar-link-active" [routerLinkActiveOptions]="{ exact: true }" class="sidebar-link d-flex align-items-center p-3 rounded text-white">
-            <svg xmlns="http://www.w3.org/2000/svg" class="sidebar-link-icon me-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <a routerLink="/admin" routerLinkActive="sidebar-link-active" [routerLinkActiveOptions]="{ exact: true }"
+            class="sidebar-link d-flex align-items-center p-3 rounded text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" class="sidebar-link-icon me-3" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
             </svg>
             Insert Books
           </a>
         </li>
         <li class="mb-3">
-          <a routerLink="/admin/view-books" routerLinkActive="sidebar-link-active" [routerLinkActiveOptions]="{ exact: true }" class="sidebar-link d-flex align-items-center p-3 rounded">
-            <svg xmlns="http://www.w3.org/2000/svg" class="sidebar-link-icon me-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" />
+          <a routerLink="/admin/view-books" routerLinkActive="sidebar-link-active"
+            [routerLinkActiveOptions]="{ exact: true }" class="sidebar-link d-flex align-items-center p-3 rounded">
+            <svg xmlns="http://www.w3.org/2000/svg" class="sidebar-link-icon me-3" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" />
             </svg>
             View Books
           </a>
         </li>
         <li class="mb-3">
-          <a routerLink="/admin/view-orders" routerLinkActive="sidebar-link-active" [routerLinkActiveOptions]="{ exact: true }" class="sidebar-link d-flex align-items-center p-3 rounded">
-            <svg xmlns="http://www.w3.org/2000/svg" class="sidebar-link-icon me-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M10 12l2 2 4-4" />
+          <a routerLink="/admin/view-orders" routerLinkActive="sidebar-link-active"
+            [routerLinkActiveOptions]="{ exact: true }" class="sidebar-link d-flex align-items-center p-3 rounded">
+            <svg xmlns="http://www.w3.org/2000/svg" class="sidebar-link-icon me-3" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M10 12l2 2 4-4" />
             </svg>
             View Orders
           </a>
         </li>
 
-      <li class="mb-3">
-  <a (click)="logout()" class="sidebar-link d-flex align-items-center p-3 rounded" style="cursor: pointer;">
-    <svg xmlns="http://www.w3.org/2000/svg" class="sidebar-link-icon me-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-    </svg>
-    Sign Out
-  </a>
-</li>
+        <li class="mb-3">
+          <a (click)="logout()" class="sidebar-link d-flex align-items-center p-3 rounded" style="cursor: pointer;">
+            <svg xmlns="http://www.w3.org/2000/svg" class="sidebar-link-icon me-3" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+            </svg>
+            Sign Out
+          </a>
+        </li>
 
 
 
@@ -48,6 +60,27 @@
     </nav>
   </aside>
   <main class="flex-grow-1 p-4 overflow-auto">
+
+    <!-- Toast Notifications (top-right) -->
+    <div class="position-fixed top-0 end-0 p-3" style="z-index: 1100" *ngIf="notifications.length > 0">
+      <div *ngFor="let notification of notifications" class="toast show text-bg-success mb-2" role="alert"
+        aria-live="assertive" aria-atomic="true">
+        <div class="toast-header bg-success text-white">
+          <strong class="me-auto">📦 New Order</strong>
+          <small class="text-light">Just now</small>
+          <button type="button" class="btn-close btn-close-white ms-2 mb-1" aria-label="Close"
+            (click)="removeNotification(notification.orderId)"></button>
+        </div>
+        <div class="toast-body">
+          🆔 <strong>{{ notification.orderId }}</strong><br />
+          💵 Total: ${{ notification.totalPrice }}<br />
+          👤 User: {{ notification.user }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Route Content -->
     <router-outlet></router-outlet>
   </main>
+
 </div>

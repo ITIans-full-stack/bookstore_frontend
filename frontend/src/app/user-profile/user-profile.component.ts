@@ -23,7 +23,7 @@ declare var bootstrap: any;
 })
 export class UserProfileComponent implements OnInit {
   profileForm!: FormGroup;
-bubbles=new Array(20);
+  bubbles = new Array(20);
   toastMessage = '';
   toastType: 'success' | 'error' = 'success';
 
@@ -48,28 +48,28 @@ bubbles=new Array(20);
     });
   }
 
-ngOnInit(): void {
-  // 🔒 Prevent loading if logged out
-  const token = localStorage.getItem('token');
-  if (!token) {
-    this.router.navigate(['/login']);
-    return;
-  }
+  ngOnInit(): void {
+    // 🔒 Prevent loading if logged out
+    const token = localStorage.getItem('token');
+    if (!token) {
+      this.router.navigate(['/login']);
+      return;
+    }
 
-  // Load user data
-  this.userService.getUser().subscribe({
-    next: (user) => {
-      this.profileForm.patchValue({
-        name: user.name,
-        email: user.email,
-      });
-    },
-    error: (err: any) => {
-      this.showToast('❌ Failed to load user info', 'error');
-      console.error(err);
-    },
-  });
-}
+    // Load user data
+    this.userService.getUser().subscribe({
+      next: (user) => {
+        this.profileForm.patchValue({
+          name: user.name,
+          email: user.email,
+        });
+      },
+      error: (err: any) => {
+        this.showToast('❌ Failed to load user info', 'error');
+        console.error(err);
+      },
+    });
+  }
 
 
 
@@ -102,11 +102,11 @@ ngOnInit(): void {
     });
   }
 
-logout() {
-  this.authService.logout();
-  this.profileForm.reset(); // Clear form manually
-  this.router.navigateByUrl('/login', { replaceUrl: true });
-}
+  logout() {
+    this.authService.logout();
+    this.profileForm.reset(); // Clear form manually
+    this.router.navigateByUrl('/login', { replaceUrl: true });
+  }
 
 
 
