@@ -17,6 +17,7 @@ import { CommonModule } from '@angular/common';
 })
 export class AdminComponent implements OnInit {
   orders: any[] = [];
+  notifications: any[] = [];
 
   constructor(private router: Router, private authService: AuthService, private socketService: SocketService) { }
 
@@ -24,9 +25,16 @@ export class AdminComponent implements OnInit {
     this.socketService.onOrderCreated().subscribe((order) => {
       console.log('New Order Received in Admin Panel:', order);
       this.orders.unshift(order);
+      this.notifications.push(order);
+      setTimeout(() => {
+        this.removeNotification(order.orderId);
+      }, 5000);
     });
   }
 
+  removeNotification(orderId: string) {
+    this.notifications = this.notifications.filter(o => o.orderId !== orderId);
+  }
   logout() {
     this.authService.logout();
     this.router.navigate(['/login'], { replaceUrl: true });
