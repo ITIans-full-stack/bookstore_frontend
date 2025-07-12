@@ -1,21 +1,30 @@
+<!-- Floating Button to Toggle Chatbot -->
+<div class="chatbot-toggle" (click)="toggleChatbot()">
+  💬
+</div>
 
-<div class="chatbot-container">
-  <div class="messages">
-    <div *ngFor="let msg of conversation" [ngClass]="msg.role" class="message">
-      <div class="msg-bubble" [ngClass]="msg.role">
-        <p [innerHTML]="msg.content"></p>
+<!-- Chatbot Window -->
+<div class="chatbot-window" *ngIf="showChatbot">
+  <div class="chatbot-header">
+    🤖 Book Assistant
+    <span class="close-btn" (click)="toggleChatbot()">✖</span>
+  </div>
 
+  <div class="chatbot-messages" #messagesContainer>
+    <div *ngFor="let msg of conversation" [ngClass]="msg.role" class="message-bubble">
+      <div class="bubble">
+        <span [innerHTML]="msg.content"></span>
       </div>
     </div>
   </div>
 
-  <div class="input-area">
+  <div class="chatbot-input">
     <input
       type="text"
       [(ngModel)]="userMessage"
       placeholder="Ask about a book..."
-      (keyup.enter)="sendMessage()"
-    />
-    <button (click)="sendMessage()">Send</button>
+      (keydown.enter)="sendMessage()" />
+
+    <button (click)="sendMessage()" [disabled]="isLoading">Send</button>
   </div>
 </div>

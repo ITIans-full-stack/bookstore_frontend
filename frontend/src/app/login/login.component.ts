@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, ViewportScroller } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute, RouterModule } from '@angular/router';
@@ -25,7 +25,8 @@ bubbles = new Array(20); // 20 animated bubbles
     private fb: FormBuilder,
     private auth: AuthService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private viewportScroller: ViewportScroller
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -34,10 +35,14 @@ bubbles = new Array(20); // 20 animated bubbles
   }
 
   ngOnInit() {
+    this.scrollToTop();
     const verified = this.route.snapshot.queryParamMap.get('verified');
     if (verified === 'true') {
       this.showToastMessage('✅ Email verified successfully. You can now log in.', 'success');
     }
+  }
+ scrollToTop(): void {
+    this.viewportScroller.scrollToPosition([0, 0]);
   }
 
   get f() {
@@ -63,6 +68,7 @@ bubbles = new Array(20); // 20 animated bubbles
       this.showToastMessage('❌ Please fill in all required fields.', 'error');
       return;
     }
+
 
 //     this.auth.login(this.loginForm.value).subscribe({
 //       next: (res: any) => {
