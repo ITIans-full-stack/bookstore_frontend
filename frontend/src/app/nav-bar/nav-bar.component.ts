@@ -93,7 +93,8 @@
 //   this.router.navigateByUrl('/login', { replaceUrl: true }); // 👈 force redirect
 // }
 // }
-import { Component, OnInit } from '@angular/core';
+
+import { Component, OnInit ,inject } from '@angular/core';
 import { SearchService } from '../core/services/search.service';
 import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { AuthService } from '../shared/services/auth.service';
@@ -101,7 +102,7 @@ import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { WishlistService } from '../shared/services/wishlist.service';
-
+import { CartService } from '../core/services/cartservices/cart.service';
 @Component({
   selector: 'app-nav-bar',
   standalone: true,
@@ -115,15 +116,25 @@ export class NavBarComponent implements OnInit {
   showSearch = false;
   isAdminRoute = false;
   wishlistCount = 0;
+ 
+  private cartService = inject(CartService);
 
   constructor(
     private searchService: SearchService,
     public authService: AuthService,
     private router: Router,
-    private wishlistService: WishlistService
+    private wishlistService: WishlistService,
+    
   ) { }
+cartCount = 0;
 
-  ngOnInit() {
+ngOnInit() {
+  this.cartService.cartItemCount.subscribe(count => {
+    this.cartCount = count;
+  });
+
+  this.cartService.getCart().subscribe();
+
     this.isLoggedIn$ = this.authService.isLoggedIn$;
 
     this.router.events.pipe(
