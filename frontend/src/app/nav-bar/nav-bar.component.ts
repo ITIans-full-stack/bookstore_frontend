@@ -78,9 +78,9 @@
 //     this.router.events.subscribe(() => {
 //       this.isAdminRoute = this.router.url.includes('/admin');
 //     });
-  
-  
-  
+
+
+
 
 
 //   onSearch(event: Event) {
@@ -100,60 +100,67 @@ import { AuthService } from '../shared/services/auth.service';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { WishlistService } from '../shared/services/wishlist.service';
 
 @Component({
   selector: 'app-nav-bar',
   standalone: true,
   imports: [RouterModule, CommonModule],
   templateUrl: './nav-bar.component.html',
-  styleUrls: ['./nav-bar.component.css'] 
+  styleUrls: ['./nav-bar.component.css']
 })
 export class NavBarComponent implements OnInit {
   isLoggedIn$!: Observable<boolean>;
   showMinimalNav = false;
   showSearch = false;
   isAdminRoute = false;
+  wishlistCount = 0;
 
   constructor(
     private searchService: SearchService,
     public authService: AuthService,
-    private router: Router
-  ) {}
+    private router: Router,
+    private wishlistService: WishlistService
+  ) { }
 
   ngOnInit() {
     this.isLoggedIn$ = this.authService.isLoggedIn$;
 
     this.router.events.pipe(
-  filter((event): event is NavigationEnd => event instanceof NavigationEnd)
-).subscribe((event) => {
-  const path = event.urlAfterRedirects;
+      filter((event): event is NavigationEnd => event instanceof NavigationEnd)
+    ).subscribe((event) => {
+      const path = event.urlAfterRedirects;
 
 
-    // ✅ Hide navbar on login, register, or any admin route
-    this.showMinimalNav =
-      path.includes('/login') ||
-      path.includes('/register')||
-      path.includes('/notfound')||
-      path.includes('/landing');
+      // ✅ Hide navbar on login, register, or any admin route
+      this.showMinimalNav =
+        path.includes('/login') ||
+        path.includes('/register') ||
+        path.includes('/notfound') ||
+        path.includes('/landing');
 
 
-    // ✅ Show search only on /books 
-    this.showSearch = path==='/books';
-  });
-  //  this.router.events.subscribe(() => {
-  //     // Update search visibility based on the current route
-  //     this.showSearch = this.router.url.includes('/books');
-  //   });
+      // ✅ Show search only on /books 
+      this.showSearch = path === '/books';
+    });
+    //  this.router.events.subscribe(() => {
+    //     // Update search visibility based on the current route
+    //     this.showSearch = this.router.url.includes('/books');
+    //   });
     this.router.events.subscribe(() => {
       this.isAdminRoute = this.router.url.includes('/admin');
     });
-}
+
+    this.wishlistService.wishlist$.subscribe(wishlist => {
+      this.wishlistCount = wishlist.length;
+    });
+  }
 
 
 
 
 
-   onSearch(event: Event) {
+  onSearch(event: Event) {
     const value = (event.target as HTMLInputElement).value;
     this.searchService.setSearchTerm(value);
   }
