@@ -1,10 +1,21 @@
-<div class="messages">
-  <div *ngFor="let msg of conversation" [ngClass]="msg.role">
-    <p>{{ msg.content }}</p>
-  </div>
-</div>
 
-<div class="input-area">
-  <input type="text" [(ngModel)]="userMessage" placeholder="Ask about a book..." />
-  <button (click)="sendMessage()">Send</button>
+<div class="chatbot-container">
+  <div class="messages">
+    <div *ngFor="let msg of conversation" [ngClass]="msg.role" class="message">
+      <div class="msg-bubble" [ngClass]="msg.role">
+        <p [innerHTML]="msg.content"></p>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="input-area">
+    <input
+      type="text"
+      [(ngModel)]="userMessage"
+      placeholder="Ask about a book..."
+      (keyup.enter)="sendMessage()"
+    />
+    <button (click)="sendMessage()">Send</button>
+  </div>
 </div>
