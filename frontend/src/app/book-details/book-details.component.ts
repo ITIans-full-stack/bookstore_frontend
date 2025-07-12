@@ -45,9 +45,9 @@ import { RelatedBooksComponent } from "./related-books/related-books.component";
 //   }
 
 // }
-
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BookDataService } from '../core/services/book-data.service';
 import { ReviewComponent } from '../review/review.component'
 import { ReviewService } from '../core/services/reviewservices/review.service';
@@ -61,6 +61,7 @@ import { ChatbotComponent } from "../chatbot/chatbot.component";
 import { OrderService } from "../core/services/orderService/order.service";
 import { BookInterface } from "../core/interfaces/book-interface";
 import { CartBtnComponent } from "../shared/components/cart-btn/cart-btn.component";
+import { environment } from "../../environments/environment";
 @Component({
   selector: 'app-book-details',
   imports: [RelatedBooksComponent,
@@ -87,6 +88,9 @@ export class BookDetailsComponent implements OnInit {
   emptyStar = faStarRegular;
   imageList: string[] = [];
   orders: any[] = [];
+  summaryText: string = '';
+  isSummarizing: boolean = false;
+
 
 
   constructor(
@@ -94,7 +98,9 @@ export class BookDetailsComponent implements OnInit {
     private bookService: BookDataService,
     private reviewService: ReviewService,
     private viewportScroller: ViewportScroller,
-    private orderservice: OrderService
+    private orderservice: OrderService,
+    private router: Router,
+    private http: HttpClient
   ) { }
   toggleDescription() {
     this.showFullDescription = !this.showFullDescription;
@@ -126,11 +132,6 @@ export class BookDetailsComponent implements OnInit {
         this.imageList = Array.from(new Set(allImages));
       }
     });
-
-
-
-
-
   }
 
   loadReviews() {
@@ -207,4 +208,13 @@ export class BookDetailsComponent implements OnInit {
     );
   }
 
+  
+  summarizeBook(pdfUrl: string): void {
+  if (!pdfUrl) return;
+  this.router.navigate(['/summarizer'], { queryParams: { pdf: pdfUrl } });
 }
+
+}
+
+
+

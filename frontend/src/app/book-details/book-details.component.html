@@ -112,7 +112,22 @@
      </a>
 
 
+     <button 
+     *ngIf="(book?.pdf && isBookOrdered()) || (book?.pdf && book.price == 0)"
+     class="btn btn-primary px-5 w-50"
+     [disabled]="book?.stock === 0 || book?.stock === undefined"
+     [attr.title]="book?.stock === 0 || book?.stock === undefined ? 'Out of Stock' : 'Summarize PDF'"
+     (click)="summarizeBook(book?.pdf)">
+     Summarize PDF
+    </button>
+
+    
+    <div *ngIf="summaryText" class="alert alert-info mt-3 p-3">
+      <h5>📖 Summary:</h5>
+      <p>{{ summaryText }}</p>
     </div>
+    
+  </div>
   </div>
 
   <!-- Ratings & Reviews -->
