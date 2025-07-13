@@ -27,6 +27,10 @@
     <div class="order-footer">
       <div><strong>Total:</strong> {{ order.totalPrice }} EGP</div>
       <!-- <button class="view-btn">View Order Details</button> -->
+       <button *ngIf="order.status === 'pending' || order.status === 'processing'" (click)="cancelOrder(order._id)" class="cancel-btn">
+          Cancel Order
+        </button>
+
     </div>
   </div>
 </div>

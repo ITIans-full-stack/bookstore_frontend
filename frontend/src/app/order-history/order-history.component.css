@@ -77,8 +77,8 @@
   align-items: center;
 }
 
-.view-btn {
-  background-color: #0d6efd;
+.view-btn , .cancel-btn{
+  background-color: #dc3545;
   color: white;
   border: none;
   padding: 6px 12px;

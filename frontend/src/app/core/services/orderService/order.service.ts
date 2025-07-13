@@ -71,9 +71,12 @@ export class OrderService {
     return this.http.post(`${this.apiUrl}/pay/${orderId}`, {}, { headers: this.getAuthHeaders() });
   }
 
-  cancelOrder(orderId: string): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${orderId}`, { headers: this.getAuthHeaders() });
-  }
+ cancelOrder(orderId: string): Observable<any> {
+  return this.http.patch(`${this.apiUrl}/${orderId}/cancel`, {}, {
+    headers: this.getAuthHeaders()
+  });
+}
+
 
   getAllOrders(): Observable<any> {
     return this.http.get(`${this.apiUrl}/admin/orders`, { headers: this.getAuthHeaders() });
