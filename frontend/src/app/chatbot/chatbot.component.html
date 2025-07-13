@@ -1,9 +1,7 @@
-<!-- Floating Button to Toggle Chatbot -->
 <div class="chatbot-toggle" (click)="toggleChatbot()">
   💬
 </div>
 
-<!-- Chatbot Window -->
 <div class="chatbot-window" *ngIf="showChatbot">
   <div class="chatbot-header">
     🤖 Book Assistant
@@ -14,6 +12,12 @@
     <div *ngFor="let msg of conversation" [ngClass]="msg.role" class="message-bubble">
       <div class="bubble">
         <span [innerHTML]="msg.content"></span>
+      </div>
+    </div>
+
+    <div *ngIf="typingResponse" class="assistant message-bubble">
+      <div class="bubble typing-bubble">
+        <span [innerHTML]="typingResponse"></span><span class="cursor">|</span>
       </div>
     </div>
   </div>

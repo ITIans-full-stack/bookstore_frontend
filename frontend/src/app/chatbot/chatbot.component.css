@@ -23,7 +23,7 @@
   bottom: 90px;
   right: 25px;
   width: 350px;
-  height: 500px;
+  height: 800px;
   background: #ffffff;
   border-radius: 12px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
@@ -118,4 +118,27 @@
   padding: 10px 14px;
   border-radius: 8px;
   cursor: pointer;
+}
+.cursor {
+  display: inline-block;
+  width: 1px;
+  background-color: black;
+  animation: blink 1s step-start infinite;
+  margin-left: 2px;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.typing-bubble {
+  font-style:oblique;
+}
+
+.book-block {
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #ddd;
 }

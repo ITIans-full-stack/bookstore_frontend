@@ -18,6 +18,7 @@ export class ChatbotComponent {
   showChatbot = false;
 
   conversation: { role: string, content: string }[] = [];
+  typingResponse = ''; // 👈 Holds the animated response
 
   @ViewChild('messagesContainer') messagesContainer!: ElementRef;
 
@@ -39,9 +40,8 @@ export class ChatbotComponent {
       next: (res) => {
         const message = res?.choices?.[0]?.message?.content || 'No response.';
         const formatted = this.parseBotMessage(message);
-        this.conversation.push({ role: 'assistant', content: formatted });
+        this.animateTyping(formatted);
         this.isLoading = false;
-        this.scrollToBottom();
       },
       error: (err) => {
         console.error(err);
@@ -55,11 +55,31 @@ export class ChatbotComponent {
     this.userMessage = '';
   }
 
-  parseBotMessage(message: string): string {
-    return message.replace(/Title: (.+?) \[id=(.+?)\]/g, (match, title, id) => {
-      const url = `/books/${id}`;
-      return `Title: <a href="${url}" class="book-link">${title}</a>`;
-    });
+ parseBotMessage(message: string): string {
+  const withLinks = message.replace(/Title: (.+?) \[id=(.+?)\]/g, (match, title, id) => {
+    const url = `/books/${id}`;
+    return `Title: <a href="${url}" class="book-link">${title}</a>`;
+  });
+  return withLinks.replace(/\n/g, '<br>');
+}
+
+
+  animateTyping(fullText: string): void {
+    this.typingResponse = '';
+    let index = 0;
+
+    const interval = setInterval(() => {
+      if (index < fullText.length) {
+        this.typingResponse += fullText.charAt(index);
+        this.scrollToBottom();
+        index++;
+      } else {
+        clearInterval(interval);
+        this.conversation.push({ role: 'assistant', content: this.typingResponse });
+        this.typingResponse = ''; 
+        this.scrollToBottom();
+      }
+    }, 15); 
   }
 
   private scrollToBottom(): void {
