@@ -190,7 +190,7 @@ export class BookDetailsComponent implements OnInit {
     this.orderservice.getMyOrders().subscribe({
       next: (res: any) => {
         this.orders = res.orders || [];
-        console.log(this.orders);
+        
       },
       error: (err) => {
         console.error('Error fetching orders:', err);

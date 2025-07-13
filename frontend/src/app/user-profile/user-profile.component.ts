@@ -5,8 +5,8 @@ import {
   ElementRef
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { UserService } from '../shared/services/user.service';
-import { AuthService } from '../shared/services/auth.service';
+import { UserService } from '../core/services/services/user.service';
+import { AuthService } from '../core/services/services/auth.service';
 import { HttpClientModule } from '@angular/common/http';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';

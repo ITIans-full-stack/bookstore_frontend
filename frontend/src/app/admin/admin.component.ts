@@ -3,8 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 
-import { AuthService } from '../shared/services/auth.service';
-import { SocketService } from '../shared/services/socket.service';
+import { AuthService } from '../core/services/services/auth.service';
+import { SocketService } from '../core/services/services/socket.service';
 import { CommonModule } from '@angular/common';
 
 

@@ -2,7 +2,7 @@ import { CommonModule, ViewportScroller } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute, RouterModule } from '@angular/router';
-import { AuthService } from '../shared/services/auth.service';
+import { AuthService } from '../core/services/services/auth.service';
 import { getDecodedToken } from '../shared/utils/jwt';
 @Component({
   selector: 'app-login',

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BookCardComponent } from '../shared/components/book-card/book-card.component';
 import { BookInterface } from '../core/interfaces/book-interface';
-import { WishlistService } from '../shared/services/wishlist.service';
+import { WishlistService } from '../core/services/services/wishlist.service';
 import { Subscription } from 'rxjs';
 
 @Component({

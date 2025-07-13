@@ -97,11 +97,11 @@
 import { Component, OnInit ,inject } from '@angular/core';
 import { SearchService } from '../core/services/search.service';
 import { RouterModule, Router, NavigationEnd } from '@angular/router';
-import { AuthService } from '../shared/services/auth.service';
+import { AuthService } from '../core/services/services/auth.service';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { WishlistService } from '../shared/services/wishlist.service';
+import { WishlistService } from '../core/services/services/wishlist.service';
 import { CartService } from '../core/services/cartservices/cart.service';
 @Component({
   selector: 'app-nav-bar',

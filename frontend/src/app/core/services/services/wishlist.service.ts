@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
-import { BookInterface } from '../../core/interfaces/book-interface';
+import { environment } from '../../../../environments/environment';
+import { BookInterface } from '../../interfaces/book-interface';
 import { catchError, tap } from 'rxjs/operators';
 
 @Injectable({

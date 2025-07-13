@@ -78,14 +78,18 @@
         </button> -->
 
         <!-- cart-btn component -->
-<div class="book-details">
+<div class="d-flex gap-2 mb-3 ">
   <!-- <div class="book-info">
     <h1>{{ book.title }}</h1>
     <p>{{ book.description }}</p>
     <div class="price">{{ book.price | currency:'EGP' }}</div>
   </div> -->
+
+   <app-wishlist-btn></app-wishlist-btn>
   
-  <div class="cart-actions">
+  
+  <div class="cart-actions w-75">
+    
     <app-cart-btn 
       [book]="book"
       [showQuantityControls]="true"
@@ -93,13 +97,17 @@
       customClass="cart-btn-lg">
     </app-cart-btn>
   </div>
+
 </div>
 
-        <app-wishlist-btn></app-wishlist-btn>
-      </div>
+
+
+       
+     
 
       <!-- pdf view -->
        <!-- || book.price==0 -->
+      <div class="d-flex gap-1 w-75">
       <a 
      *ngIf="(book?.pdf  && isBookOrdered()) || (book?.pdf && book.price==0 )"
       [href]="book.pdf"
@@ -126,12 +134,16 @@
       <h5>📖 Summary:</h5>
       <p>{{ summaryText }}</p>
     </div>
+
+      </div>
+
+    </div>
     
   </div>
   </div>
 
   <!-- Ratings & Reviews -->
-  <div class="row mt-5 g-4">
+  <div class="row mt-5 g-4 mx-4">
     <!-- Left: Overall Rating -->
     <div class="col-md-4">
       <div class="card p-4 shadow-sm bg-white rounded-3 border-0 h-100">

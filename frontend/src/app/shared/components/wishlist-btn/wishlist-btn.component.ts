@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
-import { WishlistService } from '../../services/wishlist.service';
+import { WishlistService } from '../../../core/services/services/wishlist.service';
 import { BookInterface } from '../../../core/interfaces/book-interface';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';

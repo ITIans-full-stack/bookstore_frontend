@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 //import { AuthService } from 'src/app/shared/services/auth.service';
-import { AuthService } from '../shared/services/auth.service';
+import { AuthService } from '../core/services/services/auth.service';
 
 
 @Component({

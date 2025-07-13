@@ -2,8 +2,8 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ChatbotService } from '../chatbot.service';
-import { LinkifyPipe } from '../pipes/linkify.pipe';
+import { ChatbotService } from '../core/services/chat/chatbot.service';
+import { LinkifyPipe } from '../core/pipes/linkify.pipe';
 
 @Component({
   selector: 'app-chatbot',

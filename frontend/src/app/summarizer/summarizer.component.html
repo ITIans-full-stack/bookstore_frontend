@@ -1,14 +1,16 @@
-<h2 class="text-primary mb-3">📚 Book Summarizer</h2>
+<div class="vh-100 mx-3 my-5">
+<h2 class="text-primary mb-3 my-5">📚 Book Summarizer</h2>
 
 <div *ngIf="isLoading" class="alert alert-info">
   ⏳ Summarizing the PDF, please wait...
 </div>
 
-<div *ngIf="summaryText" class="alert alert-success">
+<div *ngIf="summaryText" class="alert alert-success mx-3">
   <h4>📖 Summary</h4>
   <p>{{ summaryText }}</p>
 </div>
 
 <div *ngIf="!isLoading && !summaryText && !pdfUrl" class="alert alert-warning">
   ⚠️ No PDF file provided for summarization.
+</div>
 </div>
