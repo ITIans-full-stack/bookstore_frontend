@@ -57,12 +57,6 @@ export const routes: Routes = [
       import('./cart/cart.component').then((m) => m.CartComponent),
      canActivate: [NonAdminGuard],
   },
-  {
-  path: 'checkout',
-  loadComponent: () =>
-    import('./checkout/checkout.component').then((m) => m.CheckoutComponent),
-   canActivate: [NonAdminGuard],
-},
 
 
   {
