@@ -369,18 +369,23 @@
   animation: bounce 0.6s ease-in-out;
 }
 
-.cart-btn-sm {
+/* .cart-btn-sm {
   padding: 8px 16px;
   font-size: 0.8rem;
   min-height: 36px;
   border-radius: 8px;
+} */
+.cart-btn-sm {
+  padding: 6px 12px;
+  font-size: 0.75rem;
+  min-height: 32px;
+  border-radius: 6px;
 }
-
 .cart-btn-lg {
-  padding: 16px 32px;
-  font-size: 1.1rem;
-  min-height: 56px;
-  border-radius: 16px;
+  padding: 6px 12px;
+  font-size: 14px;
+  min-height: 46px;
+  border-radius: 14px;
 }
 
 .cart-btn-primary {
@@ -408,7 +413,6 @@
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
-/* Neon glow effect (optional) */
 .cart-btn-add.neon {
   box-shadow: 0 0 20px rgba(219, 68, 68, 0.3);
 }
