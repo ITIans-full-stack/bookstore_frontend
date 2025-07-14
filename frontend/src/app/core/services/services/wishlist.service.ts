@@ -51,30 +51,64 @@ export class WishlistService {
     });
   }
 
-  addToWishlist(book: BookInterface): Observable<any> {
+  // addToWishlist(book: BookInterface): Observable<any> {
+  //   const userId = this.getUserIdFromToken();
+  //   if (!userId) {
+  //     return throwError(() => 'User not authenticated');
+  //   }
+  //   if (!book?._id) {
+  //     return throwError(() => 'Invalid book');
+  //   }
+
+  //   if (this.isBookInWishlist(book._id)) {
+  //     return throwError(() => 'Book already in wishlist');
+  //   }
+
+  //   // Change 'userId' key to 'user' here:
+  //   return this.http.post<any>(this.API_URL, { user: userId, bookId: book._id }).pipe(
+  //     tap((newItem) => {
+  //       this.wishlistItems.push(newItem);
+  //       this.updateWishlist();
+  //     }),
+  //     catchError(err => {
+  //       console.error('Failed to add to wishlist:', err);
+  //       return throwError(() => err);
+  //     })
+  //   );
+  // }
+  toggleWishlist(book: BookInterface): Observable<any> {
     const userId = this.getUserIdFromToken();
-    if (!userId) {
-      return throwError(() => 'User not authenticated');
-    }
-    if (!book?._id) {
-      return throwError(() => 'Invalid book');
-    }
+    if (!userId) return throwError(() => 'User not authenticated');
+    if (!book?._id) return throwError(() => 'Invalid book');
 
-    if (this.isBookInWishlist(book._id)) {
-      return throwError(() => 'Book already in wishlist');
-    }
+    const isInWishlist = this.isBookInWishlist(book._id);
 
-    // Change 'userId' key to 'user' here:
-    return this.http.post<any>(this.API_URL, { user: userId, bookId: book._id }).pipe(
-      tap((newItem) => {
-        this.wishlistItems.push(newItem);
-        this.updateWishlist();
-      }),
-      catchError(err => {
-        console.error('Failed to add to wishlist:', err);
-        return throwError(() => err);
-      })
-    );
+    if (isInWishlist) {
+      const wishlistItem = this.wishlistItems.find(item => item.book._id === book._id);
+      if (!wishlistItem) return throwError(() => 'Wishlist item not found');
+
+      return this.http.delete(`${this.API_URL}/${wishlistItem._id}`).pipe(
+        tap(() => {
+          this.wishlistItems = this.wishlistItems.filter(item => item._id !== wishlistItem._id);
+          this.updateWishlist();
+        }),
+        catchError(err => {
+          console.error('Failed to remove from wishlist:', err);
+          return throwError(() => err);
+        })
+      );
+    } else {
+      return this.http.post<any>(this.API_URL, { user: userId, bookId: book._id }).pipe(
+        tap((newItem) => {
+          this.wishlistItems.push(newItem);
+          this.updateWishlist();
+        }),
+        catchError(err => {
+          console.error('Failed to add to wishlist:', err);
+          return throwError(() => err);
+        })
+      );
+    }
   }
 
   removeFromWishlist(bookId: string): Observable<any> {

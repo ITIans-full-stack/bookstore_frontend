@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './wishlist-btn.component.html',
-  styleUrl: './wishlist-btn.component.css',
+  styleUrls: ['./wishlist-btn.component.css'], // ✅ fixed typo from `styleUrl` to `styleUrls`
 })
 export class WishlistBtnComponent implements OnInit, OnDestroy {
   @Input() book!: BookInterface;
@@ -28,18 +28,16 @@ export class WishlistBtnComponent implements OnInit, OnDestroy {
     this.subscription?.unsubscribe();
   }
 
-  addToWishlist(): void {
-    console.log('Trying to add:', this.book);
+  toggleWishlist(): void {
+    if (!this.book?._id) return;
 
-    if (!this.isInWishlist) {
-      this.wishlistService.addToWishlist(this.book).subscribe({
-        next: () => {
-          console.log('Book added successfully');
-        },
-        error: (err) => {
-          console.error('Failed to add to wishlist:', err);
-        },
-      });
-    }
+    this.wishlistService.toggleWishlist(this.book).subscribe({
+      next: () => {
+        console.log('Wishlist toggled successfully');
+      },
+      error: (err) => {
+        console.error('Failed to toggle wishlist:', err);
+      }
+    });
   }
 }

@@ -216,18 +216,6 @@ export class BookDetailsComponent implements OnInit {
     this.router.navigate(['/summarizer'], { queryParams: { pdf: pdfUrl } });
   }
 
-  addToWishlist(): void {
-    if (!this.book || !this.book._id) return;
-
-    this.wishlistService.addToWishlist(this.book).subscribe({
-      next: () => {
-        console.log('Book added to wishlist successfully');
-      },
-      error: (err) => {
-        console.error('Failed to add book to wishlist:', err);
-      }
-    });
-  }
 
 }
 

@@ -1,3 +1,4 @@
-<button class="btn btn-outline-dark p-2" (click)="addToWishlist()">
-    <i class="fa fa-heart"></i>
+<button class="btn btn-outline-dark p-2" (click)="toggleWishlist()">
+    <i class="fa" [ngClass]="isInWishlist ? 'fa-heart text-danger' : 'fa-heart'">
+    </i>
 </button>
