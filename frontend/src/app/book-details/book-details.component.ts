@@ -62,6 +62,7 @@ import { OrderService } from "../core/services/orderService/order.service";
 import { BookInterface } from "../core/interfaces/book-interface";
 import { CartBtnComponent } from "../shared/components/cart-btn/cart-btn.component";
 import { environment } from "../../environments/environment";
+import { WishlistService } from "../core/services/services/wishlist.service";
 @Component({
   selector: 'app-book-details',
   imports: [RelatedBooksComponent,
@@ -71,7 +72,7 @@ import { environment } from "../../environments/environment";
     WishlistBtnComponent,
     ChatbotComponent,
     FontAwesomeModule
-  , CartBtnComponent,],
+    , CartBtnComponent,],
   standalone: true,
   templateUrl: './book-details.component.html',
   styleUrls: ['./book-details.component.css']
@@ -100,7 +101,8 @@ export class BookDetailsComponent implements OnInit {
     private viewportScroller: ViewportScroller,
     private orderservice: OrderService,
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
+    private wishlistService: WishlistService
   ) { }
   toggleDescription() {
     this.showFullDescription = !this.showFullDescription;
@@ -190,7 +192,7 @@ export class BookDetailsComponent implements OnInit {
     this.orderservice.getMyOrders().subscribe({
       next: (res: any) => {
         this.orders = res.orders || [];
-        
+
       },
       error: (err) => {
         console.error('Error fetching orders:', err);
@@ -208,11 +210,24 @@ export class BookDetailsComponent implements OnInit {
     );
   }
 
-  
+
   summarizeBook(pdfUrl: string): void {
-  if (!pdfUrl) return;
-  this.router.navigate(['/summarizer'], { queryParams: { pdf: pdfUrl } });
-}
+    if (!pdfUrl) return;
+    this.router.navigate(['/summarizer'], { queryParams: { pdf: pdfUrl } });
+  }
+
+  addToWishlist(): void {
+    if (!this.book || !this.book._id) return;
+
+    this.wishlistService.addToWishlist(this.book).subscribe({
+      next: () => {
+        console.log('Book added to wishlist successfully');
+      },
+      error: (err) => {
+        console.error('Failed to add book to wishlist:', err);
+      }
+    });
+  }
 
 }
 
