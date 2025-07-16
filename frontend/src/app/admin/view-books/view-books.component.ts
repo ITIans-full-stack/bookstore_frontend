@@ -3,12 +3,13 @@ import { CommonModule, ViewportScroller } from '@angular/common';
 import { BookDataService } from '../../core/services/book-data.service';
 import { BookInterface } from '../../core/interfaces/book-interface';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { debounceTime, Subject } from 'rxjs';
 
 
 @Component({
   selector: 'app-view-books',
   standalone: true,
-  imports: [CommonModule, FormsModule,ReactiveFormsModule], 
+  imports: [CommonModule, FormsModule,ReactiveFormsModule,FormsModule], 
   templateUrl: './view-books.component.html',
   styleUrls: ['./view-books.component.css']
 })
@@ -45,11 +46,18 @@ editSelectedPdfName: string = '';
 pdfRemoved: boolean = false;
 
 
+  searchQuery: string = '';
+  searchResults: any[] = [];
+  searchInput$ = new Subject<string>();
+
+
   constructor(private bookService: BookDataService , private fb: FormBuilder,private viewportScroller: ViewportScroller) {}
 
   ngOnInit(): void {
  this.loadBooks(this.currentPage);
  this.scrollToTop();
+
+
  
   }
 
@@ -73,6 +81,7 @@ pdfRemoved: boolean = false;
         this.currentPage = res.page;
         this.scrollToTop(); 
         this.filterBooks();
+        this.filteredBooks = [...this.books];
       } else {
         console.error('Data is not an array:', res);
       }
@@ -91,8 +100,22 @@ toggleDescription(bookId: string, event: Event): void {
   this.expandedBookId = this.expandedBookId === bookId ? null : bookId;
 }
 //=================================================================
-  filterBooks(): void {
-  const term = this.searchTerm.toLowerCase().trim();
+//   filterBooks(): void {
+//   const term = this.searchTerm.toLowerCase().trim();
+
+//   if (!term) {
+//     this.filteredBooks = [...this.books];
+//     return;
+//   }
+
+//   this.filteredBooks = this.books.filter(book => {
+//     const fieldValue = (book[this.searchType] || '').toString().toLowerCase();
+//     return fieldValue.includes(term);
+//   });
+// }
+
+filterBooks(): void {
+  const term = this.searchQuery.toLowerCase().trim();
 
   if (!term) {
     this.filteredBooks = [...this.books];
@@ -100,9 +123,28 @@ toggleDescription(bookId: string, event: Event): void {
   }
 
   this.filteredBooks = this.books.filter(book => {
-    const fieldValue = (book[this.searchType] || '').toString().toLowerCase();
-    return fieldValue.includes(term);
+    const value = (book[this.searchType] || '').toString().toLowerCase();
+    return value.includes(term);
   });
+}
+
+
+onSearch(event: Event): void {
+  const query = (event.target as HTMLInputElement).value.trim();
+  this.searchQuery = query;
+
+  if (query.length >= 2) {
+    this.bookService.searchBooks(this.searchType, query).subscribe({
+      next: (res) => {
+        this.searchResults = res.data.books || [];
+      },
+      error: () => {
+        this.searchResults = [];
+      }
+    });
+  } else {
+    this.searchResults = [];
+  }
 }
 
 //====================================================================
