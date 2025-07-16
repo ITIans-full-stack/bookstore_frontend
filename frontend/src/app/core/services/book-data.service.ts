@@ -69,4 +69,9 @@ getAllAuthors() {
   return this.http.get<{ data: string[] }>(`${this.apiUrl}/authors`);
 }
 
+
+//search
+searchBooks(type: string, keyword: string) {
+  return this.http.get<any>(`${this.apiUrl}/search?type=${type}&keyword=${keyword}`);
+}
 }

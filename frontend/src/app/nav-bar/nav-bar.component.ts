@@ -99,14 +99,18 @@ import { SearchService } from '../core/services/search.service';
 import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { AuthService } from '../core/services/services/auth.service';
 import { CommonModule } from '@angular/common';
-import { Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { debounceTime, filter } from 'rxjs/operators';
 import { WishlistService } from '../core/services/services/wishlist.service';
 import { CartService } from '../core/services/cartservices/cart.service';
+import { BookDataService } from '../core/services/book-data.service';
+import { FormsModule } from '@angular/forms';
+
+declare var bootstrap: any;
 @Component({
   selector: 'app-nav-bar',
   standalone: true,
-  imports: [RouterModule, CommonModule],
+  imports: [RouterModule, CommonModule, FormsModule],
   templateUrl: './nav-bar.component.html',
   styleUrls: ['./nav-bar.component.css']
 })
@@ -116,6 +120,11 @@ export class NavBarComponent implements OnInit {
   showSearch = false;
   isAdminRoute = false;
   wishlistCount = 0;
+
+
+   searchQuery: string = '';
+  searchResults: any[] = [];
+  searchInput$ = new Subject<string>();
  
   private cartService = inject(CartService);
 
@@ -124,6 +133,9 @@ export class NavBarComponent implements OnInit {
     public authService: AuthService,
     private router: Router,
     private wishlistService: WishlistService,
+
+    private bookService: BookDataService,
+
     
   ) { }
 cartCount = 0;
@@ -153,7 +165,13 @@ ngOnInit() {
 
       // ✅ Show search only on /books 
       this.showSearch = path === '/books';
+
+      if (!path.startsWith('/books')) {
+      this.searchQuery = '';
+      this.searchResults = [];
+    }
     });
+
     //  this.router.events.subscribe(() => {
     //     // Update search visibility based on the current route
     //     this.showSearch = this.router.url.includes('/books');
@@ -165,16 +183,47 @@ ngOnInit() {
     this.wishlistService.wishlist$.subscribe(wishlist => {
       this.wishlistCount = wishlist.length;
     });
+
+
+
+
+      this.searchInput$.pipe(debounceTime(300)).subscribe((query) => {
+      if (query.length < 2) {
+        this.searchResults = [];
+        return;
+      }
+      this.bookService.searchBooks('title', query).subscribe({
+  next: (res) => {
+    console.log('Search result:', res);
+    this.searchResults = res.data.books || [];
+  },
+  error: (err) => {
+    console.error('Search error:', err);
+    this.searchResults = [];
+  },
+});
+
+    });
   }
-
-
-
-
 
   onSearch(event: Event) {
-    const value = (event.target as HTMLInputElement).value;
-    this.searchService.setSearchTerm(value);
+    const query = (event.target as HTMLInputElement).value;
+     console.log('Search input:', query);
+    this.searchInput$.next(query);
   }
+
+  goToBook(bookId: string) {
+    this.router.navigate(['/books', bookId]);
+    this.searchQuery = '';
+    this.searchResults = [];
+  }
+
+
+
+  // onSearch(event: Event) {
+  //   const value = (event.target as HTMLInputElement).value;
+  //   this.searchService.setSearchTerm(value);
+  // }
   logout() {
     this.authService.logout();
     this.router.navigateByUrl('/login', { replaceUrl: true });

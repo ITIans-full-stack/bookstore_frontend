@@ -1,4 +1,4 @@
-<nav *ngIf="!showMinimalNav" class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+<nav *ngIf="!showMinimalNav" class="navbar navbar-expand-lg navbar-light bg-light sticky-top ">
   <div class="container-fluid">
     <i class="fas fa-book fs-1  mx-3"></i>
     <span class="navbar-brand">BookShop</span>
@@ -34,12 +34,51 @@
 
       <!-- 🔍 Search + Icons -->
       <ng-container>
-        <form class="d-flex" *ngIf="showSearch">
+        
+
+        <form class="d-flex position-relative" *ngIf="showSearch">
+ <!-- Search Input -->
+<input
+  class="form-control me-2 search"
+  type="text"
+  placeholder="Search books..."
+  (input)="onSearch($event)"
+  [(ngModel)]="searchQuery"
+  name="search"
+  autocomplete="off"
+/>
+
+<!-- Search Dropdown -->
+<ul *ngIf="searchResults.length > 0"
+    class="list-group position-absolute top-100 start-0 w-100 zindex-dropdown shadow"
+    style="max-height: 250px; overflow-y: auto;">
+  <li *ngFor="let book of searchResults"
+      class="list-group-item list-group-item-action"
+      (click)="goToBook(book._id)">
+    📘 {{ book.title }}
+  </li>
+</ul>
+
+</form>
+        
+        
+        
+        <!-- <form class="d-flex" *ngIf="showSearch">
           <input class="form-control me-2 search" type="text" placeholder="Search books..."
             (input)="onSearch($event)" />
-        </form>
+        </form> -->
+
+
+
+
+
+
+
 
         <ul class="navbar-nav">
+
+
+          
 
 <!-- cart icon -->
   <!-- <a class="nav-link" routerLink="/cart"><i class="fa-solid fa-cart-shopping"></i></a> -->

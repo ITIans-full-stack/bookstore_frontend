@@ -1,4 +1,47 @@
+
+
+.list-group  {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  max-height: 250px;
+  background: white;
+  border: 1px solid #ddd;
+  z-index: 9999;
+  overflow-y: auto;
+}
+
+.list-group-item{
+  cursor: pointer;
+  font-size: 15px;
+  transition: background 0.2s;
+}
+
+.list-group-item:hover {
+  background-color: #f0f0f0;
+  cursor: pointer;
+  
+}
+
 .search{
     min-width: 400px;
     
 }
+.navbar {
+  position: relative;
+  z-index: 1000;
+}
+.zindex-dropdown {
+  z-index: 9999; 
+}
+ul.list-group {
+  background: white;
+  border: 1px solid transparent;
+  z-index: 9999;
+}
+
+.search {
+  position: relative;
+}
+
