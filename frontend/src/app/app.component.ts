@@ -1,30 +1,27 @@
-import { Component } from '@angular/core';
-import { RouterModule, Router, NavigationEnd } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { NavBarComponent } from './nav-bar/nav-bar.component';
-import { ChatbotComponent } from './chatbot/chatbot.component';
+import { Component, OnInit } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { NavBarComponent } from "./nav-bar/nav-bar.component";
 import { FooterComponent } from './footer/footer.component';
+import { SocketService } from './core/services/services/socket.service';
+import { ChatbotComponent } from './chatbot/chatbot.component';
+import { WishlistService } from './core/services/services/wishlist.service'; 
 
 @Component({
   selector: 'app-root',
   standalone: true,
+  imports: [RouterOutlet, NavBarComponent, FooterComponent, ChatbotComponent],
   templateUrl: './app.component.html',
-  imports: [
-    CommonModule,
-    RouterModule,
-    NavBarComponent,
-    ChatbotComponent,
-    FooterComponent
-  ]
+  styleUrl: './app.component.css'
 })
-export class AppComponent {
-  showLayout = true;
+export class AppComponent implements OnInit {
+  title = 'online-bookstore';
 
-  constructor(private router: Router) {
-    this.router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd) {
-        this.showLayout = !event.urlAfterRedirects.startsWith('/admin');
-      }
-    });
+  constructor(
+    private wishlistService: WishlistService,
+    private socketService: SocketService
+  ) { }
+
+  ngOnInit(): void {
+    this.wishlistService.loadWishlist();
   }
 }
