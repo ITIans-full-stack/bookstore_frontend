@@ -86,8 +86,8 @@
   cursor: pointer;
 }
 
-.view-btn:hover {
-  background-color: #084cd4;
+.view-btn , .cancel-btn:hover {
+  background-color: #c92a3a;
 }
 
 /* Status Styles */
