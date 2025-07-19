@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './wishlist-btn.component.html',
-  styleUrls: ['./wishlist-btn.component.css'], // ✅ fixed typo from `styleUrl` to `styleUrls`
+  styleUrls: ['./wishlist-btn.component.css'],
 })
 export class WishlistBtnComponent implements OnInit, OnDestroy {
   @Input() book!: BookInterface;
