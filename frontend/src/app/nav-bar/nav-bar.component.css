@@ -29,8 +29,8 @@
     
 }
 .navbar {
-  position: relative;
-  z-index: 1000;
+  position: sticky;
+  z-index: 99999;
 }
 .zindex-dropdown {
   z-index: 9999; 
