@@ -94,7 +94,7 @@
 // }
 // }
 
-import { Component, OnInit ,inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { SearchService } from '../core/services/search.service';
 import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { AuthService } from '../core/services/services/auth.service';
@@ -107,6 +107,8 @@ import { BookDataService } from '../core/services/book-data.service';
 import { FormsModule } from '@angular/forms';
 
 declare var bootstrap: any;
+import { NotificationService } from '../core/services/services/notification.service';
+
 @Component({
   selector: 'app-nav-bar',
   standalone: true,
@@ -122,10 +124,10 @@ export class NavBarComponent implements OnInit {
   wishlistCount = 0;
 
 
-   searchQuery: string = '';
+  searchQuery: string = '';
   searchResults: any[] = [];
   searchInput$ = new Subject<string>();
- 
+
   private cartService = inject(CartService);
 
   constructor(
@@ -136,16 +138,18 @@ export class NavBarComponent implements OnInit {
 
     private bookService: BookDataService,
 
-    
+
+    private notificationService: NotificationService
+
   ) { }
-cartCount = 0;
+  cartCount = 0;
 
-ngOnInit() {
-  this.cartService.cartItemCount.subscribe(count => {
-    this.cartCount = count;
-  });
+  ngOnInit() {
+    this.cartService.cartItemCount.subscribe(count => {
+      this.cartCount = count;
+    });
 
-  this.cartService.getCart().subscribe();
+    this.cartService.getCart().subscribe();
 
     this.isLoggedIn$ = this.authService.isLoggedIn$;
 
@@ -167,9 +171,9 @@ ngOnInit() {
       this.showSearch = path === '/books';
 
       if (!path.startsWith('/books')) {
-      this.searchQuery = '';
-      this.searchResults = [];
-    }
+        this.searchQuery = '';
+        this.searchResults = [];
+      }
     });
 
     //  this.router.events.subscribe(() => {
@@ -187,28 +191,28 @@ ngOnInit() {
 
 
 
-      this.searchInput$.pipe(debounceTime(300)).subscribe((query) => {
+    this.searchInput$.pipe(debounceTime(300)).subscribe((query) => {
       if (query.length < 2) {
         this.searchResults = [];
         return;
       }
       this.bookService.searchBooks('title', query).subscribe({
-  next: (res) => {
-    console.log('Search result:', res);
-    this.searchResults = res.data.books || [];
-  },
-  error: (err) => {
-    console.error('Search error:', err);
-    this.searchResults = [];
-  },
-});
+        next: (res) => {
+          console.log('Search result:', res);
+          this.searchResults = res.data.books || [];
+        },
+        error: (err) => {
+          console.error('Search error:', err);
+          this.searchResults = [];
+        },
+      });
 
     });
   }
 
   onSearch(event: Event) {
     const query = (event.target as HTMLInputElement).value;
-     console.log('Search input:', query);
+    console.log('Search input:', query);
     this.searchInput$.next(query);
   }
 
@@ -227,5 +231,9 @@ ngOnInit() {
   logout() {
     this.authService.logout();
     this.router.navigateByUrl('/login', { replaceUrl: true });
+  }
+
+  toggleNotificationPanel() {
+    this.notificationService.toggle();
   }
 }
