@@ -51,7 +51,7 @@ export class OrderService {
     return this.http.post(`${this.apiUrl}/cart`, {}, { headers: this.getAuthHeaders() });
   }
 
-  getMyOrders(page: number = 1, limit: number = 10): Observable<any> {
+  getMyOrders(page: number = 1, limit: number = 5): Observable<any> {
     return this.http.get(`${this.apiUrl}/myorders?page=${page}&limit=${limit}`, { headers: this.getAuthHeaders() });
   }
 

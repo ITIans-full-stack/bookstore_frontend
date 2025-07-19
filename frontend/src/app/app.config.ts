@@ -6,7 +6,8 @@ import { provideNgxStripe } from 'ngx-stripe';
 import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
 import { ToastrModule } from 'ngx-toastr';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
-import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideAnimations,BrowserAnimationsModule  } from '@angular/platform-browser/animations';
+import { NgxSpinnerModule } from 'ngx-spinner';
 const socketIoConfig: SocketIoConfig = {
   url: 'http://localhost:5000',
   options: {
@@ -22,5 +23,7 @@ export const appConfig: ApplicationConfig = {
       SweetAlert2Module.forRoot()),
   provideNgxStripe('pk_test_51RRAPZPh6I2dCw4UwbapbzAKwyPBa9UqzjMfGssEjKsvfZEx9emvjiuGY5FP0tN4wG2yG25xs16aK2fhaSkKJ8sg00cKkQz1wk'),
   provideAnimations(),
+  importProvidersFrom(BrowserAnimationsModule),
+  importProvidersFrom(NgxSpinnerModule.forRoot()),
 ]
 };
