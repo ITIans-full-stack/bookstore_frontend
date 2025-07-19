@@ -1,5 +1,4 @@
-<div id="toast-container"></div>
-<app-nav-bar></app-nav-bar>
+<app-nav-bar *ngIf="showLayout"></app-nav-bar>
 <router-outlet></router-outlet>
-<app-chatbot></app-chatbot>
-<app-footer></app-footer>
+<app-chatbot *ngIf="showLayout"></app-chatbot>
+<app-footer *ngIf="showLayout"></app-footer>

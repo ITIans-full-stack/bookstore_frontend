@@ -1,13 +1,31 @@
 <div class="d-flex bg-light font-inter" style="min-height: 100%;">
-  <aside class="sidebar-width bg-custom-green-dark text-white p-4 d-flex flex-column rounded-end shadow sticky-sidebar">
-    <div class="fs-3 fw-bold mb-5 d-flex align-items-center">
-      <svg xmlns="http://www.w3.org/2000/svg" class="sidebar-icon me-2 text-custom-green-light" fill="none"
-        viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-      </svg>
-      Admin Panel
+  <!-- Sidebar Toggle Button (Only shown on small screens) -->
+  <button class="btn btn-outline-secondary m-3 d-lg-none position-fixed z-1030" style="top: 10px; left: 10px;"
+    (click)="sidebar.classList.toggle('d-none')">
+    <i class="fas fa-bars"></i>
+  </button>
+
+  <!-- Sidebar -->
+  <aside #sidebar class="sidebar-width bg-custom-green-dark text-white p-4 d-flex flex-column rounded-end shadow sticky-sidebar d-none d-lg-flex">
+    <div class="fs-3 fw-bold mb-5 d-flex align-items-center justify-content-between">
+      <div class="d-flex align-items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="sidebar-icon me-2 text-custom-green-light" fill="none"
+          viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        Admin Panel
+      </div>
+      <!-- Close Button (Only on mobile) -->
+    <button class="btn btn-sm d-lg-none" 
+        (click)="sidebar.classList.add('d-none')" 
+        style="background-color: white;">
+  ❌
+</button>
+
+
     </div>
+
     <nav class="flex-grow-1">
       <ul class="list-unstyled">
         <li class="mb-3">
@@ -15,14 +33,16 @@
             class="sidebar-link d-flex align-items-center p-3 rounded text-white">
             <svg xmlns="http://www.w3.org/2000/svg" class="sidebar-link-icon me-3" fill="none" viewBox="0 0 24 24"
               stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
             </svg>
             Insert Books
           </a>
         </li>
         <li class="mb-3">
           <a routerLink="/admin/view-books" routerLinkActive="sidebar-link-active"
-            [routerLinkActiveOptions]="{ exact: true }" class="sidebar-link d-flex align-items-center p-3 rounded">
+            [routerLinkActiveOptions]="{ exact: true }"
+            class="sidebar-link d-flex align-items-center p-3 rounded">
             <svg xmlns="http://www.w3.org/2000/svg" class="sidebar-link-icon me-3" fill="none" viewBox="0 0 24 24"
               stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -33,7 +53,8 @@
         </li>
         <li class="mb-3">
           <a routerLink="/admin/view-orders" routerLinkActive="sidebar-link-active"
-            [routerLinkActiveOptions]="{ exact: true }" class="sidebar-link d-flex align-items-center p-3 rounded">
+            [routerLinkActiveOptions]="{ exact: true }"
+            class="sidebar-link d-flex align-items-center p-3 rounded">
             <svg xmlns="http://www.w3.org/2000/svg" class="sidebar-link-icon me-3" fill="none" viewBox="0 0 24 24"
               stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -53,22 +74,20 @@
             Sign Out
           </a>
         </li>
-
-
-
       </ul>
     </nav>
   </aside>
-  <main class="flex-grow-1 p-4 overflow-auto">
 
-    <!-- Toast Notifications (top-right) -->
+  <!-- Main Content -->
+  <main class="flex-grow-1 p-4 overflow-auto">
+    <!-- Toast Notifications -->
     <div class="notification-panel position-fixed top-0 end-0 bg-white shadow p-3" *ngIf="showAllNotifications"
       style="z-index: 1200; width: 350px; height: 100vh; overflow-y: auto;">
       <div class="d-flex justify-content-between align-items-center mb-3">
         <h5 class="mb-0">📦 All Notifications</h5>
         <button class="btn-close" (click)="toggleNotificationPanel()"></button>
       </div>
-      <div  *ngIf="notifications.length === 0" class="text-muted">
+      <div *ngIf="notifications.length === 0" class="text-muted">
         No notifications yet.
       </div>
       <div *ngFor="let notification of notifications" class="alert alert-success mb-3">
@@ -80,8 +99,6 @@
       </div>
     </div>
 
-    <!-- Route Content -->
     <router-outlet></router-outlet>
   </main>
-
 </div>

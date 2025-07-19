@@ -122,11 +122,14 @@ export class NavBarComponent implements OnInit {
   showSearch = false;
   isAdminRoute = false;
   wishlistCount = 0;
-
-
   searchQuery: string = '';
   searchResults: any[] = [];
   searchInput$ = new Subject<string>();
+  isNavbarOpen = false;
+
+  toggleNavbar() {
+    this.isNavbarOpen = !this.isNavbarOpen;
+  }
 
   private cartService = inject(CartService);
 
