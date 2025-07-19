@@ -236,3 +236,79 @@ aside h4 {
     max-width: 85%;
   }
 }
+
+
+@media (max-width: 767.98px) {
+  aside {
+    position: relative;
+    border: none;
+    box-shadow: none;
+    min-height: auto;
+    padding: 1rem;
+  }
+
+  .mobile-filters {
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  main.col-md-10 {
+    width: 100%;
+    padding: 0 1rem;
+  }
+
+  .section-title {
+    font-size: 1.25rem;
+  }
+
+  .custom-pagination {
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 0.5rem;
+  }
+}
+
+
+/* Overlay background when drawer is open */
+.mobile-filter-overlay {
+  position: fixed;
+  top: 56px; /* Offset for navbar height */
+  left: 0;
+  height: calc(100% - 56px); /* Subtract navbar height */
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 99;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.mobile-filter-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Left drawer panel */
+.mobile-filter-drawer {
+  position: fixed;
+  top: 56px; /* Offset for navbar height */
+  left: -270px;
+  width: 250px;
+  height: calc(100% - 56px); /* Subtract navbar height */
+  background-color: #fff;
+  z-index: 100;
+  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  overflow-y: auto;
+}
+
+.mobile-filter-drawer.open {
+  left: 0;
+}
+/* Prevent background scrolling */
+.no-scroll {
+  overflow: hidden;
+  height: 100vh;
+}

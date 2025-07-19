@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { BookInterface } from '../core/interfaces/book-interface';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SearchService } from '../core/services/search.service';
@@ -33,7 +33,7 @@ availableAuthors: string[] = [];
 selectedAuthors: Set<string> = new Set();
 
   constructor(private searchService: SearchService , private booksService:BookDataService , private route: ActivatedRoute,
-  private router: Router, private viewportScroller: ViewportScroller) {}
+  private router: Router, private viewportScroller: ViewportScroller,private renderer: Renderer2) {}
 
   ngOnInit() {
   this.loadBooks(this.currentPage , this.pageSize);
@@ -56,6 +56,7 @@ selectedAuthors: Set<string> = new Set();
 }
   ngOnDestroy() {
     this.searchSub.unsubscribe();
+     this.renderer.removeStyle(document.body, 'overflow');
   }
 
 loadBooks(page: number = 1, limit : number =8) {
@@ -125,6 +126,17 @@ scrollToTop(): void {
 
 //=========================================================================
 
+toggleFilters = false;
+
+  openFilters() {
+    this.toggleFilters = true;
+    this.renderer.setStyle(document.body, 'overflow', 'hidden'); // prevent scroll
+  }
+
+  closeFilters() {
+    this.toggleFilters = false;
+    this.renderer.removeStyle(document.body, 'overflow'); // restore scroll
+  }
 
 
   onSearch(event: Event) {
