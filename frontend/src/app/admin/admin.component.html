@@ -62,16 +62,17 @@
   <main class="flex-grow-1 p-4 overflow-auto">
 
     <!-- Toast Notifications (top-right) -->
-    <div class="position-fixed top-0 end-0 p-3" style="z-index: 1100" *ngIf="notifications.length > 0">
-      <div *ngFor="let notification of notifications" class="toast show text-bg-success mb-2" role="alert"
-        aria-live="assertive" aria-atomic="true">
-        <div class="toast-header bg-success text-white">
-          <strong class="me-auto">📦 New Order</strong>
-          <small class="text-light">Just now</small>
-          <button type="button" class="btn-close btn-close-white ms-2 mb-1" aria-label="Close"
-            (click)="removeNotification(notification.orderId)"></button>
-        </div>
-        <div class="toast-body">
+    <div class="notification-panel position-fixed top-0 end-0 bg-white shadow p-3" *ngIf="showAllNotifications"
+      style="z-index: 1200; width: 350px; height: 100vh; overflow-y: auto;">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="mb-0">📦 All Notifications</h5>
+        <button class="btn-close" (click)="toggleNotificationPanel()"></button>
+      </div>
+      <div  *ngIf="notifications.length === 0" class="text-muted">
+        No notifications yet.
+      </div>
+      <div *ngFor="let notification of notifications" class="alert alert-success mb-3">
+        <div>
           🆔 <strong>{{ notification.orderId }}</strong><br />
           💵 Total: ${{ notification.totalPrice }}<br />
           👤 User: {{ notification.user }}

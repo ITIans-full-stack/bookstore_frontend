@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../core/services/services/auth.service';
 import { SocketService } from '../core/services/services/socket.service';
 import { CommonModule } from '@angular/common';
-
+import { NotificationService } from '../core/services/services/notification.service';
 
 @Component({
   selector: 'app-admin',
@@ -18,8 +18,12 @@ import { CommonModule } from '@angular/common';
 export class AdminComponent implements OnInit {
   orders: any[] = [];
   notifications: any[] = [];
+  showAllNotifications = false;
 
-  constructor(private router: Router, private authService: AuthService, private socketService: SocketService) { }
+  constructor(private router: Router,
+    private authService: AuthService,
+    private socketService: SocketService,
+    private notificationService: NotificationService) { }
 
   ngOnInit() {
     this.socketService.onOrderCreated().subscribe((order) => {
@@ -30,6 +34,9 @@ export class AdminComponent implements OnInit {
         this.removeNotification(order.orderId);
       }, 5000);
     });
+    this.notificationService.showNotifications$.subscribe((show) => {
+      this.showAllNotifications = show;
+    });
   }
 
   removeNotification(orderId: string) {
@@ -38,6 +45,10 @@ export class AdminComponent implements OnInit {
   logout() {
     this.authService.logout();
     this.router.navigate(['/login'], { replaceUrl: true });
+  }
+
+  toggleNotificationPanel() {
+    this.showAllNotifications = !this.showAllNotifications;
   }
 
 
