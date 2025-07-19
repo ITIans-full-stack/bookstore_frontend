@@ -18,9 +18,17 @@ export class WishlistBtnComponent implements OnInit, OnDestroy {
 
   constructor(private wishlistService: WishlistService) { }
 
+
   ngOnInit(): void {
     this.subscription = this.wishlistService.wishlist$.subscribe((wishlist) => {
-      this.isInWishlist = wishlist.some((b) => b._id === this.book._id);
+      // this.isInWishlist = wishlist.some((b) => b._id === this.book._id);
+
+      if (!Array.isArray(wishlist) || !this.book?._id) {
+        this.isInWishlist = false;
+        return;
+      }
+
+      this.isInWishlist = wishlist.some((b) => b?._id === this.book._id);
     });
   }
 
