@@ -1,75 +1,159 @@
-<div class="d-flex bg-light font-inter" style="min-height: 100%;">
+<div class="d-flex bg-light font-inter" style="min-height: 100%">
   <!-- Sidebar Toggle Button (Only shown on small screens) -->
-  <button class="btn btn-outline-secondary m-3 d-lg-none position-fixed z-1030" style="top: 10px; left: 10px;"
-    (click)="sidebar.classList.toggle('d-none')">
+  <button
+    class="btn btn-outline-secondary m-3 d-lg-none position-fixed z-1030"
+    style="top: 10px; left: 10px"
+    (click)="sidebar.classList.toggle('d-none')"
+  >
     <i class="fas fa-bars"></i>
   </button>
 
   <!-- Sidebar -->
-  <aside #sidebar class="sidebar-width bg-custom-green-dark text-white p-4 d-flex flex-column rounded-end shadow sticky-sidebar d-none d-lg-flex">
-    <div class="fs-3 fw-bold mb-5 d-flex align-items-center justify-content-between">
+  <aside
+    #sidebar
+    class="sidebar-width bg-custom-green-dark text-white p-4 d-flex flex-column rounded-end shadow sticky-sidebar d-none d-lg-flex"
+  >
+    <div
+      class="fs-3 fw-bold mb-5 d-flex align-items-center justify-content-between"
+    >
       <div class="d-flex align-items-center">
-        <svg xmlns="http://www.w3.org/2000/svg" class="sidebar-icon me-2 text-custom-green-light" fill="none"
-          viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="sidebar-icon me-2 text-custom-green-light"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
         </svg>
         Admin Panel  
       </div>
       <!-- Close Button (Only on mobile) -->
-    <button class="btn btn-sm d-lg-none" 
-        (click)="sidebar.classList.add('d-none')" 
-        style="background-color: white; color: red !important; border: 1px solid red;">
-     ❌
-</button>
-
-
+      <button
+        class="btn btn-sm d-lg-none"
+        (click)="sidebar.classList.add('d-none')"
+        style="
+          background-color: white;
+          color: red !important;
+          border: 1px solid red;
+        "
+      >
+        ❌
+      </button>
     </div>
 
     <nav class="flex-grow-1">
       <ul class="list-unstyled">
         <li class="mb-3">
-          <a routerLink="/admin" routerLinkActive="sidebar-link-active" [routerLinkActiveOptions]="{ exact: true }"
-            class="sidebar-link d-flex align-items-center p-3 rounded text-white">
-            <svg xmlns="http://www.w3.org/2000/svg" class="sidebar-link-icon me-3" fill="none" viewBox="0 0 24 24"
-              stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+          <a
+            routerLink="/admin"
+            routerLinkActive="sidebar-link-active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            class="sidebar-link d-flex align-items-center p-3 rounded text-white"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="sidebar-link-icon me-3"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+              />
             </svg>
             Insert Books
           </a>
         </li>
         <li class="mb-3">
-          <a routerLink="/admin/view-books" routerLinkActive="sidebar-link-active"
+          <a
+            routerLink="/admin/view-books"
+            routerLinkActive="sidebar-link-active"
             [routerLinkActiveOptions]="{ exact: true }"
-            class="sidebar-link d-flex align-items-center p-3 rounded">
-            <svg xmlns="http://www.w3.org/2000/svg" class="sidebar-link-icon me-3" fill="none" viewBox="0 0 24 24"
-              stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" />
+            class="sidebar-link d-flex align-items-center p-3 rounded"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="sidebar-link-icon me-3"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"
+              />
             </svg>
             View Books
           </a>
         </li>
-        <li class="mb-3">
-          <a routerLink="/admin/view-orders" routerLinkActive="sidebar-link-active"
+        <li class="mb-3 position-relative">
+          <a
+            routerLink="/admin/view-orders"
+            routerLinkActive="sidebar-link-active"
             [routerLinkActiveOptions]="{ exact: true }"
-            class="sidebar-link d-flex align-items-center p-3 rounded">
-            <svg xmlns="http://www.w3.org/2000/svg" class="sidebar-link-icon me-3" fill="none" viewBox="0 0 24 24"
-              stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M10 12l2 2 4-4" />
-            </svg>
-            View Orders
+            class="sidebar-link d-flex align-items-center justify-content-between p-3 rounded"
+          >
+            <div class="d-flex align-items-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="sidebar-link-icon me-3"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                width="20"
+                height="20"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M10 12l2 2 4-4"
+                />
+              </svg>
+              View Orders
+            </div>
+
+            <!-- Notification badge -->
+            <span
+              *ngIf="hasNewNotification && notifications.length > 0"
+              class="badge bg-danger rounded-pill"
+              style="font-size: 0.75rem"
+            >
+              {{ notifications.length }}
+            </span>
           </a>
         </li>
 
         <li class="mb-3">
-          <a (click)="logout()" class="sidebar-link d-flex align-items-center p-3 rounded" style="cursor: pointer;">
-            <svg xmlns="http://www.w3.org/2000/svg" class="sidebar-link-icon me-3" fill="none" viewBox="0 0 24 24"
-              stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+          <a
+            (click)="logout()"
+            class="sidebar-link d-flex align-items-center p-3 rounded"
+            style="cursor: pointer"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="sidebar-link-icon me-3"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+              />
             </svg>
             Sign Out
           </a>
@@ -80,25 +164,6 @@
 
   <!-- Main Content -->
   <main class="flex-grow-1 p-4 overflow-auto">
-    <!-- Toast Notifications -->
-    <div class="notification-panel position-fixed top-0 end-0 bg-white shadow p-3" *ngIf="showAllNotifications"
-      style="z-index: 1200; width: 350px; height: 100vh; overflow-y: auto;">
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <h5 class="mb-0">📦 All Notifications</h5>
-        <button class="btn-close" (click)="toggleNotificationPanel()"></button>
-      </div>
-      <div *ngIf="notifications.length === 0" class="text-muted">
-        No notifications yet.
-      </div>
-      <div *ngFor="let notification of notifications" class="alert alert-success mb-3">
-        <div>
-          🆔 <strong>{{ notification.orderId }}</strong><br />
-          💵 Total: ${{ notification.totalPrice }}<br />
-          👤 User: {{ notification.user }}
-        </div>
-      </div>
-    </div>
-
     <router-outlet></router-outlet>
   </main>
 </div>
