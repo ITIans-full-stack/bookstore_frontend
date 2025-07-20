@@ -81,4 +81,12 @@ export class OrderService {
   getAllOrders(): Observable<any> {
     return this.http.get(`${this.apiUrl}/admin/orders`, { headers: this.getAuthHeaders() });
   }  
+
+  createOrderForSingleItem(bookId: string, quantity: number): Observable<any> {
+  return this.http.post(
+    `${this.apiUrl}/single-item`,
+    { bookId, quantity },
+    { headers: this.getAuthHeaders() }
+  );
+}
 }

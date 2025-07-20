@@ -3,41 +3,58 @@
   <div class="bubble" *ngFor="let b of bubbles"></div>
 </div>
 
-<!-- <div class="container d-flex justify-content-center align-items-center min-vh-100"> -->
-  <div class="container px-3 d-flex justify-content-center align-items-center min-vh-100">
-
+<div class="container px-3 d-flex justify-content-center align-items-center min-vh-100">
   <div class="card p-4 shadow-lg rounded-4 animate__animated animate__fadeIn" style="width: 100%; max-width: 500px;">
     <h3 class="text-center mb-4 fw-bold">Create Account</h3>
 
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <!-- Name -->
       <div class="mb-3">
         <label class="form-label">Full Name</label>
         <input type="text" formControlName="name" class="form-control form-control-lg" placeholder="John Doe" />
+        <div *ngIf="f['name'].touched && f['name'].errors?.['required']" class="text-danger mt-1">
+          Name is required
+        </div>
       </div>
 
+      <!-- Email -->
       <div class="mb-3">
         <label class="form-label">Email address</label>
         <input type="email" formControlName="email" class="form-control form-control-lg" placeholder="you@example.com" />
+        <div *ngIf="f['email'].touched && f['email'].errors?.['required']" class="text-danger mt-1">
+          Email is required
+        </div>
+        <div *ngIf="f['email'].touched && f['email'].errors?.['email']" class="text-danger mt-1">
+          Invalid email format
+        </div>
       </div>
 
+      <!-- Password -->
       <div class="mb-3">
         <label class="form-label">Password</label>
         <input type="password" formControlName="password" class="form-control form-control-lg" placeholder="••••••••" />
+        <div *ngIf="f['password'].touched && f['password'].errors?.['required']" class="text-danger mt-1">
+          Password is required
+        </div>
+        <div *ngIf="f['password'].touched && f['password'].errors?.['minlength']" class="text-danger mt-1">
+          Password must be at least 8 characters
+        </div>
+        <div *ngIf="f['password'].touched && f['password'].errors?.['pattern']" class="text-danger mt-1">
+          Must include uppercase, lowercase, number, and special character
+        </div>
       </div>
 
-<div class="mb-3">
-  <label class="form-label">Confirm Password</label>
-  <input
-    type="password"
-    formControlName="confirmPassword"
-    class="form-control form-control-lg"
-    placeholder="••••••••"
-  />
-  <div *ngIf="f['confirmPassword'].touched && f['confirmPassword'].errors?.['mismatch']" class="text-danger mt-1">
-    Passwords do not match
-  </div>
-</div>
-
+      <!-- Confirm Password -->
+      <div class="mb-3">
+        <label class="form-label">Confirm Password</label>
+        <input type="password" formControlName="confirmPassword" class="form-control form-control-lg" placeholder="••••••••" />
+        <div *ngIf="f['confirmPassword'].touched && f['confirmPassword'].errors?.['required']" class="text-danger mt-1">
+          Confirm Password is required
+        </div>
+        <div *ngIf="f['confirmPassword'].touched && f['confirmPassword'].errors?.['mismatch']" class="text-danger mt-1">
+          Passwords do not match
+        </div>
+      </div>
 
       <button class="btn btn-primary w-100 py-2 mt-2" type="submit" [disabled]="registerForm.invalid">Register</button>
     </form>
@@ -46,8 +63,7 @@
   </div>
 </div>
 
-
-
+<!-- Toast -->
 <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1055">
   <div
     class="toast align-items-center text-white border-0"
@@ -62,11 +78,7 @@
       <div class="toast-body">
         {{ toastMessage }}
       </div>
-      <button
-        type="button"
-        class="btn-close btn-close-white me-2 m-auto"
-        (click)="hideToast()"
-      ></button>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" (click)="hideToast()"></button>
     </div>
   </div>
 </div>
