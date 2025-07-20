@@ -3,6 +3,7 @@ import { OrderService } from '../core/services/orderService/order.service';
 import { CommonModule } from '@angular/common'; 
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { NgxSpinnerService } from "ngx-spinner";
@@ -21,7 +22,8 @@ export class OrderHistoryComponent implements OnInit {
   totalPages = 0;
   loading = false;
 
-  constructor(private orderservice: OrderService, private toastr: ToastrService, private spinner: NgxSpinnerService) {}
+  constructor(private orderservice: OrderService, private toastr: ToastrService, 
+    private spinner: NgxSpinnerService, private router: Router) {}
 
   ngOnInit() {
     this.loadOrders();
@@ -93,5 +95,10 @@ export class OrderHistoryComponent implements OnInit {
       }
     });
   }
+  goToBookDetails(bookId: string | undefined) {
+  if (bookId) {
+    this.router.navigate(['/books', bookId]);
+  }
+}
 }
 

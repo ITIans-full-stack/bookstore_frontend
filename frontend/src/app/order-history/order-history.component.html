@@ -18,7 +18,7 @@
     </div>
 
     <div class="book-list">
-      <div *ngFor="let item of order.books" class="book-item">
+      <div *ngFor="let item of order.books" class="book-item" (click)="goToBookDetails(item.book?._id)" style="cursor: pointer;" >
         <img [src]="item.book?.image" alt="Book" class="book-image" />
         <div class="book-details">
           <div class="book-title">{{ item.book?.title }}</div>
