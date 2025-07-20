@@ -16,8 +16,7 @@ export class WishlistBtnComponent implements OnInit, OnDestroy {
   isInWishlist = false;
   private subscription?: Subscription;
 
-  constructor(private wishlistService: WishlistService) { }
-
+  constructor(private wishlistService: WishlistService) {}
 
   ngOnInit(): void {
     this.subscription = this.wishlistService.wishlist$.subscribe((wishlist) => {
@@ -45,7 +44,7 @@ export class WishlistBtnComponent implements OnInit, OnDestroy {
       },
       error: (err) => {
         console.error('Failed to toggle wishlist:', err);
-      }
+      },
     });
   }
 }

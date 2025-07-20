@@ -13,34 +13,41 @@ import { NotificationService } from '../core/services/services/notification.serv
   standalone: true,
   imports: [RouterModule, CommonModule],
   templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.css']
+  styleUrls: ['./admin.component.css'],
 })
 export class AdminComponent implements OnInit {
   orders: any[] = [];
   notifications: any[] = [];
   showAllNotifications = false;
+  hasNewNotification = false;
 
-  constructor(private router: Router,
+  constructor(
+    private router: Router,
     private authService: AuthService,
     private socketService: SocketService,
-    private notificationService: NotificationService) { }
+    private notificationService: NotificationService
+  ) {}
 
   ngOnInit() {
     this.socketService.onOrderCreated().subscribe((order) => {
       console.log('New Order Received in Admin Panel:', order);
       this.orders.unshift(order);
       this.notifications.push(order);
-      setTimeout(() => {
-        this.removeNotification(order.orderId);
-      }, 5000);
+      if (!this.showAllNotifications) {
+        this.hasNewNotification = true;
+      }
     });
-    this.notificationService.showNotifications$.subscribe((show) => {
-      this.showAllNotifications = show;
+    this.router.events.subscribe((event) => {
+      if (this.router.url === '/admin/view-orders') {
+        this.hasNewNotification = false;
+      }
     });
   }
 
   removeNotification(orderId: string) {
-    this.notifications = this.notifications.filter(o => o.orderId !== orderId);
+    this.notifications = this.notifications.filter(
+      (o) => o.orderId !== orderId
+    );
   }
   logout() {
     this.authService.logout();
@@ -49,8 +56,14 @@ export class AdminComponent implements OnInit {
 
   toggleNotificationPanel() {
     this.showAllNotifications = !this.showAllNotifications;
+
+    if (this.showAllNotifications) {
+      this.hasNewNotification = false;
+    }
   }
-
-
-
+  clearNotifications() {
+    this.orders = [];
+    this.showAllNotifications = false;
+    this.hasNewNotification = false;
+  }
 }
