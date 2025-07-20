@@ -2,13 +2,14 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:5000/api/cart';
+  private apiUrl = `${environment.apiUrl}/cart`;
 
   private cartCountSubject = new BehaviorSubject<number>(0);
   cartItemCount = this.cartCountSubject.asObservable();

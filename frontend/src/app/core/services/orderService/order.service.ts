@@ -31,12 +31,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OrderService {
-  private apiUrl = 'http://localhost:5000/api/orders';
+  private apiUrl = `${environment.apiUrl}/orders`;
   private ordersSubject = new BehaviorSubject<any[]>([]);
   orders$ = this.ordersSubject.asObservable();
 
