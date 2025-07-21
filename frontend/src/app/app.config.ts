@@ -6,14 +6,7 @@ import { provideNgxStripe } from 'ngx-stripe';
 import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
 import { ToastrModule } from 'ngx-toastr';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
-import {
-  provideAnimations,
-  BrowserAnimationsModule,
-} from '@angular/platform-browser/animations';
-import {
-  provideAnimations,
-  BrowserAnimationsModule,
-} from '@angular/platform-browser/animations';
+import {provideAnimations, BrowserAnimationsModule,} from '@angular/platform-browser/animations';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { environment } from '../environments/environment';
 const socketIoConfig: SocketIoConfig = {
