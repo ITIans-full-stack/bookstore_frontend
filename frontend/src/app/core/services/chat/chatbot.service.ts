@@ -24,12 +24,12 @@ export class ChatbotService {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${environment.OpenrouterToken}`,
-      'HTTP-Referer': 'http://localhost:4200',
+      'HTTP-Referer': 'https://bookstores-fawn.vercel.app',
       'X-Title': 'bookstore-assistant'
     });
 
     const booksList = this.availableBooks.map(book => {
-      const link = `http://localhost:4200/book-details/${book._id}`;
+      const link = `https://bookstores-fawn.vercel.app/book-details/${book._id}`;
       return `📘 <b>Title:</b> <a href="${link}" target="_blank">${book.title}</a><br>
 ✍️ <b>Author:</b> ${book.author}<br>
 📂 <b>Category:</b> ${book.category}<br>
@@ -54,7 +54,6 @@ Your Task:
 - Separate between each book by making new bullet.
 - Don't recommend more than 3 books.
 - When showing a book, add its ID in the format [id=BOOK_ID] after the title.
-- If nothing matches at all, reply: "📚 No matching books found."
 
 Respond in this format:
 📘 Title: Book Name [id=BOOK_ID]  

@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } 
 import { Router, ActivatedRoute, RouterModule } from '@angular/router';
 import { AuthService } from '../core/services/services/auth.service';
 import { getDecodedToken } from '../shared/utils/jwt';
+import { environment } from '../../environments/environment';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -99,7 +100,7 @@ this.auth.login(this.loginForm.value).subscribe({
   }
 
   socialLogin(provider: string) {
-    window.location.href = `http://localhost:5000/api/auth/${provider}`;
+    window.location.href = `${environment.apiUrl}/auth/${provider}`;
   }
 
 

@@ -38,7 +38,7 @@ export class SummarizerComponent implements OnInit {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${environment.bookSumToken}`,
-      'HTTP-Referer': 'http://localhost:4200',
+      'HTTP-Referer': `${environment.apiUrl}`,
       'X-Title': 'bookstore-summarizer'
     });
 
