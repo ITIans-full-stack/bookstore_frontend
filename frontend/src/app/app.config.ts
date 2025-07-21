@@ -10,6 +10,10 @@ import {
   provideAnimations,
   BrowserAnimationsModule,
 } from '@angular/platform-browser/animations';
+import {
+  provideAnimations,
+  BrowserAnimationsModule,
+} from '@angular/platform-browser/animations';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { environment } from '../environments/environment';
 const socketIoConfig: SocketIoConfig = {
