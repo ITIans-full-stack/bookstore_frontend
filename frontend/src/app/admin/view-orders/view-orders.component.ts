@@ -62,13 +62,18 @@ export class ViewOrdersComponent implements OnInit {
     this.loadOrders();
   }
 
-  loadOrders(): void {
+   loadOrders(): void {
     this.orderService.getAllOrders(this.page, this.limit).subscribe({
       next: (res: any) => {
-        this.orders = res.orders || [];
-        this.page = res.page || 1;
-        this.totalPages = res.totalPages || 0;
-        this.totalOrders = res.totalOrders || 0;
+        if (res && Array.isArray(res.orders)) {
+          this.orders = res.orders;
+          this.page = res.page;
+          this.totalPages = res.totalPages;
+          this.totalOrders = res.totalOrders;
+        } else {
+          console.warn('Unexpected data format:', res);
+          this.orders = [];
+        }
       },
       error: (err) => {
         console.error('Failed to fetch orders:', err);
