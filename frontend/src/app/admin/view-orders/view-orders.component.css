@@ -1,5 +1,5 @@
-table td {
-  background-color: transparent; /* Ensure td is clear */
+/* table td {
+  background-color: transparent; 
   vertical-align: middle;
 }
 
@@ -17,4 +17,61 @@ table td {
 .transition:hover {
   background-color: #f8f9fa;
 }
+ */
 
+
+ table td {
+  background-color: transparent; 
+  vertical-align: middle;
+}
+
+.badge {
+  border-radius: 0.4rem;
+  font-size: 0.875rem;
+  display: inline-block;
+  min-width: 80px;
+  text-align: center;
+  padding: 5px 10px;
+}
+
+.transition {
+  transition: background-color 0.3s ease;
+}
+.transition:hover {
+  background-color: #f8f9fa;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.pagination button {
+  padding: 6px 12px;
+  font-size: 0.875rem;
+  border-radius: 0.4rem;
+  background-color: #dc3545; 
+  color: white;
+  border: 1px solid #dc3545;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.pagination button:hover:not(:disabled) {
+  background-color: #c82333;
+  border-color: #c82333;
+}
+
+.pagination button:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+  background-color: #dc3545;  
+  border-color: #dc3545;
+}
+
+.pagination span {
+  font-size: 1rem;
+  vertical-align: middle;
+  margin: 0 10px;
+}

@@ -1,4 +1,4 @@
-<div class="container ">
+<!-- <div class="container ">
   <h2 class="mb-4 display-6 fw-bold text-danger border-bottom border-3 pb-2">
     <i class="bi bi-journal-bookmark-fill me-2 text-danger"></i> Past Orders
   </h2>
@@ -61,6 +61,91 @@
         </tbody>
       </table>
     </div>
+  </div>
+
+  <ng-template #noOrders>
+    <div class="alert alert-info mt-4 text-center shadow-sm">
+      <i class="bi bi-info-circle me-2"></i> No orders found.
+    </div>
+  </ng-template>
+</div> -->
+
+
+
+<div class="container">
+
+
+  <h2 class="mb-4 display-6 fw-bold text-danger border-bottom border-3 pb-2">
+    <i class="bi bi-journal-bookmark-fill me-2 text-danger"></i> Past Orders
+  </h2>
+
+  <div *ngIf="orders.length > 0; else noOrders">
+    <div class="table-responsive shadow rounded-4 border">
+      <table class="table table-hover table-bordered align-middle mb-0">
+        <thead class="table-dark text-center">
+          <tr>
+            <th class="text-nowrap">#Order ID</th>
+            <th class="text-nowrap">Customer</th>
+            <th class="text-nowrap">Total (EGP)</th>
+            <th class="text-nowrap">Books</th>
+            <th class="text-nowrap">Status</th>
+            <th class="text-nowrap">Placed At</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let order of orders" class="text-center align-middle transition">
+            <td class="text-muted fw-light">{{ order._id | slice:0:10 }}...</td>
+            <td class="fw-semibold text-dark">
+              {{ order.user?.name || order.user?._id || 'Anonymous' }}
+            </td>
+            <td class="fw-semibold text-success">
+              <i class="bi bi-cash-coin me-1"></i> {{ order.totalPrice | number: '1.2-2' }}
+            </td>
+            <td class="text-start">
+              <ul class="list-unstyled mb-0 ps-1">
+                <li
+                  *ngFor="let item of order.books; let isLast = last"
+                  class="py-1 small"
+                  [ngClass]="{ 'border-bottom': !isLast }"
+                >
+                  <i class="bi bi-book me-1 text-secondary"></i>
+                  <strong>{{ item.book?.title || 'Unknown Book' }}</strong>
+                  <span class="text-muted"> (x{{ item.quantity }})</span>
+                </li>
+              </ul>
+            </td>
+            <td class="text-center align-middle">
+              <span
+                class="badge p-2 fw-semibold"
+                [ngClass]="{
+                  'bg-warning text-dark': order.status === 'pending',
+                  'bg-success text-white': order.status === 'completed',
+                  'bg-dark text-white': order.status === 'processing',
+                  'bg-danger text-white': order.status === 'cancelled'
+                }"
+              >
+                {{ order.status }}
+              </span>
+            </td>
+            <td class="text-nowrap">
+              <i class="bi bi-calendar-event me-1 text-secondary"></i>
+              {{ order.createdAt | date: 'medium' }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Pagination Controls -->
+  <div *ngIf="totalPages > 1" class="pagination mt-4 text-center">
+    <button class="btn btn-sm btn-outline-primary mx-2" (click)="previousPage()" [disabled]="page === 1">
+      Previous
+    </button>
+    <span>Page {{ page }} of {{ totalPages }}</span>
+    <button class="btn btn-sm btn-outline-primary mx-2" (click)="nextPage()" [disabled]="page >= totalPages">
+      Next
+    </button>
   </div>
 
   <ng-template #noOrders>
