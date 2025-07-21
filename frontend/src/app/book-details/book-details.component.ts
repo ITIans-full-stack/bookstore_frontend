@@ -200,16 +200,17 @@ export class BookDetailsComponent implements OnInit {
     });
   }
 
+ 
+
+
   isBookOrdered(): boolean {
-    if (!this.book || !this.orders) return false;
+  if (!this.book || !this.orders) return false;
 
-    return this.orders.some(order =>
-      order.books.some((item: any) =>
-        item.book && item.book._id === this.book._id
-      )
-    );
-  }
-
+  return this.orders.some(order =>
+    order.isPaid &&
+    order.books?.some((item: any) => item.book?._id === this.book._id)
+  );
+}
 
   summarizeBook(pdfUrl: string): void {
     if (!pdfUrl) return;
